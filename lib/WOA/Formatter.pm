@@ -56,19 +56,18 @@ sub get_encoding {
 __END__
 
 
-=head1 NAME
-
-WOA::Formatter
+=head1 WOA::Formatter
 
 =head1 SYNOPSIS
 
+my $fmt = WOA::Formatter->instance;
+print $fmt->format_ts(unixtimestamp);
+
 =head1 DESCRIPTION
 
+format any formats in your apps
+
 =head2 EXPORT
-
-TODO
-
-=head1 SEE ALSO
 
 TODO
 

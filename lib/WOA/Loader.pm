@@ -72,17 +72,35 @@ sub loader_die {
 __END__
 
 
-=head1 NAME
-
-WOA::Loader
+=head1 WOA::Loader
 
 =head1 SYNOPSIS
 
+use WOA::Loader;
+
+my $obj = WOA::Loader->create_object('Some::Module');
+my $inst = WOA::Loader->create_instance('Some::Module',{ param_hash });
+WOA::Loader->import_module('Module::Name');
+
 =head1 DESCRIPTION
 
-=head2 EXPORT
+Simple module loader
 
-TODO
+=head3 create_instance
+
+Create instance of object from loaded module
+
+=head3 create_object
+
+Create object from loaded module
+
+=head3 loader_die
+
+Kill programmer error (
+
+=head3 import_module
+
+Load module on demand
 
 =head1 SEE ALSO
 

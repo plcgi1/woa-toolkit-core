@@ -86,7 +86,7 @@ plcgi E<lt>plcgi1 at gmail dot com<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010 by WOA.LABS
+Copyright (C) 2010 by plcgi1
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,

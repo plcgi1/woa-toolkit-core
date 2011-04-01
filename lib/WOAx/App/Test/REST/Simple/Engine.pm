@@ -1,4 +1,4 @@
-package WOA::REST::Demo::Engine;
+package WOAx::App::Test::REST::Simple::Engine;
 use strict;
 use base 'WOA::REST::Engine';
 

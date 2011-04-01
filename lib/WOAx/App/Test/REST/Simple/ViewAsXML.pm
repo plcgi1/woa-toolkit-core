@@ -1,13 +1,14 @@
-package WOA::REST::Interface::Request;
+package WOAx::App::Test::REST::Simple::ViewAsXML;
 use strict;
-use strict;
-use interface;
+use base 'Class::Accessor::Fast';
 
-sub param {}
-
-sub method {}
-
-sub uri {}
+sub xml {
+    my ( $self, $obj ) = @_;
+	
+    my $res = '<response>'.$obj.'</response>';
+	
+	return $res;    
+}
 
 1;
 
@@ -16,27 +17,31 @@ __END__
 
 =head1 NAME
 
-WOA::REST::Interface::Request
+WOAx::App::Test::REST::Simple::ViewAsXML - []
 
 =head1 SYNOPSIS
 
+[]
+
 =head1 DESCRIPTION
+
+[]
 
 =head2 EXPORT
 
-TODO
+[]
 
 =head1 SEE ALSO
 
-TODO
+[]
 
 =head1 AUTHOR
 
-plcgi E<lt>plcgi1 at gmail dot com<gt>
+WOA.LABS E<lt>woa.develop.labs at gmail dot com<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010 by plcgi1
+Copyright (C) 2010 by WOA.LABS
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,

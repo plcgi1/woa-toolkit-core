@@ -1,4 +1,4 @@
-package WOA::REST::Demo::Map;
+package WOAx::App::Test::REST::Simple::Map;
 use strict;
 
 my $map = [

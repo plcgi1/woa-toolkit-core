@@ -1,4 +1,4 @@
-package WOA::REST::Demo::Backend;
+package WOAx::App::Test::REST::Simple::Backend;
 use strict;
 
 use base 'WOA::REST::Generic::Backend';

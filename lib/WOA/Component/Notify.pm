@@ -1,22 +1,30 @@
-package WOA::REST::Interface::Request;
+package WOA::Component::Notify;
 use strict;
-use strict;
-use interface;
 
-sub param {}
+use WOA::Loader qw(import_module create_object);
 
-sub method {}
-
-sub uri {}
+sub create_and_run {
+    my $class = shift;
+    my %opt = @_;
+    
+    my $module = join '::',(__PACKAGE__,$opt{type});
+    
+    import_module($module);
+    
+    my $object = create_object($module,%{$opt{param}});
+    
+    $object->process();
+    
+    return $object;
+}
 
 1;
 
 __END__
 
-
 =head1 NAME
 
-WOA::REST::Interface::Request
+WOAx::Component::Notify
 
 =head1 SYNOPSIS
 

@@ -279,9 +279,7 @@ sub _unTranslateSymbols {
 
 __END__
 
-=head1 NAME
-
-WOA::Validator - Input params validator
+=head1 WOA::Validator - Input params validator
 
 =head1 SYNOPSIS
 
@@ -300,7 +298,7 @@ WOA::Validator - Input params validator
 		{ ... }
 	];
 	
-	my $validator = Validator->new();
+	my $validator = WOA::Validator->new();
 	$validator->fields($fields);
 	my $valid = $validator->isValid();
 	
@@ -314,11 +312,8 @@ WOA::Validator - Input params validator
 
 =head1 DESCRIPTION
 
-Class for input method validation by rules from Validator::Rules::Base 
-
-=head2 EXPORT
-
-TODO
+Class for input method validation by rules from WOA::Validator::Rules::Base 
+See all examples from t/005-woa-validator.t
 
 =head1 SEE ALSO
 

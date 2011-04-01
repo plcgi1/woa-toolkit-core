@@ -1,47 +1,37 @@
-package WOA::REST::Demo::ViewAsXML;
-use strict;
-use base 'Class::Accessor::Fast';
+package WOA::Component::Notify::Exception;
+use Exception::Class;
+use base 'Exception::Class::Base';
 
-sub xml {
-    my ( $self, $obj ) = @_;
-	
-    my $res = '<response>'.$obj.'</response>';
-	
-	return $res;    
-}
+package WOA::Component::Notify::Exception::View;
+use base 'WOA::Component::Notify::Exception';
 
 1;
 
 __END__
 
-
 =head1 NAME
 
-WOA::REST::Demo::ViewAsXML - []
+WOAx::Component::Notify::Exception
 
 =head1 SYNOPSIS
 
-[]
-
 =head1 DESCRIPTION
-
-[]
 
 =head2 EXPORT
 
-[]
+TODO
 
 =head1 SEE ALSO
 
-[]
+TODO
 
 =head1 AUTHOR
 
-WOA.LABS E<lt>woa.develop.labs at gmail dot com<gt>
+plcgi E<lt>plcgi1 at gmail dot com<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010 by WOA.LABS
+Copyright (C) 2010 by plcgi1
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,

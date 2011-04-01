@@ -15,10 +15,10 @@ Tester->process();
 package Tester;
 use strict;
 use base 'WOA::Test::Base';
-use WOA::REST::Demo::Map;
-use WOA::REST::Demo::Backend;
-use WOA::REST::Demo::ViewAsXML;
-use WOA::REST::Demo::Engine;
+use WOAx::App::Test::REST::Simple::Map;
+use WOAx::App::Test::REST::Simple::Backend;
+use WOAx::App::Test::REST::Simple::ViewAsXML;
+use WOAx::App::Test::REST::Simple::Engine;
 use WOA::REST::Generic::Request;
 
 my $CLASS = __PACKAGE__;
@@ -27,14 +27,14 @@ my ($map,$factory,$rest,$req);
 
 sub set_up {
     my $tb = __PACKAGE__->builder;
-    $map = WOA::REST::Demo::Map::get_map();
+    $map = WOAx::App::Test::REST::Simple::Map::get_map();
     
-    my $backend = WOA::REST::Demo::Backend->new();
+    my $backend = WOAx::App::Test::REST::Simple::Backend->new();
     
-    $rest = WOA::REST::Demo::Engine->new({
+    $rest = WOAx::App::Test::REST::Simple::Engine->new({
         map         =>  $map,
-        backend     =>  WOA::REST::Demo::Backend->new(),
-        view        =>  WOA::REST::Demo::ViewAsXML->new()
+        backend     =>  WOAx::App::Test::REST::Simple::Backend->new(),
+        view        =>  WOAx::App::Test::REST::Simple::ViewAsXML->new()
     });
     
 	return;
