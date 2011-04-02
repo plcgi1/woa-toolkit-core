@@ -2,11 +2,13 @@ package WOA::REST::ServiceProvider::Loader;
 use strict;
 use base 'Class::Accessor::Fast';
 use Class::Inspector;
+use Data::Dumper;
 
 __PACKAGE__->mk_accessors(qw/error loaded_class/);
 
 sub load {
     my ($self,$path) = @_;
+
     if ( ref $self->rules eq 'ARRAY') {
         foreach ( @{$self->rules} ) {
             my $sp_class_name = $_->{sub}->($self,$path);
@@ -28,6 +30,7 @@ sub load {
             } # END if ( $sp_class_name ) 
         } # END foreach ( @{$self->rules} )
     }
+
     return;
 }
 
@@ -45,9 +48,9 @@ sub rules {
             sub => sub {
                 my($self,$path) = @_;
                 my $res;
-                # rule: /woax/appname/rest/servicename -> WOAx::Service::AppName::REST::ServiceName::SP
+                # rule: /woax/appname/rest/servicename -> WOAx::App::AppName::REST::ServiceName::SP
                 if ( $path=~/\/woax\/(.*)\/rest\/(.*)/g ) {
-                    $res = 'WOAx::Service::'.uc($1).'::REST::'.ucfirst ($2).'::SP';
+                    $res = 'WOAx::App::'.ucfirst($1).'::REST::'.ucfirst ($2).'::SP';
                 }
                 return $res;
             }

@@ -32,9 +32,7 @@ sub comment_case {
 __END__
 
 
-=head1 NAME
-
-WOA::Test::Base
+=head1 WOA::Test::Base
 
 =head1 SYNOPSIS
 

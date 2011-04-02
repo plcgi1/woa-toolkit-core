@@ -71,6 +71,31 @@ my $map = [
         out			=>	{ mime_type => 'application/xml', view_method => 'xml' },
         req_method  => 'GET'
     },
+    {
+        regexp      => '/woax/test/rest/simple$',
+        func_name	=>	'getparams',
+        in          =>  {
+            skip_from_uri => 1,
+            param => [
+                {
+                    name        => 'what',
+                    required    => 1,
+                    rules => [
+                        { rule => 'equals', param => 'thing' }
+                    ]
+                },
+                {
+                    name        => 'what2',
+                    required    => 1,
+                    rules => [
+                        { rule => 'equals', param => 'thing2' }
+                    ]
+                }
+            ]
+        },
+        out			=>	{ mime_type => 'application/xml', view_method => 'xml' },
+        req_method  => 'GET'
+    },
 ];
 
 sub get_map { return $map; }
