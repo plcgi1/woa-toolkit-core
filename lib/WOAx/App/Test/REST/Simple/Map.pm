@@ -84,13 +84,6 @@ my $map = [
                         { rule => 'equals', param => 'thing' }
                     ]
                 },
-                {
-                    name        => 'what2',
-                    required    => 1,
-                    rules => [
-                        { rule => 'equals', param => 'thing2' }
-                    ]
-                }
             ]
         },
         out			=>	{ mime_type => 'application/xml', view_method => 'xml' },

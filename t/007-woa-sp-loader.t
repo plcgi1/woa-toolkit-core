@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
-use Test::More qw/no_plan/; 
+use Test::More tests => 3; 
 use FindBin qw($Bin);
 use lib ($Bin,$Bin.'/../lib');
 use WOA::REST::ServiceProvider::Loader;

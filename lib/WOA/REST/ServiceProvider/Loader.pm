@@ -14,8 +14,12 @@ sub load {
             my $sp_class_name = $_->{sub}->($self,$path);
             if ( $sp_class_name ) {
                 # load class
-                unless ( Class::Inspector->loaded($sp_class_name) ) {
+                if ( Class::Inspector->loaded($sp_class_name) ) {
+                    $self->loaded_class($sp_class_name);
+                }
+                else {
                     my $sp_file_name = Class::Inspector->filename($sp_class_name);
+                    
                     eval {
                         require $sp_file_name;
                     };
@@ -49,9 +53,10 @@ sub rules {
                 my($self,$path) = @_;
                 my $res;
                 # rule: /woax/appname/rest/servicename -> WOAx::App::AppName::REST::ServiceName::SP
-                if ( $path=~/\/woax\/(.*)\/rest\/(.*)/g ) {
+                if ( $path=~/\/woax\/(.*)\/rest\/(.*)(\/)*/g ) {
                     $res = 'WOAx::App::'.ucfirst($1).'::REST::'.ucfirst ($2).'::SP';
                 }
+                
                 return $res;
             }
         }
@@ -59,8 +64,6 @@ sub rules {
 }
 
 1;
-
-__END__
 
 __END__
 

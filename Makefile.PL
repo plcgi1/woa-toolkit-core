@@ -17,7 +17,6 @@ requires    'Class::Inspector';
 requires    'Encode::Guess';
 requires    'POSIX'; 
 
-requires    'Test::Unit';
 requires    'Test::Strict';
 requires    'Test::Pod';
 requires    'Test::Builder';

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
-use Test::More qw/no_plan/; 
+use Test::More tests => 6;#qw/no_plan/; 
 use FindBin qw($Bin);
 use lib ($Bin,$Bin.'/../lib');
 use Data::Dumper;
