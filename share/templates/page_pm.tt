@@ -1,4 +1,4 @@
-package [%page%];
+package [%page %];
 use common::sense;
 use base 'WOA::REST::ServiceProvider';
 use Data::Dumper;
@@ -6,26 +6,25 @@ use Data::Dumper;
 sub get_map {
     my $map = [
         {
-            regexp      =>  '/url/to/page',
-            func_name	=>	'index',
-            out			=>	{ mime_type => 'text/html', view_method => 'as_html' },
-            req_method  => 'GET'
+            regexp    => '/url/to/page',
+            func_name => 'index',
+            out       => { mime_type => 'text/html', view_method => 'as_html' },
+            req_method => 'GET'
         },
     ];
     return $map;
 }
 
 sub index {
-    my ( $self,$param ) = @_;
-    
-	my $config = $self->get_config;
-	my $session = $self->get_session();
-    my $user = $session->{'user'};
-	my $fmt = $self->get_formatter;
-	
-	$self->get_stash->{template} = '[%tt_name%].tt';
+    my ( $self, $param ) = @_;
 
-	return $self->get_stash;
+    my $config  = $self->get_config;
+    my $session = $self->get_session();
+    my $fmt     = $self->get_formatter;
+
+    $self->get_stash->{template} = '[%tt_name%]';
+
+    return $self->get_stash;
 }
 
 1;

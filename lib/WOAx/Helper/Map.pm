@@ -4,20 +4,11 @@ use base 'WOAx::Helper';
 use Template;
 use Data::Dumper;
 
-__PACKAGE__->follow_best_practice();
-__PACKAGE__->mk_accessors(qw/config file_name app_namespace/);
-
 sub run {
     my ($self,$service_name) = @_;
     my $root = $ENV{PWD};
     
-    my $tpl = Template->new({
-        INCLUDE_PATH => [
-            $self->get_config->{template_root},
-        ],
-        TIMER               => 1,
-        DEFAULT_ENCODING    => 'utf8',
-    }); 
+    my $tpl = $self->tpl();
     
     my $app_namespace = (split '/',$root)[-1];
     

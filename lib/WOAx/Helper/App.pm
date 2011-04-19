@@ -4,19 +4,13 @@ use base 'WOAx::Helper';
 use Template;
 use Data::Dumper;
 
-__PACKAGE__->follow_best_practice();
-__PACKAGE__->mk_accessors(qw/config file_name app_full_path app_sh app_conf app_psgi/);
+__PACKAGE__->mk_accessors(qw/app_sh app_conf app_psgi/);
 
 sub run {
     my ($self,$namespace) = @_;
     my $pwd = $ENV{PWD};
-    my $tpl = Template->new({
-        INCLUDE_PATH => [
-            $self->get_config->{template_root},
-        ],
-        TIMER               => 1,
-        DEFAULT_ENCODING    => 'utf8',
-    }); 
+    
+    my $tpl = $self->tpl();
     
     my @a = split '::',$namespace;
     my $app_name = lc $a[0];

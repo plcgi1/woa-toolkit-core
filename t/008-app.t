@@ -66,4 +66,15 @@ WOAx::Helper->process({
 });
 ok(-f $obj->get_file_name,"map file exists - ".$obj->get_file_name);
 
+$obj = WOAx::Helper->get_object('page',$config);
+WOAx::Helper->process({
+    sub => sub {
+        $obj->run($namespace);
+    }
+});
+foreach (qw/page_module_name tpl_name test_name/) {
+    my $f = 'get_'.$_;
+    ok(-f $obj->$f,"file exists - ".$obj->$f);    
+}
+
 system 'rm','-R',$app_full_path;

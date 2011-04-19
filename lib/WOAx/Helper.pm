@@ -1,15 +1,31 @@
 package WOAx::Helper;
 use strict;
+
 use WOA::Loader qw/create_object/;
 use base 'Class::Accessor::Fast';
 
+__PACKAGE__->follow_best_practice();
+__PACKAGE__->mk_accessors(qw/app_full_path app_lib app_namespace config file_name/);
+
 sub process {
     my ($self,$param) = @_;
-    
+        
     if ($param->{sub} && ref $param->{sub} eq 'CODE' ) {
         $param->{sub}->();
     }
     return;
+}
+
+sub tpl {
+    my ($self,$param) = @_;
+    my $tpl = Template->new({
+        INCLUDE_PATH => [
+            $self->get_config->{template_root},
+        ],
+        TIMER               => 1,
+        DEFAULT_ENCODING    => 'utf8',
+    });
+    return $tpl;
 }
 
 sub mk_dirs {

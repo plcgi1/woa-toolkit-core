@@ -4,16 +4,16 @@ use Getopt::Long;
 use Pod::Usage;
 use FindBin qw($Bin);
 use File::Basename;
-use lib ($Bin.'/../lib');
+use lib ( $Bin . '/../lib' );
 use WOA::Config::Provider;
 use WOAx::Helper;
 
-my ($help,$action,$namespace,$service_name);
+my ( $help, $action, $namespace, $service_name );
 
 GetOptions(
-    'help|?'        => \$help,
-    'action|a=s'    => \$action,
-    'ns|n=s'        => \$namespace,
+    'help|?'          => \$help,
+    'action|a=s'      => \$action,
+    'ns|n=s'          => \$namespace,
     'servicename|s=s' => \$service_name
 );
 
@@ -21,23 +21,25 @@ pod2usage(1) if $help;
 pod2usage(1) unless $action;
 if ( $action eq 'page' ) {
     pod2usage(1) unless $namespace;
-} 
+}
 
 my $conf_file = WOAx::Helper->get_config_file();
-my $config = WOA::Config::Provider->get_config($conf_file);
+my $config    = WOA::Config::Provider->get_config($conf_file);
 
 $config->{template_root} = WOAx::Helper->get_template_root($conf_file);
 
-my $obj = WOAx::Helper->get_object($action,$config);
+my $obj = WOAx::Helper->get_object( $action, $config );
+
 #$obj->run($namespace,$service_name);
-WOAx::Helper->process({
-    sub => sub {
-        $obj->run($namespace);
+WOAx::Helper->process(
+    {
+        sub       => sub {
+            $obj->run($namespace);
+        }
     }
-});
+);
 
 exit(0);
-
 
 __END__
 
