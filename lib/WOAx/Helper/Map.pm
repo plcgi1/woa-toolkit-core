@@ -1,7 +1,6 @@
 package WOAx::Helper::Map;
 use strict;
 use base 'WOAx::Helper';
-use Template;
 use Data::Dumper;
 
 sub run {

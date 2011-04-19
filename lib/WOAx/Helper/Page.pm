@@ -1,7 +1,6 @@
 package WOAx::Helper::Page;
 use strict;
 use base 'WOAx::Helper';
-use Template;
 use Data::Dumper;
 
 __PACKAGE__->mk_accessors(qw/page_module_name tpl_name test_name/);

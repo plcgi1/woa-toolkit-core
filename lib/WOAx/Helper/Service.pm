@@ -1,62 +1,30 @@
 package WOAx::Helper::Service;
 use strict;
-use base 'Class::Accessor::Fast';
-use Template;
+use base 'WOAx::Helper';
+
 use Data::Dumper;
 
-__PACKAGE__->follow_best_practice();
-__PACKAGE__->mk_accessors(qw/config file_name/);
+__PACKAGE__->mk_accessors(qw//);
 
 sub run {
-    my ($self,$namespace,$service_name) = @_;
-    my $tpl = Template->new({
-        INCLUDE_PATH => [
-            $self->get_config->{template_root},
-        ],
-        TIMER               => 1,
-        DEFAULT_ENCODING    => 'utf8',
-    }); 
+    my ($self,$namespace) = @_;
     
-    my @a = split '::',$namespace;
-    my $path = join '/',@a;
-    my $page_pm_name = $ENV{PWD}.'/lib/'.$path.'.pm';
-    $self->mk_dirs($page_pm_name);
+    my $tpl = $self->tpl();
     
-    my $tt_name = $self->get_file_name;
-    $tt_name=~s/lib/templates/;
-    $tt_name=~s/\.pm$/\.tt/;
-    my $name_for_vars = $tt_name;
-    my $pwd = $ENV{PWD};
-    $name_for_vars =~s/$pwd\/templates//;
-    $name_for_vars =~s/^\///;
-    my $vars = {
-        page    => $namespace,
-        tt_name => $name_for_vars
-    };    
-    my $out;
-    $tpl->process('page_pm.tt',$vars,\$out);
-    print "[CREATING Page controller] ".$self->get_file_name."\n"; 
-    open F,">".$self->get_file_name;
-    print F $out;
-    close F;
+    my $app_namespace = (split '/',$ENV{PWD})[-1];
+    # load Map module
+    # get map from Map
+    # 
+    # create Backend module - by map
+    # create SP module
+    # create test file
     
-    $page_pm_name = $ENV{PWD}.'/templates/'.$path.'.pm';
-    $self->mk_dirs($page_pm_name);
-        
-    @a = undef;
-    my $tpl_file_name = $self->get_config->{template_root}."/page_tpl.tt";
-    unless ( -f $tpl_file_name ){
-        die "You must define template file for your templates in app";
-    }
-    open F,$tpl_file_name;
-    while(<F>){ push @a,$_;}
-    close F;
-    print Dumper \@a;    
-    print "[FROM TEMPLATE] $tpl_file_name\n";
-    print "[CREATING TEMPLATE] $tt_name\n";
-    open F,">$tt_name";
-    print F join '',@a;
-    close F;
+    #my $name_as_path = $name;
+    #$name_as_path=~s/::/\//g;
+    #my $page = ucfirst $app_namespace.'::Page::'.$name;
+    #my $full_path = $pwd.'/lib/'.ucfirst $app_namespace.'/Page/'.$name_as_path.'.pm';
+    #$self->set_app_namespace($pwd);
+    #$self->set_page_module_name($full_path);
     
     return;
 }

@@ -1,7 +1,6 @@
 package WOAx::Helper::App;
 use strict;
 use base 'WOAx::Helper';
-use Template;
 use Data::Dumper;
 
 __PACKAGE__->mk_accessors(qw/app_sh app_conf app_psgi/);
