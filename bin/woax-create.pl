@@ -54,8 +54,7 @@ wapp-create.pl [options]
  Options:
    -? -help         help for usage
    -a -action       page|service|map|app
-   -n -ns           application namespace
-   -s -servicename  service name in application
+   -n -ns           application namespace or service name in application
    
 =head1 DESCRIPTION
 
