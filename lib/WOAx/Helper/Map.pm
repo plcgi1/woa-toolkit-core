@@ -18,7 +18,7 @@ sub run {
     $self->mk_dirs($page_pm_name);
     $self->set_file_name($page_pm_name);
     my $vars = {
-        service_name => $app_namespace.'::REST::'.ucfirst $service_name.'::Map',
+        service_name => ucfirst $app_namespace.'::REST::'.ucfirst $service_name.'::Map',
     };    
 
     my $out;

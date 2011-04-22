@@ -1,26 +1,27 @@
-package [%page%];
+package [%service_name%]::Backend;
 use common::sense;
 use base 'WOA::REST::Generic::Backend';
 use Data::Dumper;
+
 [%FOREACH item IN methods %]
 sub [%item%] {
     my ( $self, $param ) = @_;
 
     my $config  = $self->get_config;
     my $session = $self->get_session();
-    my $res;
+    
+    # make return with values - for tests
+    my $res = { status => 'ok' };
 
     return $res;
-
 }
-
-[%END %]
+[%-END-%]
 
 1;
 
 __END__
 
-=head1 [%page%]
+=head1 [%service_name%]::Backend
 
 
 =head2 SYNOPSIS

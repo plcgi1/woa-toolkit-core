@@ -1,7 +1,17 @@
 package WOA::REST::Generic::Request;
 use strict;
 use base qw/HTTP::Request HTTP::Request::AsCGI/;
-use URI::Escape qw/uri_unescape/;
+use URI::Escape qw/uri_unescape uri_escape/;
+
+sub to_qs {
+	my($self,$data)=@_;
+	my @arr;
+	foreach ( keys %$data ) {
+		push @arr,$_.'='.uri_escape($data->{$_});
+	}
+	my $res = join '&',@arr;
+	return $res;
+}
 
 sub param {
     my($self,$name)=@_;

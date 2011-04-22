@@ -1,6 +1,6 @@
 package WOAx::Helper;
 use strict;
-
+use Template;
 use WOA::Loader qw/create_object/;
 use base 'Class::Accessor::Fast';
 

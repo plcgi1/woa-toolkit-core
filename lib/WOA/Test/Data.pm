@@ -154,7 +154,7 @@ sub bad_data {
 		{
 			name  => 'integer',
 			error => 'Bad format for Integer',
-			value => 43,
+			value => '43x',
 			rules =>
 			  [ { rule => 'integer' }, { rule => 'maxlength', param => 1 }, ]
 		},

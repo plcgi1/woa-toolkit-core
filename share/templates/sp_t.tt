@@ -7,22 +7,32 @@ use lib ( $Bin . '/../lib', $Bin . '/lib', );
 
 BEGIN { use_ok '[%service_name%]::SP' }
 
-Tester->process();
+[%service_name%]::Tester->process();
 
-package Tester;
+package [%service_name%]::Tester;
 use strict;
-use base 'WOA::Test::Base';
 use [%service_name%]::SP;
+use [%service_name%]::Map;
+     
 use WOA::REST::Generic::Request;
+use WOA::Test::Data;
+use Data::Dumper;
+
+use base 'WOA::Test::Base';
 
 my $CLASS = __PACKAGE__;
 
-my ($sp,$factory,$rest,$req);
+my ($sp,$map,$good_data,$bad_data,$rest,$req);
 
 sub set_up {
+    my $self = shift;
+    
     my $tb = __PACKAGE__->builder;
+        
     $sp = [%service_name%]::SP->new;
-
+    $rest = $sp->service_object();
+    $map = [%service_name%]::Map::get_map;
+    
     return;
 }
 
@@ -31,12 +41,25 @@ sub tear_down {
 }
 
 sub run {
+    my($self,$methods) = @_;
     my $tb = __PACKAGE__->builder;
+    
+    $good_data = $methods->data_for_service($good_data,$map,WOA::Test::Data::good_data);
+    $bad_data = $methods->data_for_service($bad_data,$map,WOA::Test::Data::bad_data,1);
 
-    my $res;
-    my $req = WOA::REST::Generic::Request->new ( PUT => '/put/1/2') ;
-    # $rest->request($req);
-
+    my ($res,$req);
+    foreach (@$map) {
+        if ($_->{in} && $_->{in}->{param}) {
+            $req = $methods->set_request($_,$good_data->{$_->{func_name}});
+            $rest->request($req);
+            $res = $rest->process;
+            my $re = $methods->status_re_for_test($_->{req_method});
+            $tb->like($rest->status, $re,$_->{req_method}.": response OK");
+        }
+    }
+    #my $req = WOA::REST::Generic::Request->new ( PUT => '/put/1/2') ;
+    #$rest->request($req);
+    
     # $res = $rest->process;
     
     # $tb->like($rest->status, qr/303/,"PUT: response OK");
@@ -123,30 +146,6 @@ sub run {
     # );
     
     return;
-}
-
-sub bad_data {
-    my($self,$req,$method,$data)=@_;
-    
-    # foreach ( @$data ){
-    #     $req = WOA::REST::Generic::Request->new ( $method => $_) ;
-    #     $rest->request($req);
-    #     my $res = $rest->process;
-    #     $self->like($rest->status, qr/400/,"$method: response status: 400");
-    # }
-    
-    return;
-}
-
-sub bad_method {
-    my($self,$req,$uri,$data)=@_;
-    
-    # foreach ( @$data ){
-    #     $req = WOA::REST::Generic::Request->new ( $_ => $uri ) ;
-    #     $rest->request($req);
-    #     my $res = $rest->process;
-    #     $self->like($rest->status, qr/400/,"Request method: $_: response status: ".$rest->status);
-    # }
 }
 
 1;

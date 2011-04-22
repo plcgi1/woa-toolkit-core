@@ -1,13 +1,17 @@
 package WOA::Test::Base;
 use strict;
+use WOA::Test::Methods;
 use base qw/Test::Builder::Module/;
+use Data::Dumper;
 
 sub process {
     my $self    = shift;
     my $param   = shift;
     
+    my $methods = WOA::Test::Methods->new;
     $self->set_up();
-    $self->run();
+    
+    $self->run($methods);
     $self->tear_down();
     
     return;
