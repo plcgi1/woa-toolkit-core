@@ -272,9 +272,7 @@ sub mday {
 sub from_to {
 	my ($this,$value,$param) = @_;
 	my $re = $this->_makeRangePattern([$param->{from}..$param->{to}]);
-	
 	my $res = ( $value =~ /^($re)$/ );
-	
 	return $res;
 }
 

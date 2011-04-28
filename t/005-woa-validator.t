@@ -2,6 +2,10 @@
 # `make test'. After `make install' it should work as `perl Validator.t'
 
 #########################
+package Fake::RulesObject;
+use strict;
+use base 'WOA::Validator::Rules::Base';
+
 
 use Test::More qw(no_plan);
 use FindBin qw($Bin);
@@ -15,6 +19,15 @@ BEGIN { use_ok('WOA::Validator') }
 
 my $validator = WOA::Validator->new();
 ok( ref $validator eq 'WOA::Validator', "WOA::Validator->new()" );
+
+#$validator = WOA::Validator->new(request => Fake::RulesObject->new);
+#ok( ref $validator eq 'WOA::Validator', "WOA::Validator->new(with custom request)" );
+#
+#$validator = WOA::Validator->new(errorClass => Fake::RulesObject->new);
+#ok( ref $validator eq 'WOA::Validator', "WOA::Validator->new(with custom errorClass)" );
+#
+#$validator = WOA::Validator->new(rulesObj => Fake::RulesObject->new);
+#ok( ref $validator eq 'WOA::Validator', "WOA::Validator->new(with custom rulesObject{})" );
 
 my $res;
 my $fields = getOK(); 
@@ -159,7 +172,19 @@ sub getOK {
 			name  => 'url',
 			value => 'http://false.asdad.qwe',
 			rules => [ { rule => 'url' }, ]
-		}
+		},
+		# allSymbols
+		{
+			name  => 'allSymbols',
+			value => 'http://false.asdad.qwe',
+			rules => [ { rule => 'allSymbols' }, ]
+		},
+		# simple_date_dmy
+		{
+			name  => 'simple_date_dmy',
+			value => '12.12.2010',
+			rules => [ { rule => 'simple_date_dmy',param=>'.' }, ]
+		},
 	];
 	return $inputValidatorOK;
 }
@@ -298,7 +323,19 @@ sub getBAD {
 			name  => 'url',
 			value => 'http1://false/asdad/',
 			rules => [ { rule => 'url' }, ]
-		}
+		},
+		# simple_date_dmy
+		{
+			name  => 'simple_date_dmy',
+			value => '12-.12.2010',
+			rules => [ { rule => 'simple_date_dmy',param=>'.' }, ]
+		},
+		# simpleDate
+		{
+			name  => 'simpleDate',
+			value => '12-.12.2010',
+			rules => [ { rule => 'simpleDate',param=>'.' }, ]
+		},
 	];
 	return $inputValidatorBAD;    
 }

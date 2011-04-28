@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
-use Test::More tests => 3; 
+use Test::More tests => 5; 
 use FindBin qw($Bin);
 use lib ($Bin,$Bin.'/../lib');
 use WOA::REST::ServiceProvider::Loader;
@@ -13,3 +13,8 @@ $l->load('/woax/test/rest/simple');
 
 ok( $l->loaded_class,'Loaded: '.$l->loaded_class );
 ok( !$l->error,'Loaded: '.$l->loaded_class );
+
+$l->load('/woatest/rest/simple');
+
+ok( !$l->loaded_class,'Not loaded: '.$l->loaded_class );
+ok( $l->error,'Has error: '.$l->error );

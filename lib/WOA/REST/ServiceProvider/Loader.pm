@@ -12,6 +12,7 @@ sub load {
     if ( ref $self->rules eq 'ARRAY') {
         foreach ( @{$self->rules} ) {
             my $sp_class_name = $_->{sub}->($self,$path);
+            $self->loaded_class($sp_class_name);
             if ( $sp_class_name ) {
                 # load class
                 if ( Class::Inspector->loaded($sp_class_name) ) {
@@ -31,7 +32,10 @@ sub load {
                     }
                 }
                 last;
-            } # END if ( $sp_class_name ) 
+            } # END if ( $sp_class_name )
+            else {
+                $self->process_error('Empty class','I dont know - what to load');
+            }
         } # END foreach ( @{$self->rules} )
     }
 

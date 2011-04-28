@@ -1,4 +1,5 @@
 root = /home/harper/www
+mode = app
 
 <app>
     bin = bin

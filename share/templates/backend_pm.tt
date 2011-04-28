@@ -14,8 +14,10 @@ sub [%item%] {
     my $res = { status => 'ok' };
 
     return $res;
+
 }
-[%-END-%]
+
+[%END %]
 
 1;
 

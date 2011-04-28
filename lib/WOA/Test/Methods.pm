@@ -75,7 +75,7 @@ sub set_request {
     $map_data->{regexp} =~s/[\$\^\(\)\.\*]//g;
     $req = WOA::REST::Generic::Request->new ();
     my $qs = $req->to_qs($test_data);
-    if ( $map_data->{req_method} =~/(GET)/i ) {
+    if ( $map_data->{req_method} =~/(GET|PUT|DELETE)/i ) {
         
         $req->method($map_data->{req_method});
         $req->uri($map_data->{regexp}.'?'.$qs);
