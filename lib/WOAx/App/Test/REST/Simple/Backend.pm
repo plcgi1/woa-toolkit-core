@@ -31,7 +31,13 @@ sub version {
     my ($self)=@_;
     
     my $res = 'VERSION';
-    
+    my $env = $self->get_env;
+    if ( $env ) {
+        my $localize = $self->get_env->{'psgix.localize'};
+        if( $localize ) {
+            $res = $localize->loc('Version');
+        }
+    }
     return $res;
 }
 

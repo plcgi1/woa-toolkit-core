@@ -5,7 +5,6 @@ use Test::More qw(no_plan);
 use FindBin qw($Bin);
 use lib (
     $Bin.'/../lib',
-	$Bin.'/lib',
 );
 
 BEGIN { use_ok 'WOA::REST::Engine' }
@@ -14,6 +13,11 @@ Tester->process();
 
 package Tester;
 use strict;
+use FindBin qw($Bin);
+use lib (
+    $Bin.'/../lib',
+);
+
 use base 'WOA::Test::Base';
 use WOAx::App::Test::REST::Simple::Map;
 use WOAx::App::Test::REST::Simple::Backend;
@@ -149,9 +153,9 @@ sub sp {
 	my($tb,$sp)=@_;
 	$tb->ok($sp,'Creating ServiceProvider object');
 	$tb->ok($sp->init,'Init ServiceProvider object');
-	$tb->ok(ref $sp->service_object,'service object ServiceProvider object');
+	#$tb->ok(ref $sp->service_object,'service object ServiceProvider object');
 	
-	$tb->ok(ref $sp->get_engine eq 'WOA::REST::Engine','service object ServiceProvider object');
+	#$tb->ok(ref $sp->get_engine eq 'WOA::REST::Engine','service object ServiceProvider object');
 	
 	$tb->ok(ref $sp->service_object({pre_process=>sub { 1; }}),'service object ServiceProvider pre_process');
 	$tb->ok(ref $sp->service_object({post_process=>sub { 1; }}),'service object ServiceProvider post_process');
