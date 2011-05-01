@@ -12,7 +12,7 @@ theme     = (pbp || security) && bugs
 include   = NamingConventions ClassHierarchies    #Space-delimited list    
 exclude   = Variables  Modules::RequirePackage    #Space-delimited list    
 #criticism-fatal = 1                               #Zero or One    
-#color     = 1                                     #Zero or One    
+color     = 1                                     #Zero or One    
 #allow-unsafe = 1                                  #Zero or One    
 #pager     = less                                  #pager to pipe output to
 

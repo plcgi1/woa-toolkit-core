@@ -11,7 +11,7 @@ sub daemonize {
     
     my @fh = ( \*STDIN, \*STDOUT );
 
-    open \*STDERR, ">$stderr_log_file";
+    open (\*STDERR, ">$stderr_log_file");
     select( ( select( \*STDERR ), $| = 1 )[0] );
 
     my $ppid = $$;

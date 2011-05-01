@@ -11,8 +11,13 @@ my $DEFAULT_LIMIT = 10;
 sub make_interval_query {
     my($self,$param,$param_name_from,$param_name_to,$field_date_name)=@_;
     
-    my $from = $param->{$param_name_from} if $param_name_from;
-    my $to = $param->{$param_name_to} if $param_name_to;
+    my ($from,$to);
+    if ( $param_name_from ) {
+        $from = $param->{$param_name_from};
+    }
+    if ($param_name_to) {
+        $to = $param->{$param_name_to};    
+    }
     
     my ($where,$time);
     if( $from && length $from > 0 ) {

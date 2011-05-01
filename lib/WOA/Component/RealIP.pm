@@ -29,9 +29,13 @@ sub _check_ip {
     my $ip      = shift;
     my $res;
     if( defined $ip ){
-        return undef unless $ip =~/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/;
+        unless ($ip =~/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/) {
+            return undef ;
+        }
     
-        return 1 if defined $self->{debug};
+        if (defined $self->{debug}) {
+            return 1;
+        }
         
         my $ip_int = _ip2int ($ip);
         
