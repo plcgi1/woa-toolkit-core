@@ -5,6 +5,7 @@ name 'WOA';
 abstract 'web oriented toolkit for easy building REST services';
 version '0.001';
 author 'plcgi1@gmail.com';
+license 'perl';
 
 # Specific dependencies
 requires 'Carp';
@@ -43,8 +44,10 @@ requires 'Date::Manip'   => 6.22;
 requires 'base'          => 2.14;
 requires 'common::sense' => 3.4;
 requires 'parent'        => 0.225;
+requires 'Locale::Maketext';
 
 install_script glob('bin/*.pl');
+install_share glob('share/*.');
 auto_install;
 WriteAll;
 

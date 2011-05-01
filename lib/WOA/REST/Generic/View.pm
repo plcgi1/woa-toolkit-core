@@ -9,53 +9,53 @@ __PACKAGE__->mk_accessors(qw/view renderer/);
 my $DEFAULT_LIMIT = 10;
 
 sub as_is {
-    my ( $self, $obj ) = @_;
-    
-    my $res;
-    if ( $obj ) {
+	my ( $self, $obj ) = @_;
+
+	my $res;
+	if ($obj) {
 		$res = $obj;
-    }
-	
-    return $res;	
+	}
+
+	return $res;
 }
 
 sub as_json {
-    my ( $self, $obj, $is_utf8 ) = @_;
-    
-    my $res;
-    if ( $obj ) {
+	my ( $self, $obj, $is_utf8 ) = @_;
+
+	my $res;
+	if ($obj) {
 		my $coder = JSON::XS->new();
 		$res = JSON::XS->new->utf8->allow_nonref->encode($obj);
-    }
-	
-    return $res;
+	}
+
+	return $res;
 }
 
 sub empty {
-    my ( $self, $obj ) = @_;
-    return ' ';    
+	my ( $self, $obj ) = @_;
+	return ' ';
 }
 
 sub as_html {
-	my ($self,$obj) = @_;
+	my ( $self, $obj ) = @_;
 	my $out;
 	$self->renderer->error(undef);
-	$self->renderer->process($obj->{template},$obj,\$out);
-	if ( $self->renderer->error() ){
+	$self->renderer->process( $obj->{template}, $obj, \$out );
+	if ( $self->renderer->error() ) {
 		$out = $self->renderer->error();
 	}
 	return $out;
 }
 
 sub encoder {
-	my($self,$str)=@_;
+	my ( $self, $str ) = @_;
 	my $res;
 	if ( is_utf8($str) ) {
 		$res = $str;
 	}
 	else {
-		from_to($str,'utf8','utf8');
-		$res = decode('utf8',$str);
+		from_to( $str, 'utf8', 'utf8' );
+		$res = decode( 'utf8', $str );
 	}
 	return $res;
 }
@@ -63,27 +63,26 @@ sub encoder {
 #############################
 ##### util methods ##################################
 sub pager_data {
-    my($self,$param,$total)=@_;
-    
-    my $res;
-	my $limit 		= $param->{rows} || $DEFAULT_LIMIT;
-	my $lastpage 	= int( $total / $limit );
-	
+	my ( $self, $param, $total ) = @_;
+
+	my $res;
+	my $limit = $param->{rows} || $DEFAULT_LIMIT;
+	my $lastpage = int( $total / $limit );
+
 	my $mod = int( $total % $limit );
-	if ( $mod > 0 ){
+	if ( $mod > 0 ) {
 		$lastpage++;
 	}
 	$res = {
 		total   => $lastpage,
-		records	=> $total,
+		records => $total,
 		page    => $param->{page} || 1
 	};
-    return $res;
+	return $res;
 }
 ################################## END util methods ##############################
 
 1;
-
 
 __END__
 

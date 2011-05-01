@@ -30,7 +30,6 @@ $config->{template_root} = WOAx::Helper->get_template_root($conf_file);
 
 my $obj = WOAx::Helper->get_object( $action, $config );
 
-#$obj->run($namespace,$service_name);
 WOAx::Helper->process(
     {
         sub       => sub {
@@ -80,11 +79,13 @@ blabla/woaxtest# wapp-create.pl -a service -n ServiceName - create modules for M
 
 =head1 AUTHOR
 
-plcgi1@gmail.com
+plcgi E<lt>plcgi1 at gmail dot com<gt>
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Copyright (C) 2010 by plcgi1
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.7 or,
+at your option, any later version of Perl 5 you may have available.
 
 =cut

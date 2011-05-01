@@ -5,16 +5,16 @@ use WOA::Loader qw(import_module create_object);
 
 sub create_and_run {
     my $class = shift;
-    my %opt = @_;
-    
-    my $module = join '::',(__PACKAGE__,$opt{type});
-    
+    my %opt   = @_;
+
+    my $module = join '::', ( __PACKAGE__, $opt{type} );
+
     import_module($module);
-    
-    my $object = create_object($module,%{$opt{param}});
-    
+
+    my $object = create_object( $module, %{ $opt{param} } );
+
     $object->process();
-    
+
     return $object;
 }
 

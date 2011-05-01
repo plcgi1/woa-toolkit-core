@@ -1,24 +1,24 @@
 package WOA::Component::Notify::Base;
 use strict;
 use Encode;
-use  WOA::Component::Notify::Exception;
+use WOA::Component::Notify::Exception;
 
 use base 'Class::Accessor::Fast';
 __PACKAGE__->mk_accessors(qw/error out view vars tt/);
 
 sub new {
     my $class = shift;
-    my %opt = @_;
-    my $self = bless {}, $class;
-    
+    my %opt   = @_;
+    my $self  = bless {}, $class;
+
     $self->init(%opt);
     return $self;
 }
 
 sub init {
     my $self = shift;
-    my %opt = @_;
-    
+    my %opt  = @_;
+
 }
 
 sub run {
@@ -27,17 +27,14 @@ sub run {
 
 sub done {
     my $self = shift;
-    
+
     if ( $self->view() && $self->tt() ) {
         my $out;
-        my $vars = $self->vars(); 
-        $self->view->process(
-            $self->tt(),
-            $vars,
-            \$out,
-        ) ||  WOAx::Component::Notify::Exception::View->throw(
-            error => "Template toolkit error - ".$self->view->error()
-        );
+        my $vars = $self->vars();
+        $self->view->process( $self->tt(), $vars, \$out, )
+          || WOAx::Component::Notify::Exception::View->throw(
+            error => "Template toolkit error - " . $self->view->error() );
+
         #encode('utf8', $out);
         $self->out($out);
     }
@@ -45,11 +42,11 @@ sub done {
 
 sub process {
     my $self = shift;
-    
-    foreach ( qw(run done) ) {
-        $self->$_();    
+
+    foreach (qw(run done)) {
+        $self->$_();
     }
-    
+
     return $self;
 }
 

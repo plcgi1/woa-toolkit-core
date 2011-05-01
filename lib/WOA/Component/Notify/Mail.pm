@@ -10,84 +10,84 @@ use base 'WOA::Component::Notify::Base';
 
 my @fields = qw(from to cc subject tt mailer vars view contentType out headers);
 
-__PACKAGE__->mk_accessors( @fields );
+__PACKAGE__->mk_accessors(@fields);
 
 sub init {
-    my ($self,%opt) = @_;
-    
+    my ( $self, %opt ) = @_;
+
     foreach (@fields) {
         if ( $opt{$_} ) {
-            $self->$_($opt{$_});
-        }    
+            $self->$_( $opt{$_} );
+        }
     }
-    
+
     return $self;
 }
 
 sub done {
     my $self = shift;
-    
+
     unless ( $self->out ) {
-        $self->SUPER::done();    
+        $self->SUPER::done();
     }
-        
+
     $self->sendMail();
 }
 
 sub sendMail {
     my $self = shift;
-    
+
     my $subj = $self->subject();
-    
+
     $subj = $self->_utf_decoder($subj);
-    
+
     $self->subject($subj);
-    
+
     my $out = $self->out();
     if ( utf8::is_utf8($out) ) {
         Encode::_utf8_off($out);
     }
-    
+
     my $contentType = $self->contentType || 'text/plain';
-    
+
     my %data = (
-        From    => $self->from,
-        To      => $self->to,
-        CC      => $self->cc,
-        Subject => Encode::encode("MIME-Header",$subj),
-        'Content-Type' => $contentType,
-        'MIME-Version' => '1.0',
+        From                        => $self->from,
+        To                          => $self->to,
+        CC                          => $self->cc,
+        Subject                     => Encode::encode( "MIME-Header", $subj ),
+        'Content-Type'              => $contentType,
+        'MIME-Version'              => '1.0',
         'Content-transfer-encoding' => '8bit',
     );
-    if ( $self->headers ){
-       %data = (%data,%{$self->headers}); 
+    if ( $self->headers ) {
+        %data = ( %data, %{ $self->headers } );
     }
     eval {
         $self->mailer( Mail::Mailer->new("sendmail") );
-        
-        $self->mailer->open(\%data);
-    
+
+        $self->mailer->open( \%data );
+
         my $mailH = $self->mailer();
-        
-        print $mailH  $out;
-     
+
+        print $mailH $out;
+
         $self->mailer->close();
     };
-    
-    if ( $@ ) {
+
+    if ($@) {
         $self->error("Eval error: $@");
-        warn "[ERROR OPEN MAIL]. ".$@;
+        warn "[ERROR OPEN MAIL]. " . $@;
     }
-        
+
     return $self;
 }
 
 sub _utf_decoder {
-    my($self,$str,$from)=@_;
-    $from ='utf8' unless $from;
+    my ( $self, $str, $from ) = @_;
+    $from = 'utf8' unless $from;
     unless ( utf8::is_utf8($str) ) {
-        from_to($str,$from,'utf8');
-        $str = decode('utf8',$str);
+        from_to( $str, $from, 'utf8' );
+        $str = decode( 'utf8', $str );
     }
     return $str;
 }

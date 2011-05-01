@@ -5,40 +5,39 @@ use base 'Class::Accessor::Fast';
 __PACKAGE__->follow_best_practice;
 
 sub prepare_select_4jqgrid {
-    my($self,$array_ref) = @_;
-    
+    my ( $self, $array_ref ) = @_;
+
     my @arr;
-    foreach ( @$array_ref ) {
-        push @arr,$_->{value}.':'.$_->{label}.'';
+    foreach (@$array_ref) {
+        push @arr, $_->{value} . ':' . $_->{label} . '';
     }
-    my $res = join ';',@arr;
-    
-    return $res;    
+    my $res = join ';', @arr;
+
+    return $res;
 }
 
 sub options_from_dbic {
     my ( $self, $rs, $label, $value, $selected, $no_set_first_empty ) = @_;
     my @res = ();
-    
-    unless( defined $no_set_first_empty){
-        push @res,{label=>'~',value=>''};
+
+    unless ( defined $no_set_first_empty ) {
+        push @res, { label => '~', value => '' };
     }
-    if(defined $rs->[0]){
-        foreach ( @{$rs} ){
-            my $v = $_->get_column($value);
-            my $l = $_->get_column($label);
+    if ( defined $rs->[0] ) {
+        foreach ( @{$rs} ) {
+            my $v       = $_->get_column($value);
+            my $l       = $_->get_column($label);
             my $hashref = { label => $l, value => $v };
-            if( ($v && $selected) && ( $v eq $selected )){
+            if ( ( $v && $selected ) && ( $v eq $selected ) ) {
                 $hashref->{selected} = 1;
             }
-            push @res,$hashref;
+            push @res, $hashref;
         }
     }
     return \@res;
 }
 
 1;
-
 
 __END__
 

@@ -4,27 +4,33 @@ use base 'WOAx::Helper';
 use Data::Dumper;
 
 sub run {
-    my ($self,$service_name) = @_;
+    my ( $self, $service_name ) = @_;
     my $root = $ENV{PWD};
-    
+
     my $tpl = $self->tpl();
-    
-    my $app_namespace = (split '/',$root)[-1];
-    
-    my $full_path = $root.'/lib/'.ucfirst $app_namespace.'/REST/'.ucfirst $service_name;
+
+    my $app_namespace = ( split '/', $root )[-1];
+
+    my $full_path =
+        $root . '/lib/'
+      . ucfirst $app_namespace
+      . '/REST/'
+      . ucfirst $service_name;
     $self->set_app_namespace($root);
-        
-    my $page_pm_name = $full_path.'/Map.pm';
+
+    my $page_pm_name = $full_path . '/Map.pm';
     $self->mk_dirs($page_pm_name);
     $self->set_file_name($page_pm_name);
-    my $vars = {
-        service_name => ucfirst $app_namespace.'::REST::'.ucfirst $service_name.'::Map',
-    };    
+    my $vars =
+      {     service_name => ucfirst $app_namespace
+          . '::REST::'
+          . ucfirst $service_name
+          . '::Map', };
 
     my $out;
-    $tpl->process('map_pm.tt',$vars,\$out);
-    $self->mk_file($page_pm_name,$out,'Map file');
-    
+    $tpl->process( 'map_pm.tt', $vars, \$out );
+    $self->mk_file( $page_pm_name, $out, 'Map file' );
+
     return;
 }
 

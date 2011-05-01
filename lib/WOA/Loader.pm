@@ -6,36 +6,35 @@ use vars qw(@ISA @EXPORT @EXPORT_OK $VERSION);
 
 use Error;
 
-@ISA = qw(Exporter);
-@EXPORT = qw(import_module create_object create_instance);
+@ISA       = qw(Exporter);
+@EXPORT    = qw(import_module create_object create_instance);
 @EXPORT_OK = qw(import_module create_object create_instance);
 
 $VERSION = "0.01";
 
 sub create_instance {
-    my $pack = shift;
-	my $opt 	= shift;
+	my $pack = shift;
+	my $opt  = shift;
 
-   	my $package = join '::',($opt->{namespace},$opt->{class});
-	
-   	WOA::Loader::import_module($package);
-   	
-	my $object = WOA::Loader::create_object($package,%$opt);
-	
+	my $package = join '::', ( $opt->{namespace}, $opt->{class} );
+
+	WOA::Loader::import_module($package);
+
+	my $object = WOA::Loader::create_object( $package, %$opt );
+
 	return $object;
 }
 
 sub import_module {
 	my $module = shift;
-	$module =~s/::/\//g;
-	$module .='.pm';
-	
-	eval {
-	    require $module;
-	};
-	
-	if ( $@ ) {
-	    loader_die('import_module',"Cant load module $module - $@.",__LINE__);
+	$module =~ s/::/\//g;
+	$module .= '.pm';
+
+	eval { require $module; };
+
+	if ($@) {
+		loader_die( 'import_module', "Cant load module $module - $@.",
+			__LINE__ );
 	}
 	return;
 }
@@ -43,28 +42,36 @@ sub import_module {
 sub create_object {
 	my $module = shift;
 
-    unless ( Class::Inspector->loaded($module) ) {
-        WOA::Loader::import_module($module);
-    }
-    
+	unless ( Class::Inspector->loaded($module) ) {
+		WOA::Loader::import_module($module);
+	}
+
 	my $object;
-	eval { $object=$module->new(@_); };
-	
+	eval { $object = $module->new(@_); };
+
 	if ($@) {
-		loader_die('create_object',"Cant create object for module $module - $@.",__LINE__);
+		loader_die( 'create_object',
+			"Cant create object for module $module - $@.", __LINE__ );
 	}
 
 	return $object;
 }
 
 sub loader_die {
-    my $method = shift;
-    my $message = shift;
-    my $line = shift;
-    
-    die "[ERROR LOAD MODULE] ".__PACKAGE__." line ".$line." ".$method." ".$message." Caller : ".caller(0);
-    
-    return;
+	my $method  = shift;
+	my $message = shift;
+	my $line    = shift;
+
+	die "[ERROR LOAD MODULE] "
+	  . __PACKAGE__
+	  . " line "
+	  . $line . " "
+	  . $method . " "
+	  . $message
+	  . " Caller : "
+	  . caller(0);
+
+	return;
 }
 
 1;

@@ -4,31 +4,31 @@ use base qw/Locale::Maketext/;
 use Encode;
 
 sub new {
-    my($class,$session) = @_;
-    my $self = $class->SUPER::new(@_);
-    bless $self,$class;
-    return $self;
+	my ( $class, $session ) = @_;
+	my $self = $class->SUPER::new(@_);
+	bless $self, $class;
+	return $self;
 }
 
 sub loc {
-    my $self    = shift;
-    my $string  = shift;
-    my @params  = @_;
-    
-    for (my $i=0;$i<@params;$i++ ) {
-        Encode::_utf8_off($params[$i]);
-    }
-    
-    return $string unless defined $string;
-    return $string if $string=~/^(~)$/;
+	my $self   = shift;
+	my $string = shift;
+	my @params = @_;
 
-    my $text = $self->maketext($string, @params);
+	for ( my $i = 0 ; $i < @params ; $i++ ) {
+		Encode::_utf8_off( $params[$i] );
+	}
 
-    Encode::_utf8_on($text);
-    
-    $text = Encode::encode('utf8',$text);
-        
-    return $text;
+	return $string unless defined $string;
+	return $string if $string =~ /^(~)$/;
+
+	my $text = $self->maketext( $string, @params );
+
+	Encode::_utf8_on($text);
+
+	$text = Encode::encode( 'utf8', $text );
+
+	return $text;
 }
 
 1;
@@ -38,30 +38,29 @@ __END__
 =head1 WOA::I18n - localization for applications
 
 =head1 SYNOPSIS
-    # in app
+	# in app
   	package WOA::Our::App::I18n;
   	use base 'WOA::I18n';
-    
+	
   	package WOA::Our::App::I18n::ru;
-    
-    our %Lexicon = (
-        Users       =>  'Пользователи',
-        Actions     =>  'Действия',
-        Roles       =>  'Группы',
-    );
-    
-    package WOA::Our::App::Page::SomeController;
-    
-    sub some {
-        ...
-        my $lh = $prefix->get_handle($lang);
-            
-        bless $lh, $prefix.'::'.$lang;
-        my $loc = $lh;
-        
-        ...
-        $loc->localize('Users');
-    }
+	
+	our %Lexicon = (
+		Users       =>  'Пользователи',
+		Actions     =>  'Действия',
+		Roles       =>  'Группы',
+	);
+	
+	package WOA::Our::App::Page::SomeController;
+	
+	sub some {
+   $prefix->get_handle($lang);
+			
+		bless $lh, $prefix.'::'.$lang;
+		my $loc = $lh;
+		
+		...
+		$loc->localize('Users');
+	}
 
 
 =head1 DESCRIPTION

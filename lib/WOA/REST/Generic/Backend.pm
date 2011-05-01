@@ -9,76 +9,79 @@ __PACKAGE__->mk_accessors(qw/config session model env/);
 my $DEFAULT_LIMIT = 10;
 
 sub make_interval_query {
-    my($self,$param,$param_name_from,$param_name_to,$field_date_name)=@_;
-    
-    my ($from,$to);
-    if ( $param_name_from ) {
+    my ( $self, $param, $param_name_from, $param_name_to, $field_date_name ) =
+      @_;
+
+    my ( $from, $to );
+    if ($param_name_from) {
         $from = $param->{$param_name_from};
     }
     if ($param_name_to) {
-        $to = $param->{$param_name_to};    
+        $to = $param->{$param_name_to};
     }
-    
-    my ($where,$time);
-    if( $from && length $from > 0 ) {
-        $time = UnixDate($from,"%s");
-        $from = { $field_date_name => { '>' => $time} };        
+
+    my ( $where, $time );
+    if ( $from && length $from > 0 ) {
+        $time = UnixDate( $from, "%s" );
+        $from = { $field_date_name => { '>' => $time } };
     }
-    if( $to && length $to>0 ){
-        $time = UnixDate($to,"%s");
-        $to = { $field_date_name => { '<' => $time} };  
+    if ( $to && length $to > 0 ) {
+        $time = UnixDate( $to, "%s" );
+        $to = { $field_date_name => { '<' => $time } };
     }
-    foreach ( ($from, $to) ) {
-        if( defined $_ ){
-            push @{$where->{-and}},$_;
-        }    
+    foreach ( ( $from, $to ) ) {
+        if ( defined $_ ) {
+            push @{ $where->{-and} }, $_;
+        }
     }
     return $where;
 }
 
 sub define_post_query {
-    my($self,$param)=@_;
+    my ( $self, $param ) = @_;
     my $res = {
-        page        =>  $param->{page} || 1,
-        rows        =>  $param->{rows} || $DEFAULT_LIMIT,
+        page => $param->{page} || 1,
+        rows => $param->{rows} || $DEFAULT_LIMIT,
     };
-    if( $param->{sidx} && $param->{sord} ){
-        $res->{order_by} = $param->{sidx}.' '.$param->{sord};
+    if ( $param->{sidx} && $param->{sord} ) {
+        $res->{order_by} = $param->{sidx} . ' ' . $param->{sord};
     }
-    elsif ( $param->{sidx} && !$param->{sord} ){
-        $res->{order_by} = $param->{sidx}.' asc';
+    elsif ( $param->{sidx} && !$param->{sord} ) {
+        $res->{order_by} = $param->{sidx} . ' asc';
     }
     return $res;
 }
 
 sub pager_data {
-    my($self,$param,$where,$post_query_params,$table_name)=@_;
-    delete $post_query_params->{page};                                                                                                                                             
-    delete $post_query_params->{rows}; 
-                            
+    my ( $self, $param, $where, $post_query_params, $table_name ) = @_;
+    delete $post_query_params->{page};
+    delete $post_query_params->{rows};
+
     my $res;
-    if( $self->can('get_model') ){
+    if ( $self->can('get_model') ) {
         my $limit = $param->{rows} || $DEFAULT_LIMIT;
-        my $total = $self->get_model()->resultset($table_name)->search($where,$post_query_params)->count();
-        
+        my $total =
+          $self->get_model()->resultset($table_name)
+          ->search( $where, $post_query_params )->count();
+
         my $lastpage = int( $total / $limit );
-        my $mod = int( $total % $limit );
-        if ( $mod > 0 ){
+        my $mod      = int( $total % $limit );
+        if ( $mod > 0 ) {
             $lastpage++;
         }
         $res = {
-            total       => $lastpage,
-            records     => $total,
-            page        => $param->{page} || 1
+            total   => $lastpage,
+            records => $total,
+            page    => $param->{page} || 1
         };
     }
     return $res;
 }
 
 sub fill_hash {
-    my ($self,$id,@args) = @_;
+    my ( $self, $id, @args ) = @_;
     my $hash = {
-        id => $id,
+        id   => $id,
         cell => \@args
     };
     return $hash;

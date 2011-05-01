@@ -7,29 +7,25 @@ __PACKAGE__->mk_accessors(qw//);
 
 sub check_access {
     my ( $self, $method, $method_data, $user_data, $request, $env ) = @_;
-    if ( $method_data->{public} && $method_data->{public} eq 1 ){
+    if ( $method_data->{public} && $method_data->{public} eq 1 ) {
         return 1;
     }
-    if ( $user_data && ref $user_data eq 'HASH' && $user_data->{id} ){
-        my $acl = $user_data->{acl};
+    if ( $user_data && ref $user_data eq 'HASH' && $user_data->{id} ) {
+        my $acl    = $user_data->{acl};
         my $access = 0;
-        
+
         #   acl - { path => [POST, GET, PUT, DELETE] }
-        if ( $acl ){
+        if ($acl) {
             my $path = $request->request_uri;
-            if ($request->method =~/get|delete|post|put/i){
-                $path = (split '\?',$path)[0];
+            if ( $request->method =~ /get|delete|post|put/i ) {
+                $path = ( split '\?', $path )[0];
             }
             my $re = qr|$method_data->{regexp}|;
-            $env->{'psgix.logger'}->({
-                level   => 'debug',
-                module  => 'WOAx.Component.ACL',
-                message => '[$acl->{$path} && $path =~ /$re/]'.($acl->{$path} && $path =~ /$re/).' path:'.$path.' re:'.$re.' acl->{path}:'.$acl->{$path}.' acl:'.Dumper $acl
-            });
-            if( $acl->{$path} && $path =~ /$re/ ){
+
+            if ( $acl->{$path} && $path =~ /$re/ ) {
                 my $access_count = 0;
-                foreach ( @{$acl->{$path}} ){
-                    if ( $_ eq $method_data->{req_method} ){
+                foreach ( @{ $acl->{$path} } ) {
+                    if ( $_ eq $method_data->{req_method} ) {
                         $access = 1;
                         last;
                     }

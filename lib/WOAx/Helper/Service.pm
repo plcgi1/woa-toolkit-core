@@ -7,53 +7,52 @@ use FindBin qw/$Bin/;
 use base 'WOAx::Helper';
 
 sub run {
-    my ($self,$namespace) = @_;
-    
+    my ( $self, $namespace ) = @_;
+
     my $tpl = $self->tpl();
-    
-    my $app_name = (split '/',$ENV{PWD})[-1];
-    my $service_ns = ucfirst $app_name.'::REST::'.$namespace;
-    my $map_class = $service_ns.'::Map';
-    my $backend_class = $service_ns.'::Backend';
-    my $sp_class = $service_ns.'::SP';
+
+    my $app_name      = ( split '/', $ENV{PWD} )[-1];
+    my $service_ns    = ucfirst $app_name . '::REST::' . $namespace;
+    my $map_class     = $service_ns . '::Map';
+    my $backend_class = $service_ns . '::Backend';
+    my $sp_class      = $service_ns . '::SP';
     print "$map_class\n";
+
     # load Map module
-    use lib ($ENV{PWD}.'/lib');
+    use lib ( $ENV{PWD} . '/lib' );
     WOA::Loader::import_module($map_class);
-    
+
     # get map from Map
     my $map = $map_class->get_map();
-    
+
     # create SP module
     $self->mk_dirs($sp_class);
-    my $vars = {
-        service_name => $service_ns
-    };
+    my $vars = { service_name => $service_ns };
     my $out;
     my $pm_name = $sp_class;
-    $pm_name=~s/::/\//g;
-    $pm_name=$ENV{PWD}.'/lib/'.$pm_name.'.pm';
-    
-    $tpl->process('sp_pm.tt',$vars,\$out);
-    $self->mk_file($pm_name,$out,'SP file');
-    
+    $pm_name =~ s/::/\//g;
+    $pm_name = $ENV{PWD} . '/lib/' . $pm_name . '.pm';
+
+    $tpl->process( 'sp_pm.tt', $vars, \$out );
+    $self->mk_file( $pm_name, $out, 'SP file' );
+
     # create Backend module - by map
     $pm_name = $backend_class;
-    $pm_name=~s/::/\//g;
-    $pm_name=$ENV{PWD}.'/lib/'.$pm_name.'.pm';
-    foreach ( @$map ) {
-        push @{$vars->{methods}},$_->{func_name};
+    $pm_name =~ s/::/\//g;
+    $pm_name = $ENV{PWD} . '/lib/' . $pm_name . '.pm';
+    foreach (@$map) {
+        push @{ $vars->{methods} }, $_->{func_name};
     }
     $out = undef;
-    $tpl->process('backend_pm.tt',$vars,\$out);
-    $self->mk_file($pm_name,$out,'Backend file');
-    
+    $tpl->process( 'backend_pm.tt', $vars, \$out );
+    $self->mk_file( $pm_name, $out, 'Backend file' );
+
     # create test file
-    $pm_name = $ENV{PWD}.'/t/'.$sp_class.'.t';
-    $out = undef;
-    $tpl->process('sp_t.tt',$vars,\$out);
-    $self->mk_file($pm_name,$out,'Test file');
-    
+    $pm_name = $ENV{PWD} . '/t/' . $sp_class . '.t';
+    $out     = undef;
+    $tpl->process( 'sp_t.tt', $vars, \$out );
+    $self->mk_file( $pm_name, $out, 'Test file' );
+
     return;
 }
 

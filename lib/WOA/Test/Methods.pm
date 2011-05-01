@@ -100,3 +100,39 @@ sub _get_data {
 }
 
 1;
+
+__END__
+
+
+=head1 WOA::Test::Methods
+
+=head1 SYNOPSIS
+
+[]
+
+=head1 DESCRIPTION
+
+Utilite methods for testing services
+
+=head2 EXPORT
+
+TODO
+
+=head1 SEE ALSO
+
+TODO
+
+=head1 AUTHOR
+
+plcgi E<lt>plcgi1 at gmail dot com<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2010 by plcgi1
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.7 or,
+at your option, any later version of Perl 5 you may have available.
+
+
+=cut

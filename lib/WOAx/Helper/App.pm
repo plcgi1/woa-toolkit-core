@@ -6,64 +6,86 @@ use Data::Dumper;
 __PACKAGE__->mk_accessors(qw/app_sh app_conf app_psgi/);
 
 sub run {
-    my ($self,$namespace) = @_;
+    my ( $self, $namespace ) = @_;
     my $pwd = $ENV{PWD};
-    
+
     my $tpl = $self->tpl();
-    
-    my @a = split '::',$namespace;
+
+    my @a = split '::', $namespace;
     my $app_name = lc $a[0];
-    
-    my $path = join '/',@a;
-    my $app_full_path = $self->get_config->{root}.'/'.$app_name;
+
+    my $path = join '/', @a;
+    my $app_full_path = $self->get_config->{root} . '/' . $app_name;
     $self->mk_dir($app_full_path);
     $self->set_app_full_path($app_full_path);
-    
-    if ( $app_name =~/(\-)/ ) {
-        my @arr = split $1,$app_name;
-        foreach my $i( @arr ) {
+
+    if ( $app_name =~ /(\-)/ ) {
+        my @arr = split $1, $app_name;
+        foreach my $i (@arr) {
             $i = ucfirst $i;
         }
-        $app_name = lcfirst (join '',@arr);
+        $app_name = lcfirst( join '', @arr );
     }
-    foreach ( keys %{$self->get_config->{app}}) {
-        my $path = $app_full_path.'/'.$self->get_config->{app}->{$_};
+    foreach ( keys %{ $self->get_config->{app} } ) {
+        my $path = $app_full_path . '/' . $self->get_config->{app}->{$_};
         $self->mk_dir($path);
     }
-    foreach ( qw/css i js/ ) {
-        my $path = $app_full_path.'/'.$self->get_config->{app}->{public}.'/'.$_;
+    foreach (qw/css i js/) {
+        my $path =
+          $app_full_path . '/' . $self->get_config->{app}->{public} . '/' . $_;
         $self->mk_dir($path);
     }
-    foreach ( qw/dev min/ ) {
-        my $path = $app_full_path.'/'.$self->get_config->{app}->{public}.'/js/'.$_;
+    foreach (qw/dev min/) {
+        my $path =
+            $app_full_path . '/'
+          . $self->get_config->{app}->{public} . '/js/'
+          . $_;
         $self->mk_dir($path);
     }
     my $out;
-    $tpl->process('app_main_module.tt',{app_name=>ucfirst $app_name},\$out) || die $tpl->error;
-    
-    my $filename = $app_full_path.'/lib/'.ucfirst $app_name.'.pm';
-    $self->mk_file($filename,$out,'Main app module');
-        
-    $filename = $app_full_path.'/'.$self->get_config->{app}->{bin}.'/'.$app_name.'.sh';
-    my $psgi = $app_full_path.'/'.$self->get_config->{app}->{psgi}.'/'.$app_name.'.psgi';
-    $out = 'plackup -I'.$app_full_path.'/lib -p 3030 -a '.$psgi;
-    $self->mk_file($filename,$out,'App run script');
-    chmod 0755,$filename; 
+    $tpl->process( 'app_main_module.tt', { app_name => ucfirst $app_name },
+        \$out )
+      || die $tpl->error;
+
+    my $filename = $app_full_path . '/lib/' . ucfirst $app_name . '.pm';
+    $self->mk_file( $filename, $out, 'Main app module' );
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{bin} . '/'
+      . $app_name . '.sh';
+    my $psgi =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{psgi} . '/'
+      . $app_name . '.psgi';
+    $out = 'plackup -I' . $app_full_path . '/lib -p 3030 -a ' . $psgi;
+    $self->mk_file( $filename, $out, 'App run script' );
+    chmod 0755, $filename;
     $self->set_app_sh($filename);
-    
+
     $out = undef;
-    $tpl->process('app_conf.tt',{app_name=>ucfirst $app_name,app_root=>$app_full_path},\$out) || die $tpl->error;
-    
-    $filename = $app_full_path.'/'.$self->get_config->{app}->{etc}.'/'.$app_name.'.conf';
-    $self->mk_file($filename,$out,'App config file');
+    $tpl->process( 'app_conf.tt',
+        { app_name => ucfirst $app_name, app_root => $app_full_path }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{etc} . '/'
+      . $app_name . '.conf';
+    $self->mk_file( $filename, $out, 'App config file' );
     $self->set_app_conf($filename);
-    
+
     $out = undef;
-    $tpl->process('psgi.tt',{app_name=>$app_name,app_root=>$app_full_path},\$out) || die $tpl->error;
-    
-    $filename = $app_full_path.'/'.$self->get_config->{app}->{psgi}.'/'.$app_name.'.psgi';
-    $self->mk_file($filename,$out,'App psgi file');
-    
+    $tpl->process( 'psgi.tt',
+        { app_name => $app_name, app_root => $app_full_path }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{psgi} . '/'
+      . $app_name . '.psgi';
+    $self->mk_file( $filename, $out, 'App psgi file' );
+
     $self->set_app_psgi($filename);
     return;
 }

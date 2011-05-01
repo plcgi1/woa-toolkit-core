@@ -4,27 +4,27 @@ use Config::General;
 use base 'Class::Accessor::Fast';
 
 sub get_config {
-    my($self,$paths,$dont_check_mode)=@_;
+    my ( $self, $paths, $dont_check_mode ) = @_;
     my $config;
-    if( $paths ) {
-        if ( ref $paths ne 'ARRAY' ){
+    if ($paths) {
+        if ( ref $paths ne 'ARRAY' ) {
             $paths = [$paths];
         }
         my %config;
-        foreach ( @{$paths} ){
+        foreach ( @{$paths} ) {
             my %cfg = Config::General->new(
                 -InterPolateVars => 1,
-                -ConfigFile => $_
+                -ConfigFile      => $_
             )->getall();
             %config = %cfg;
         }
-        
-        if ( $dont_check_mode ){
+
+        if ($dont_check_mode) {
             $config = \%config;
         }
         else {
             my $mode = $ENV{APP_MODE} || $config{mode};
-            if( $mode ){
+            if ($mode) {
                 $config = $config{$mode};
             }
             else {

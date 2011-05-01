@@ -9,34 +9,34 @@ our $VERSION = '0.01';
 use base 'Class::Accessor::Fast';
 __PACKAGE__->mk_accessors(qw/errorCount errorFields errorMsg/);
 
-#  
+#
 sub errorMsg {
 	my $this = shift;
-	
+
 	my @msg = ();
 	if ( ref $this->errorFields eq 'ARRAY' ) {
-		foreach ( @{$this->errorFields} ) {
-			push @msg,$_->{error} if ($_->{error});
+		foreach ( @{ $this->errorFields } ) {
+			push @msg, $_->{error} if ( $_->{error} );
 		}
-		$this->{errorMsg} = join '.',@msg;
+		$this->{errorMsg} = join '.', @msg;
 	}
-	
+
 	return $this->{errorMsg};
 }
 
 sub errorMsgAsString {
 	my $this = shift;
-	
+
 	return $this->{errorMsg};
 }
 
 sub errorCode {
 	my $this = shift;
-	
+
 	return {
-		errorCount	=> 	$this->errorCount(),
-		errorFields	=>	$this->errorFields()
-	}
+		errorCount  => $this->errorCount(),
+		errorFields => $this->errorFields()
+	};
 }
 
 1;
