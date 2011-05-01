@@ -3,24 +3,3 @@ severity  = 4
 
 [Variables::ProhibitPackageVars]    
 severity = 2
-
-#only      = 1
-#force     = 0
-#verbose   = 4
-#top       = 50
-theme     = (pbp || security) && bugs
-include   = NamingConventions ClassHierarchies    #Space-delimited list    
-exclude   = Variables  Modules::RequirePackage    #Space-delimited list    
-#criticism-fatal = 1                               #Zero or One    
-color     = 1                                     #Zero or One    
-#allow-unsafe = 1                                  #Zero or One    
-#pager     = less                                  #pager to pipe output to
-
-# The remainder of the configuration file is a series of blocks like this:
-#[Perl::Critic::Policy::Category::PolicyName]
-#    severity = 1
-#    set_themes = foo barbar
-#    add_themes = baz
-#    maximum_violations_per_document = 57
-#    arg1 = value1
-#    arg2 = value2
