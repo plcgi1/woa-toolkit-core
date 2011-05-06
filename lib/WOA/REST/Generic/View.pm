@@ -8,6 +8,15 @@ __PACKAGE__->mk_accessors(qw/view renderer/);
 
 my $DEFAULT_LIMIT = 10;
 
+sub dispatch {
+	my ($self,$obj) = @_;
+	my $type = delete $obj->{type};
+	
+	my $out = $self->$type($obj);
+	
+	return $out;
+}
+
 sub as_is {
 	my ( $self, $obj ) = @_;
 

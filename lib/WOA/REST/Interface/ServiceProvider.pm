@@ -4,7 +4,7 @@ use strict;
 use base 'Class::Accessor::Fast';
 
 __PACKAGE__->follow_best_practice();
-__PACKAGE__->mk_accessors(qw/backend engine map view localize session/);
+__PACKAGE__->mk_accessors(qw/backend engine map view localize session model config formatter stash/);
 
 sub pre_process {
     die "pre_process not implemented";

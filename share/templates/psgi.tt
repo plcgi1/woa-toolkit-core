@@ -31,7 +31,7 @@ my $tpl = Template->new({
 
 Log::Log4perl::init($config->{log4perl});
 
-my %controller_param = (
+my $controller_param = (
     config              => $config,
     renderer            => $tpl
 );
@@ -39,13 +39,13 @@ my %controller_param = (
 # create handlers for your services
 #    my $rest = Plack::Middleware::WOAx::App->new({
 #        service_provider    => 'ServiceProviderClassName',
-#        %controller_param
+#        %$controller_param
 #    });
 
 # create handlers for your pages
 #    my $page = Plack::Middleware::WOAx::App->new({
 #        service_provider    => 'PageClassName',
-#        %controller_param
+#        %$controller_param
 #    });
 
 builder {

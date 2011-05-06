@@ -1,6 +1,7 @@
 package WOA::REST::ServiceProvider;
 use strict;
-use strict;
+use WOA::REST::Engine;
+use WOA::REST::Generic::View;
 use base 'WOA::REST::Interface::ServiceProvider';
 
 use constant DEFAULT_ENGINE_CLASS => 'WOA::REST::Engine';
@@ -24,14 +25,18 @@ sub service_object {
     }
 
     # backend engine map view
-    my $view    = $self->get_view();
+    my $view    = $self->get_view() || WOA::REST::Generic::View->new({renderer => $param->{renderer}});
     my $engine  = $self->get_engine() || DEFAULT_ENGINE_CLASS;
     my $map     = $self->get_map();
     my $backend = $self->get_backend();
+    unless ( $backend ) {
+        $backend = $self;
+        $self->set_stash({});
+    };
 
     my $rest = $engine->new(
         {
-            map     => $map->get_map,
+            map     => $map,
             backend => $backend,
             view    => $view,
         }
@@ -46,6 +51,12 @@ sub service_object {
 
 sub init {
     my ( $self, $param ) = @_;
+    foreach ( keys %$param ) {
+        my $setter = 'set_'.$_;
+        if ( $self->can($setter) ) {
+            $self->$setter($param->{$_});
+        }
+    }
     return;
 }
 

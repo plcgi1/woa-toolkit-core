@@ -39,14 +39,13 @@ sub make_param {
 
     $self->where( {} ) unless ref $self->where eq 'HASH';
 
-    if (
-        def $params->{ $field_name . '_is' } || '-in';
-        if ( $is eq '-not' ) {
-            push @{ $self->where()->{-and} },
-              { $db_field_name => { '!=' => $value } };
+    if( defined $value  ) {
+        my $is = $params->{$field_name.'_is'} || '-in';
+        if( $is eq '-not' ){
+            push @{$self->where()->{-and}},{ $db_field_name => { '!=' => $value  } } ;
         }
         else {
-            if ( ref $value eq 'ARRAY' ) {
+            if ( ref $value eq 'ARRAY' ){
                 $self->where()->{$db_field_name} = { $is => $value };
             }
             else {
