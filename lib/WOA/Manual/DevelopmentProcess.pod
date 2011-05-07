@@ -91,25 +91,7 @@ Currently, the Core Team consists of the following people:
 
 =over 4
 
-=item Brian Cassidy
-
-=item Andy Grundman
-
-=item Christian Hansen
-
-=item Yuval Kogman
-
-=item Marcus Ramberg
-
-=item Jonathan Rockway
-
-=item Jesse Sheidlower
-
-=item Matt S. Trout
-
-=item Florian Ragwitz
-
-=item Tomas Doran
+=item Nosoff Alex
 
 =back
 
@@ -168,7 +150,7 @@ thought out and designed extension.
 
 =head1 AUTHORS
 
-Catalyst Contributors, see Catalyst.pm
+plcgi E<lt>plcgi1 at gmail dot com<gt>
 
 =head1 COPYRIGHT
 

@@ -1,30 +1,20 @@
 =head1 NAME
 
-Catalyst::Manual::Intro - Introduction to Catalyst
+WOA::Manual::Intro - Introduction to Catalyst
 
 =head1 DESCRIPTION
 
-This is a brief introduction to Catalyst. It explains the most important
-features of how Catalyst works and shows how to get a simple application
-up and running quickly. For an introduction (without code) to Catalyst
-itself, and why you should be using it, see L<Catalyst::Manual::About>.
+This is a brief introduction to WOA. It explains the most important
+features of how WOA works and shows how to get a simple application
+up and running quickly. For an introduction (without code) to WOA
+itself, and why you should be using it, see L<WOA::Manual::About>.
 For a systematic step-by-step introduction to writing an application
-with Catalyst, see L<Catalyst::Manual::Tutorial>.
+with Catalyst, see L<WOA::Manual::Tutorial>.
 
-=head2 What is Catalyst?
+=head2 What is WOA?
 
-Catalyst is an elegant web application framework, extremely flexible
-yet extremely simple. It's similar to Ruby on Rails, Spring (Java), and
-L<Maypole|Maypole>, upon which it was originally based. Its most
-important design philosphy is to provide easy access to all the tools
-you need to develop web applications, with few restrictions on how you
-need to use these tools. However, this does mean that it is always
-possible to do things in a different way. Other web frameworks are
-I<initially> simpler to use, but achieve this by locking the programmer
-into a single set of tools. Catalyst's emphasis on flexibility means
-that you have to think more to use it. We view this as a feature.  For
-example, this leads to Catalyst being more suited to system integration
-tasks than other web frameworks.
+WOA - web oriented architecture -  is an web application toolkit, extremely flexible
+yet extremely simple. Good organisation of code structure - is a easy support and  
 
 =head3 MVC
 
