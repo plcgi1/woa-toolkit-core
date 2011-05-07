@@ -6,6 +6,7 @@ abstract 'web oriented toolkit for easy building REST services';
 version '0.001';
 author 'plcgi1@gmail.com';
 license 'perl';
+perl_version('5.10.1');
 
 # Specific dependencies
 requires 'Carp';
@@ -48,7 +49,9 @@ requires 'Locale::Maketext';
 
 install_script glob('bin/*.pl');
 install_share glob('share/*.');
+
 auto_install;
+
 WriteAll;
 
 1;

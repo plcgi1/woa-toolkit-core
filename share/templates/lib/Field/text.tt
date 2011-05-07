@@ -1,0 +1,12 @@
+[%- IF label -%]
+<div class="label" style="display:[%display%]" id="div_label_[% name %]">
+   <label[% IF id %] for="[% id %]"[% END %]>[% label %]</label>
+    [%- IF hint -%]<br/><span class="hint">[% hint %]</span>[%- END -%]
+</div>
+[%- END -%]
+<div class="field" style="display:[%display%]" id="div_field_[% name %]">
+[%#- IF errorMsg -%]
+       <span id="[% name %]-error" [% IF style %] style="[% style %]"[% END %]><span>[%- IF !hint -%][%-END-%]</span><div class="err">[% errorMsg %]</div></span>
+[%#- END -%]   
+<input[% IF id %] id="[% id %]"[% END %] name="[% name %]" size="[% size %]" style="float: none;"[% IF class %] class="[% class %]"[% END %] type="text" value="[% value %]"[%- IF onchange -%] onchange="[% onchange %]"[%- END -%][%IF disabled%] disabled[%END%]>
+</div>

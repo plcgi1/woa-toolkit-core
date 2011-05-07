@@ -1,0 +1,52 @@
+[%-
+SET minutes = [];
+SET hours = [];
+SET field_name = name;
+-%]
+[%-FOREACH item IN [0..12]-%]
+    [% hours.push({ value = item label = item }) %]
+[%-END-%]
+[%-FOREACH item IN [0..59]-%]
+    [%- minutes.push({ value = item label = item }) -%]
+[%-END-%]
+[%- IF label -%]
+<div class="label" style="display:[%display%]" id="div_label_[% field_name %]">
+    <label[%IF id%] for="[%id%]"[%END%]>[% label %]</label>
+    [%- IF hint -%]<br/><span class="hint">[% hint %]</span>[%- END -%]
+</div>
+[%- END -%]
+<div id="[% field_name %]-error"[% IF style %] style="[% style %]"[% END %] class="err">[% errorMsg %]</div>
+<div class="field" style="display:[%display%]" id="div_field_[% name %]">
+    <div class="hidden" id="inner_[%field_name%]">
+        <input type="text" name="[%field_name%]" id="[%id || field_name%]" value="[%value%]">
+    </div>
+    [%PROCESS Field/Simple/select.tt name=hours_name id=hours_name options=hours onchange="setHoursMinutesVal(this,document.getElementById('" _ minutes_name _ "'),'hours')" %]
+    [%PROCESS Field/Simple/select.tt name=minutes_name id=minutes_name options=minutes onchange="setHoursMinutesVal(document.getElementById('" _ hours_name _ "'),this,'minutes')"%]
+<script>
+window.hm = {
+    hoursVal: 0,
+    minutesVal: 0,
+    totalVal: 0
+};
+
+var storage = function(obj1,obj2,name){
+    if( name == '[%hours_name%]' ) {
+        hm.hoursVal = obj1.options[obj1.selectedIndex].value;    
+    }
+    else if( name == '[%minutes_name%]' ){
+        hm.minutesVal = obj2.options[obj2.selectedIndex].value;
+    }
+};
+
+function setHoursMinutesVal(hoursSel,minutesSel,name){
+    var str;
+    storage(hoursSel,minutesSel,name);
+    str = hm.hoursVal + ':' + hm.minutesVal;
+    document.getElementById('[%field_name%]').value=str;
+    hm.totalVal = str;
+    //alert(document.getElementById('[%field_name%]').value);
+    return;
+}    
+</script>
+</div>
+

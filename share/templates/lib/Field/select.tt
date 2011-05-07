@@ -1,0 +1,19 @@
+[%- IF label -%]
+<div class="label" style="display:[%display%]" id="div_label_[% name %]">
+    <label[%IF id%] for="[%id%]"[%END%]>[% label %]</label>
+    [%- IF hint -%]<br/><span class="hint">[% hint %]</span>[%- END -%]
+</div>
+[%- END -%]
+<div id="[% name %]-error"[% IF style %] style="[% style %]"[% END %] class="err">[% errorMsg %]</div>
+<div class="field" style="display:[%display%]" id="div_field_[% name %]">
+    <select name="[% name %]"[%IF id%] id="[%id%]"[%END%][%IF disabled%] disabled[%END%][%- IF onchange -%] onchange="[% onchange %]"[%- END -%] [%- IF onclick -%] onclick="[% onclick %]"[%- END -%]>
+    [%- FOREACH item IN options -%]
+	   [%- IF item.selected -%]
+		  <option value="[% item.value %]" selected[%- IF item.onclick -%] onclick="[% item.onclick %]"[%- END -%]>[% item.indent %][% item.label %]</option>
+    	[%- ELSE -%]
+	   	   <option value="[% item.value %]"[%- IF item.onclick -%] onclick="[% item.onclick %]"[%- END -%]>[% item.indent %][% item.label %]</option>
+    	[%- END -%]
+    [%- END -%]
+	</select>
+</div>
+

@@ -1,0 +1,4 @@
+<div class="sn-field" style="display:[%display%]" id="div_field_[% name %]">
+   <input type="radio" name="[% name %]" value="[% value %]" [%IF class%] class="[% class %]"[%END%][% IF checked %] checked[%END%] [%IF id%] id="[%id%]"[%END%][%IF onclick%]onclick="[% onclick %]"[%END%][%IF disabled%] disabled[%END%]>
+    [%-IF label-%]<label[%IF id && label%] for="[%id%]"[%END%]>[%label%]</label>[%-END-%]
+</div>

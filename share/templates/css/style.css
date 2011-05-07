@@ -1,3 +1,17 @@
+BODY {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font: 85% "Lucida Grande", Arial, Arial, sans-serif;
+	background: #fff ;
+	color: #3F3F3F;
+}
+table tr th,td {
+   	font: 95% "Lucida Grande", Arial, Arial, sans-serif;
+    padding: 3px 5px 1px 5px;
+}
+table {
+    margin: 5px 0px 5px 0px;
+}
 a {color: #0095c1;}
 a:hover {color: #00607b;}
 img {  border: 0;}
@@ -8,44 +22,17 @@ UL {
 	padding-left: 15px;
 	margin-left: 0px;
 }
-
 UL LI {
 	padding-top: 2px;
 	padding-bottom: 3px;
 }
-
 .clear {
     clear: both;
-}
-
-.date {
-	font-size: 11px;
-	color: #ABABAB;
-	line-height: 0.7;
-}
-
-.name {
-	font-size: 11px;
-	color: green;
-	line-height: 0.7;
-	display:inline;
-}
-
-.checked {
-	background-color: #faebd7;
-}
-
-.editable {
-    background: #7DED9A;
-    width: auto;
-    padding: 2px 3px 2px 3px;
-    font-size: 75%;
 }
 form {
   padding: 0;
   margin: 0;
 }
-
 /* fields */
 .label {
 	margin: 12px 0 0 0;
@@ -55,28 +42,15 @@ label {
   font-weight: bold;
   font-size: 100%;
 }
-
 .field {
 	padding: 0;
 	margin: 0px 0 12px 0;
 }
-
-.sn-field {
-	padding: 0;
-	margin: 12px 0;
-}
-
-.gr-field {
-	padding: 0;
-	margin: 4px 0;
-}
-
 .hint {
     font-size: 95%;
     color: #999;
     font-weight: normal;
 }
-
 input[type=text],input[type=password], select, textarea {
     border: 1px solid #83ABC0;
     border-bottom: 1px solid #CBDFE9;
@@ -90,25 +64,21 @@ input.error, select.error, textarea.error {
   padding: 2px; 
   background-color: #ffe1e1;
 }
-
 .err {
- background-color: #9e0f0f;
- font-size: 95%;
- color: #fff;
- width: auto;
- font-weight: normal;
- padding: 0 5px;
- * display:none;
+    background-color: #9e0f0f;
+    font-size: 95%;
+    color: #fff;
+    width: auto;
+    font-weight: normal;
+    padding: 0 5px;
+    display:none;
 }
-
 textarea {
 	width: 100%;
 }
-
 input[type=checkbox] {
     margin-right: 5px;
 }
-
 .disabledText, .disabledTextArea {
 	background: silver;
 	border: 1px solid #83ABC0;
@@ -117,35 +87,16 @@ input[type=checkbox] {
   	padding: 2px; 
   	
 }
-
 .ok {
     background: #7DED9A;
     margin-top: 10px;
     padding: 2px 2px 2px 2px;
     width: auto;
 }
-BODY {
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
-	font: 85% "Lucida Grande", Arial, Arial, sans-serif;
-	background: #fff ;
-	color: #3F3F3F;
-}
-
-table tr th,td {
-   	font: 95% "Lucida Grande", Arial, Arial, sans-serif;
-    padding: 3px 5px 1px 5px;
-}
-
-table {
-    margin: 5px 0px 5px 0px;
-}
-
 #container {
 	padding: 0 40px;
 	clear: both;
 }
-
 #mainWide {
 	margin-left: 20px;
     margin-right: 20px;
@@ -154,33 +105,28 @@ table {
     border-right: 1px solid #D9D9D9;
     border-bottom: 1px solid #D9D9D9;
 }
-
 #sbar {
     float: left;
 	width:30%;
     background: #e0ebf1;
 }
-
 #bottom {
     margin: 0px;
     padding: 20px 60px;
 	clear: both;
 }
-
 #top {
     background-color: #0082b8;
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 0px;
 }
-
     #top #header {
         padding-left: 40px;
         padding-top: 12px;
         padding-bottom: 0px;
         margin: 0 0 1px 0;
     }
-
     #subnav {
         margin: 0 0 0 0;
         background-color: #8A75F4;
@@ -191,7 +137,6 @@ table {
         font-size: 95%;
         font-weight: bold;
     }
-
         #subnav ul li{
             text-decoration: none;
         }
@@ -199,7 +144,6 @@ table {
             background-color: #003246;
             padding:3px 8px 3px 8px;
         }
-
 #tabs {
     margin: 0 0 0 0;
     padding:4px 0px 3px 0;
@@ -214,18 +158,15 @@ table {
     
 	height : 18px;
 }
-
 #childTabs {
     margin: 0 0 0 0;
     background-color: gray;
     padding:4px 0px 4px 0;
 }
-
 #tabs ul, #childTabs ul{
     margin: 0px 0px 0px 0px;
     padding: 0px 0 0px 0;
 }
-
 #tabs ul li, #childTabs ul li, ul li, #childTabs ul li {
     font-weight: bold;
     font-size: 90%;
@@ -235,7 +176,6 @@ table {
     list-style: none;
     border: none;
 }
-
 #tabs ul li a {
     color: #fff;
     background-color: #0082b8;
@@ -243,7 +183,6 @@ table {
     border: none;
     text-decoration: none;
 }
-    
 #childTabs ul li a {
     color: #fff;
     padding:4px 25px 3px 25px;
@@ -251,7 +190,6 @@ table {
     text-decoration: none;
     font-size: 85%;
 }
-
 #tabs ul li a.active,  #tabs ul li a:hover, #childTabs ul li a:hover,#childTabs ul li a.active{
     color: #fff;
     background-color: #003246;
@@ -263,90 +201,3 @@ table {
     margin-left: 15px;
     margin-right: 15px;
 }
-
-#container {
-  background: #fff;
-  padding: 0;
-  font-size: 100%;
-  margin:  0 50px;
-  min-width: 708px;
-  position: relative;
-}
-
-/* main menu nav */
-#navlist {
-  margin: 0;
-  padding: 0px 0 0 0px;
-  height: 20px;
-  float: left;
-}
-
-#navlist li {
-  margin: 0;
-  padding: 0;
-  display: inline;
-  list-style-type: none;
-}
-
-#navlist a:link, #navlist a:visited{
-  float: left;
-  padding: 5px 10px;
-  margin: 0 10px 4px 10px;
-  text-decoration: none;
-  color: #fff;
-  text-shadow: 2px 2px;
-  font-weight: bold;
-}
-
-#navlist a.active:link {
-  padding: 5px 10px;
-  background: #fff;
-  color: #0086ba;
-}
-
-.required {
-    border-color:#FF1803;
-}
-
-.error {
-	background-color: #ffd2d2;
-	border: 3px solid #770000;
-}
-    
-tbody td, tbody th {
-	padding: 2px;
-	display: table-cell ;
-	font-size: 75%;
-	white-space: normal;
-	height : auto;
-	overflow: inherit;
-}
-.ui-jqgrid .ui-jqgrid-htable th{height:32px; padding:2px; font-size: 75%;}
-.txtField{padding:2px;background: #ADABAB;border:1px inset;}
-.action,.cell_item {font-size: 75%;padding:1px;}
-.subnav {
-	margin: 0 0 0 0;
-	background-color: #BDBDBF;
-	padding:3px 8px 3px 8px;
-	color: #fff;
-	font-size: 95%;
-	font-weight: bold;
-}
-.subnav ul { display: inline; }
-.subnav ul li{
-	display: inline;
-	text-decoration: none;
-	list-style-type: none;
-	list-style: none;
-	cursor: pointer;
-	color: inherit;
-	padding:3px 8px 3px 8px;
-}
-li.right{
-	right: auto;
-	float: right;
-}
-.subnav ul li:hover {
-	background-color: #003246;
-}
-.pager { height: 35px; }

@@ -31,10 +31,10 @@ my $tpl = Template->new({
 
 Log::Log4perl::init($config->{log4perl});
 
-my $controller_param = (
+my $controller_param = {
     config              => $config,
     renderer            => $tpl
-);
+};
 
 # create handlers for your services
 #    my $rest = Plack::Middleware::WOAx::App->new({
@@ -53,11 +53,12 @@ builder {
     enable "Plack::Middleware::AccessLog", format => "combined";
     enable "Plack::Middleware::ContentMD5";
     enable "Session",   store       => "File";
-    enable "I18n", prefix => 'WOAx::I18n';
-    
     # from $env->{'psgix.logger'}
     enable "Log4perl", category => "main";
     
+    # uncomment this if you need localization
+    # enable "I18n", prefix => 'WOAx::I18n';
+        
     # mount pages
     #   mount "/any/path/to/page/method" => $page;
     

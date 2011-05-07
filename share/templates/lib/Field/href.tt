@@ -1,0 +1,1 @@
+[%indent%]<a href="[% value %]" [%IF target %] target="[% target %]" [%END%][% IF onclick %] onclick="[% onclick %]"[%END%][% IF id%] id="[% id%]"[% END %][% IF class%] class="[% class%]"[% END %]>[% label %]</a>

@@ -1,5 +1,6 @@
 package WOAx::Helper::App;
 use strict;
+
 use base 'WOAx::Helper';
 use Data::Dumper;
 
@@ -35,6 +36,7 @@ sub run {
           $app_full_path . '/' . $self->get_config->{app}->{public} . '/' . $_;
         $self->mk_dir($path);
     }
+      
     foreach (qw/dev min/) {
         my $path =
             $app_full_path . '/'

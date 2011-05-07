@@ -1,0 +1,26 @@
+<style>
+.error {
+    background-color : #ffa500;
+    padding          : 5 px 5 px 5 px 5 px;
+}
+#uploadLabel {
+    font-family : arial, sans-serif;
+    font-size   : 90 %;
+    font-weight : bold;
+    display     : block;
+    padding-top : 15 px;
+}
+</style>
+
+<div id="uploadErrors"></div>
+<img id="loading" src="/i/loading.gif" style="display:none;">
+<div id="responseUploadMessage"></div>
+<span class="label" style="display:[%display%]" id="div_label_[% name %]">
+    <label[% IF id %] for="[% id %]"[% END %]>[% label %]</label>
+</span>
+[%- IF hint -%]<br/><div class="hint">[% hint %]</div>[%- END -%]
+<div id="uploadHandler">
+    <input id="upload" type="file" size="25" name="upload" class="input">
+    <button class="button" id="buttonUpload" onclick="$().attach().addAttach();return false;">Загрузить</button>
+    <div id="ready"></div>
+</div>

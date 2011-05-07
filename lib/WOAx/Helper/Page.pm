@@ -1,5 +1,6 @@
 package WOAx::Helper::Page;
 use strict;
+use File::Copy qw/copy/;
 use base 'WOAx::Helper';
 use Data::Dumper;
 
@@ -28,7 +29,8 @@ sub run {
     $path_to_tpl .= '.tt';
 
     $self->mk_dirs( $pwd . '/templates/' . $path_to_tpl );
-
+    $self->mk_dirs($pwd . '/templates/lib/fake');
+    
     my $vars = {
         page    => $page,
         tt_name => $path_to_tpl
@@ -39,6 +41,8 @@ sub run {
 
     $out = undef;
     $tpl->process( 'page_tpl.tt', $vars, \$out );
+    $out=~s/\[\-/\[%/g;
+    $out=~s/\-\]/%\]/g;               
     $self->mk_file( $pwd . '/templates/' . $path_to_tpl, $out,
         'Page template' );
     $self->set_tpl_name( $pwd . '/templates/' . $path_to_tpl );
@@ -49,7 +53,28 @@ sub run {
     $tpl->process( 'page_t.tt', { page => $page }, \$out );
     $self->mk_file( $test_name, $out, 'Page test' );
     $self->set_test_name($test_name);
-
+    
+    unless ( -f $self->get_config->{template_root} . '/css/style.css' ) {
+        copy
+            $self->get_config->{template_root} . '/css/style.css',
+            $pwd . '/'
+            . $self->get_config->{app}->{public}
+            . '/css/style.css';
+    }
+    
+    opendir D,$self->get_config->{template_root}.'/lib';
+    while (my $f = readdir D ) {
+        if(-d $self->get_config->{template_root}.'/lib/'.$f) {
+            next;
+        }
+        else {
+            unless( -f $pwd . '/templates/lib/'.$f ) {
+                copy $self->get_config->{template_root}.'/lib/'.$f,$pwd . '/templates/lib/'.$f;
+            }
+        }
+    }
+    closedir D;
+    
     return;
 }
 

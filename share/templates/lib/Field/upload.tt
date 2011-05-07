@@ -1,0 +1,71 @@
+<!-- B.upload -->
+<style>
+.error {
+	background-color: #ffa500;
+	padding: 5px 5px 5px 5px;
+}
+
+.hint {
+	font-style: italic;
+	font-family: arial,sans-serif;
+	font-size: 85%;
+}
+.fileName {
+	color: #2f4f4f;
+	font-weight: bold;
+}
+
+#uploadLabel {
+	font-family: arial,sans-serif;
+	font-size: 90%;
+	font-weight: bold;
+	display: block;
+	padding-top: 15px;
+}
+
+</style>
+<script language="JavaScript">
+	function deleteFile ( fileID ) {
+		if ( !fileID ) {
+			alert("Give me file_id please");
+			return false;
+		} 
+		var formObj = document.forms.[% uploadVars.form_name %];
+		
+		for(var i=0;i<formObj.elements.length;i++) {
+			
+		}
+
+		formObj.elements['thread_answer'].value = formObj.elements['thread_answer'].value;
+		formObj.elements['file'].value = "delete";
+		formObj.elements['file_id'].value = fileID;
+		formObj.submit();	
+	}
+</script>
+
+<div id="uploadLabel">Прикрепить файлы</div>
+<span class="hint">Вы можете загружать только файлы с расширением *.gif, *.jpg, *.pdf, *.txt, *.zip, *.doc, *.docx, *.xls, *.xlsx, *.xml</span>
+[% IF uploadVars.error %]
+	<div class="error">[% uploadVars.error %]</div>
+[% END %]
+<p>
+	<input type="file" name="[% uploadVars.fieldName %]" style="height: 20px">
+	<input type="hidden" name="file">
+	<input type="hidden" name="file_id">
+	<input type="submit" style="height: 20px" name="[% uploadVars.buttonName%]" value="Прикрепить">
+</p>
+
+[% IF uploadVars.uploaded %]
+	[% FOREACH item IN uploadVars.uploaded %] 
+		<p>
+			<span class="fileName">[% item.file_name %]</span>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a href="[% URI.uri_leave("") %]" onclick="deleteFile([% item.file_id %]);return false">Удалить</a>
+			<br>
+		</p>
+		<input type="hidden" name="fileid_[% item.file_id %]" value="[% item.file_id %]">
+		<input type="hidden" name="filename_[% item.file_id %]" value="[% item.file_name %]">
+	[% END %]
+[% END %]
+
+<!-- E.upload -->
