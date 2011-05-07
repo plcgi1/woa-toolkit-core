@@ -18,7 +18,7 @@ sub param {
     
     my %args;
     
-    if($self->method =~/get/i ){    
+    if($self->method =~/get|delete/i ){    
         my @q = split '\?',$self->{_uri}->as_string;
         if($q[1]) {
             my @common = split '&',$q[1];
@@ -26,11 +26,11 @@ sub param {
             foreach ( @common ) {
                 my ($key,$value) = split '=',$_;
                 $key=~s/^\?//;
-                $args{$key} = $value;		
+                $args{$key} = uri_unescape($value);		
             }
         }
     }
-    elsif ( $self->method =~/put|post|delete/i ){
+    elsif ( $self->method =~/put|post/i ){
         my @q = split '&',$self->content;
         foreach( @q ){
             my($key,$val)=split '=',$_;

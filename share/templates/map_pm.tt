@@ -21,6 +21,7 @@ my $map = [
             skip_from_uri => 1,
             param         => [
                 # some patterns to define field names and validation rules
+                # all rule names - in WOA::Validator::Rules::Base
                 #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
                 #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
                 #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
@@ -39,6 +40,7 @@ my $map = [
             skip_from_uri => 1,
             param         => [
                 # some patterns to define field names and validation rules
+                # all rule names - in WOA::Validator::Rules::Base
                 #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
                 #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
                 #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
@@ -57,6 +59,7 @@ my $map = [
             skip_from_uri => 1,
             param         => [
                 # some patterns to define field names and validation rules
+                # all rule names - in WOA::Validator::Rules::Base
                 #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
                 #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
                 #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
@@ -74,6 +77,7 @@ my $map = [
             skip_from_uri => 1,
             param         => [
                 # some patterns to define field names and validation rules
+                # all rule names - in WOA::Validator::Rules::Base
                 #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
             ]
         },
