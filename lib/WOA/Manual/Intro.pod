@@ -1382,7 +1382,7 @@ FAQ:
 
 =head1 AUTHORS
 
-Catalyst Contributors, see Catalyst.pm
+Nosoff Alex, C<plcgi1@gmail.com>
 
 =head1 COPYRIGHT
 

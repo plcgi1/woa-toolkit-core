@@ -528,12 +528,11 @@ Go to L<http://localhost:3000/site/test> in your browser.
 
 =head1 AUTHORS
 
-Gerda Shank, C<gerda.shank@gmail.com>
-Kennedy Clark, C<hkclark@gmail.com>
+Nosoff Alex, C<plcgi1@gmail.com>
 
 Please report any errors, issues or suggestions to the author.  The
 most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
 
-Copyright 2006-2010, Kennedy Clark, under Creative Commons License
+Copyright 2006-2010, Nosoff Alex, under Creative Commons License
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).

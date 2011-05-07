@@ -150,7 +150,7 @@ thought out and designed extension.
 
 =head1 AUTHORS
 
-plcgi E<lt>plcgi1 at gmail dot com<gt>
+Nosoff Alex, C<plcgi1@gmail.com>
 
 =head1 COPYRIGHT
 
