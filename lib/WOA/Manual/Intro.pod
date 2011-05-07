@@ -6,24 +6,26 @@ WOA::Manual::Intro - Introduction to Catalyst
 
 This is a brief introduction to WOA. It explains the most important
 features of how WOA works and shows how to get a simple application
-up and running quickly. For an introduction (without code) to WOA
-itself, and why you should be using it, see L<WOA::Manual::About>.
+up and running quickly.
 For a systematic step-by-step introduction to writing an application
-with Catalyst, see L<WOA::Manual::Tutorial>.
+with WOA, see L<WOA::Manual::Tutorial>.
 
 =head2 What is WOA?
 
-WOA - web oriented architecture -  is an web application toolkit, extremely flexible
-yet extremely simple. Good organisation of code structure - is a easy support and  
+WOA - web oriented architecture -  is an application toolkit for restable web,
+extremely flexible yet extremely simple.
+Good organisation of modules structure - is an easy support and development  
+You can use WOA with any frameworks,like L<Catalyst>,L<Plack>,L<Mojo>
+At this moment exists automated creating application with L<Plack>
+Automated creation for WOA services with other frameworks(L<Catalyst>,L<Plack>,L<Mojo>) - TODO
 
 =head3 MVC
 
-Catalyst follows the Model-View-Controller (MVC) design pattern,
+WOA can be used with the Model-View-Controller (MVC) design pattern,
 allowing you to easily separate concerns, like content, presentation,
 and flow control, into separate modules. This separation allows you to
 modify code that handles one concern without affecting code that handles
-the others. Catalyst promotes the re-use of existing Perl modules that
-already handle common web application concerns well.
+the others.
 
 Here's how the Model, View, and Controller map to those concerns, with
 examples of well-known Perl modules you may want to use for each.
@@ -38,12 +40,11 @@ L<Xapian>, L<Net::LDAP>...
 =item * B<View>
 
 Present content to the user. L<Template Toolkit|Template>,
-L<Mason|HTML::Mason>, L<HTML::Template>...
 
 =item * B<Controller>
 
 Control the whole request phase, check parameters, dispatch actions, flow
-control. Catalyst itself!
+control.
 
 =back
 
@@ -55,14 +56,14 @@ is becoming a popular design paradigm for the world wide web.
 
 =head3 Flexibility
 
-Catalyst is much more flexible than many other frameworks. Rest assured
-you can use your favorite Perl modules with Catalyst.
+WOA is much more flexible than many other frameworks. Rest assured
+you can use your favorite Perl modules with WOA.
 
 =over 4
 
 =item * B<Multiple Models, Views, and Controllers>
 
-To build a Catalyst application, you handle each type of concern inside
+To build a web application with WOA, you handle each type of concern inside
 special modules called L</Components>. Often this code will be very
 simple, just calling out to Perl modules like those listed above under
 L</MVC>. Catalyst handles these components in a very flexible way. Use
@@ -163,8 +164,16 @@ running, using the helper scripts described above.
 
 Installation of Catalyst should be straightforward:
 
-    # perl -MCPAN -e 'install Catalyst::Runtime'
-    # perl -MCPAN -e 'install Catalyst::Devel'
+    # perl -MCPAN -e 'install WOA'
+    # perl -MCPAN -e 'install WOAx'
+    # perl -MCPAN -e 'install Plack::Middleware::WOAx'
+
+or download it from L<github.com> and standard perl module install procedure
+    # unpack tar.gz
+    # cd tar.gz
+    # perl Makefile.PL
+    # make
+    # make test & sudo make install
 
 =head3 Setup
 
@@ -172,16 +181,6 @@ Installation of Catalyst should be straightforward:
     # output omitted
     $ cd MyApp
     $ script/myapp_create.pl controller Library::Login
-
-=head4 Frank Speiser's Amazon EC2 Catalyst SDK
-
-There are currently two flavors of publicly available Amazon Machine
-Images (AMI) that include all the elements you'd need to begin
-developing in a fully functional Catalyst environment within
-minutes. See
-L<Catalyst::Manual::Installation|Catalyst::Manual::Installation> for
-more details.
-
 
 =head3 Run
 
@@ -253,12 +252,6 @@ short alias for each one.
 =item * B<MyApp/M/>
 
 =item * B<MyApp/View/>
-
-=item * B<MyApp/V/>
-
-=item * B<MyApp/Controller/>
-
-=item * B<MyApp/C/>
 
 =back
 
