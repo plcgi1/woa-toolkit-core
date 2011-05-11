@@ -40,6 +40,9 @@ sub load {
     if ( ref $self->rules eq 'ARRAY' ) {
         foreach ( @{ $self->rules } ) {
             my $sp_class_name = $_->{sub}->( $self, $path );
+            if ( !$sp_class_name && $path && $_->{path} && $path eq $_->{path} ){
+                $sp_class_name = $_->{sub}->( $self, $path );
+            }
             $self->loaded_class($sp_class_name);
             if ($sp_class_name) {
 
