@@ -16,6 +16,13 @@ sub run {
       . ucfirst $app_namespace
       . '/REST/'
       . ucfirst $service_name;
+    if($service_name=~/\-/){
+        my @a = split '-',$service_name;
+        foreach (@a) {
+            $_=ucfirst $_;
+        }
+        $service_name = join '',@a;
+    }   
     $self->set_app_namespace($root);
 
     my $page_pm_name = $full_path . '/Map.pm';

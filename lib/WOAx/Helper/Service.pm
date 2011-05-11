@@ -12,6 +12,13 @@ sub run {
     my $tpl = $self->tpl();
 
     my $app_name      = ( split '/', $ENV{PWD} )[-1];
+    if($app_name=~/\-/){
+        my @a = split '-',$app_name;
+        foreach (@a) {
+            $_=ucfirst $_;
+        }
+        $app_name = join '',@a;
+    }
     my $service_ns    = ucfirst $app_name . '::REST::' . $namespace;
     my $map_class     = $service_ns . '::Map';
     my $backend_class = $service_ns . '::Backend';

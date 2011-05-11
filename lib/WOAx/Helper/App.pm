@@ -48,7 +48,15 @@ sub run {
     $tpl->process( 'app_main_module.tt', { app_name => ucfirst $app_name },
         \$out )
       || die $tpl->error;
-
+    
+    if($app_name=~/\-/){
+        my @a = split '-',$app_name;
+        foreach (@a) {
+            $_=ucfirst $_;
+        }
+        $app_name = join '',@a;
+    }
+        
     my $filename = $app_full_path . '/lib/' . ucfirst $app_name . '.pm';
     $self->mk_file( $filename, $out, 'Main app module' );
 
