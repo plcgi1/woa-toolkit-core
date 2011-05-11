@@ -4,7 +4,35 @@ use base 'Class::Accessor::Fast';
 use Class::Inspector;
 use Data::Dumper;
 
-__PACKAGE__->mk_accessors(qw/error loaded_class/);
+__PACKAGE__->mk_accessors(qw/error loaded_class rules/);
+
+my $DEFAULT_RULES = [
+    {
+        sub => sub {
+            my ( $self, $path ) = @_;
+            my $res;
+
+# rule: /woax/appname/rest/servicename -> WOAx::App::AppName::REST::ServiceName::SP
+            if ( $path =~ /\/woax\/(.*)\/rest\/(.*)(\/)*/g ) {
+                $res =
+                    'WOAx::App::'
+                  . ucfirst($1)
+                  . '::REST::'
+                  . ucfirst($2) . '::SP';
+            }
+
+            return $res;
+          }
+    }
+];
+
+sub new {
+    my($class,$param)=@_;
+    my $self = $class->SUPER::new($param);
+    bless $self,$class;
+    $self->rules($param->{rules} || $DEFAULT_RULES);
+    return $self;
+}
 
 sub load {
     my ( $self, $path ) = @_;
@@ -49,28 +77,6 @@ sub process_error {
         $self->error("[CANT LOAD MODULE] $module - \"$error\".");
     }
     return;
-}
-
-sub rules {
-    return [
-        {
-            sub => sub {
-                my ( $self, $path ) = @_;
-                my $res;
-
-# rule: /woax/appname/rest/servicename -> WOAx::App::AppName::REST::ServiceName::SP
-                if ( $path =~ /\/woax\/(.*)\/rest\/(.*)(\/)*/g ) {
-                    $res =
-                        'WOAx::App::'
-                      . ucfirst($1)
-                      . '::REST::'
-                      . ucfirst($2) . '::SP';
-                }
-
-                return $res;
-              }
-        }
-    ];
 }
 
 1;
