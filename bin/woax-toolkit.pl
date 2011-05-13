@@ -14,7 +14,6 @@ GetOptions(
     'help|?'          => \$help,
     'action|a=s'      => \$action,
     'ns|n=s'          => \$namespace,
-    'servicename|s=s' => \$service_name
 );
 
 pod2usage(1) if $help;
@@ -44,17 +43,16 @@ __END__
 
 =head1 NAME
 
-wapp-create.pl  - create woax application,pages and services
+woax-toolkit.pl  - create woax application,pages and services
 
 =head1 SYNOPSIS
 
-wapp-create.pl [options]
+woax-toolkit.pl [options]
  
  Options:
    -? -help         help for usage
    -a -action       page|service|map|app
    -n -ns           application namespace
-   -s -servicename  service name in application
    
 =head1 DESCRIPTION
 
@@ -62,15 +60,15 @@ Code generator for WOAx applications
 
 =head1 USAGE
 
-wapp-create.pl -a app -n woaxtest - create skeleton for application in dir config/woaxtest
+woax-toolkit.pl -a app -n woaxtest - create skeleton for application in dir config/woaxtest
 
 cd blabla/woaxtest
 
-blabla/woaxtest# wapp-create.pl -a map -n ServiceName - create map module blabla/woaxtest/lib/Woaxtest/REST/ServiceName/Map.pm
+blabla/woaxtest# woax-toolkit.pl -a map -n ServiceName - create map module blabla/woaxtest/lib/Woaxtest/REST/ServiceName/Map.pm
 
-blabla/woaxtest# wapp-create.pl -a page -n Page - create page module blabla/woaxtest/lib/Woaxtest/Page.pm
+blabla/woaxtest# woax-toolkit.pl -a page -n Page - create page module blabla/woaxtest/lib/Woaxtest/Page.pm
 
-blabla/woaxtest# wapp-create.pl -a service -n ServiceName - create modules for Map.pm in
+blabla/woaxtest# woax-toolkit.pl -a service -n ServiceName - create modules for Map.pm in
 
         blabla/woaxtest/lib/Woaxtest/REST/ServiceName
         blabla/woaxtest/lib/Woaxtest/REST/ServiceName/Backend.pm

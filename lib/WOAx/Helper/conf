@@ -1,4 +1,4 @@
-root = /home/harper/www/woa-toolkit
+root = /home/harper/www
 
 <app>
     bin = bin

@@ -11,14 +11,8 @@ sub run {
 
     my $tpl = $self->tpl();
 
-    my $app_name      = ( split '/', $ENV{PWD} )[-1];
-    if($app_name=~/\-/){
-        my @a = split '-',$app_name;
-        foreach (@a) {
-            $_=ucfirst $_;
-        }
-        $app_name = join '',@a;
-    }
+    my $app_name      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
+    
     my $service_ns    = ucfirst $app_name . '::REST::' . $namespace;
     my $map_class     = $service_ns . '::Map';
     my $backend_class = $service_ns . '::Backend';
@@ -40,7 +34,7 @@ sub run {
     $pm_name =~ s/::/\//g;
     $pm_name = $ENV{PWD} . '/lib/' . $pm_name . '.pm';
 
-    $tpl->process( 'sp_pm.tt', $vars, \$out );
+    $tpl->process( 'sp_pm.tpl', $vars, \$out );
     $self->mk_file( $pm_name, $out, 'SP file' );
 
     # create Backend module - by map
@@ -51,16 +45,43 @@ sub run {
         push @{ $vars->{methods} }, $_->{func_name};
     }
     $out = undef;
-    $tpl->process( 'backend_pm.tt', $vars, \$out );
+    $tpl->process( 'backend_pm.tpl', $vars, \$out );
     $self->mk_file( $pm_name, $out, 'Backend file' );
 
     # create test file
     $pm_name = $ENV{PWD} . '/t/' . $sp_class . '.t';
     $out     = undef;
-    $tpl->process( 'sp_t.tt', $vars, \$out );
+    $tpl->process( 'sp_t.tpl', $vars, \$out );
     $self->mk_file( $pm_name, $out, 'Test file' );
+    
+    # recreate urlmapping config
+    $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
+    $vars = { app_name => $app_name, rules => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST') };
+    
+    $out     = undef;
+    $tpl->process( 'url_mapper.tpl', $vars, \$out );
+    $self->mk_file( $pm_name, $out, 'RouteMap module' );
 
     return;
+}
+
+sub get_rules {
+    my($self,$app_root,$app_name) = @_;
+    my $rules = [];
+    my %hash;
+    opendir D,$app_root.'/REST';
+    while ( my $dir = readdir D ){
+        next if $dir=~/(\.|\.\.)/;
+        my $map_class = $app_name.'::'.$dir.'::Map';
+        WOA::Loader::import_module($map_class);
+        my $map = $map_class->get_map();
+        foreach my $item ( @$map ) {
+            #push @$rules,{ path => $item->{regexp}, class => $app_name.'::'.$dir.'::SP' };
+            $hash{$item->{regexp}} = $app_name.'::'.$dir.'::SP';
+        }
+    }
+    closedir D;
+    return \%hash;
 }
 
 1;
@@ -83,7 +104,7 @@ TODO
 
 =head1 SEE ALSO
 
-TODO
+woax-toolkit.pl -h
 
 =head1 AUTHOR
 

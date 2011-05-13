@@ -11,7 +11,8 @@ sub run {
     my $pwd = $ENV{PWD};
     my $tpl = $self->tpl();
 
-    my $app_namespace = ( split '/', $pwd )[-1];
+    my $app_namespace      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
+    
     my $name_as_path = $name;
     $name_as_path =~ s/::/\//g;
     my $page = ucfirst $app_namespace . '::Page::' . $name;
@@ -26,7 +27,7 @@ sub run {
     $self->mk_dirs($full_path);
     my $path_to_tpl = $page;
     $path_to_tpl =~ s/::/\//g;
-    $path_to_tpl .= '.tt';
+    $path_to_tpl .= '.tpl';
 
     $self->mk_dirs( $pwd . '/templates/' . $path_to_tpl );
     $self->mk_dirs($pwd . '/templates/lib/fake');
@@ -36,11 +37,11 @@ sub run {
         tt_name => $path_to_tpl
     };
     my $out;
-    $tpl->process( 'page_pm.tt', $vars, \$out );
+    $tpl->process( 'page_pm.tpl', $vars, \$out );
     $self->mk_file( $full_path, $out, 'Page controller' );
 
     $out = undef;
-    $tpl->process( 'page_tpl.tt', $vars, \$out );
+    $tpl->process( 'page_tpl.tpl', $vars, \$out );
     $out=~s/\[\-/\[%/g;
     $out=~s/\-\]/%\]/g;               
     $self->mk_file( $pwd . '/templates/' . $path_to_tpl, $out,
@@ -99,7 +100,7 @@ TODO
 
 =head1 SEE ALSO
 
-TODO
+woax-toolkit.pl -h
 
 =head1 AUTHOR
 

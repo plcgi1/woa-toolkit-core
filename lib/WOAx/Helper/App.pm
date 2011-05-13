@@ -13,20 +13,13 @@ sub run {
     my $tpl = $self->tpl();
 
     my @a = split '::', $namespace;
-    my $app_name = lc $a[0];
+    my $app_name = $self->normalize_app_name(lc $a[0]);
 
     my $path = join '/', @a;
     my $app_full_path = $self->get_config->{root} . '/' . $app_name;
     $self->mk_dir($app_full_path);
     $self->set_app_full_path($app_full_path);
 
-    if ( $app_name =~ /(\-)/ ) {
-        my @arr = split $1, $app_name;
-        foreach my $i (@arr) {
-            $i = ucfirst $i;
-        }
-        $app_name = lcfirst( join '', @arr );
-    }
     foreach ( keys %{ $self->get_config->{app} } ) {
         my $path = $app_full_path . '/' . $self->get_config->{app}->{$_};
         $self->mk_dir($path);
@@ -45,7 +38,7 @@ sub run {
         $self->mk_dir($path);
     }
     my $out;
-    $tpl->process( 'app_main_module.tt', { app_name => ucfirst $app_name },
+    $tpl->process( 'app_main_module.tpl', { app_name => ucfirst $app_name },
         \$out )
       || die $tpl->error;
     
@@ -74,7 +67,7 @@ sub run {
     $self->set_app_sh($filename);
 
     $out = undef;
-    $tpl->process( 'app_conf.tt',
+    $tpl->process( 'app_conf.tpl',
         { app_name => ucfirst $app_name, app_root => $app_full_path }, \$out )
       || die $tpl->error;
 
@@ -84,10 +77,10 @@ sub run {
       . $app_name . '.conf';
     $self->mk_file( $filename, $out, 'App config file' );
     $self->set_app_conf($filename);
-
+    
     $out = undef;
-    $tpl->process( 'psgi.tt',
-        { app_name => $app_name, app_root => $app_full_path }, \$out )
+    $tpl->process( 'psgi.tpl',
+        { app_name => $app_name, app_root => $app_full_path, app_route_class=>$self->get_app_route_class($app_name) }, \$out )
       || die $tpl->error;
 
     $filename =
@@ -116,7 +109,7 @@ create skeleton for woax-psgi application
 
 =head1 SEE ALSO
 
-wapp-create.pl -h
+woax-toolkit.pl -h
 
 =head1 AUTHOR
 

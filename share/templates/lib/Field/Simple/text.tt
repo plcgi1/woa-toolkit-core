@@ -1,1 +1,0 @@
-<input[% IF id %] id="[% id %]"[% END %] name="[% name %]" type="text" value="[% value %]" [%- IF onchange -%] onchange="[% onchange %]"[%- END -%][%IF disabled%] disabled[%END%]/>

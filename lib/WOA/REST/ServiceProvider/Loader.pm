@@ -8,7 +8,7 @@ __PACKAGE__->mk_accessors(qw/error loaded_class rules/);
 
 my $DEFAULT_RULES = [
     {
-        sub => sub {
+        class => sub {
             my ( $self, $path ) = @_;
             my $res;
 
@@ -22,7 +22,8 @@ my $DEFAULT_RULES = [
             }
 
             return $res;
-          }
+          },
+        path => qr{\/woax\/(.*)\/rest\/(.*)(\/)*}
     }
 ];
 
@@ -39,13 +40,16 @@ sub load {
 
     if ( ref $self->rules eq 'ARRAY' ) {
         foreach ( @{ $self->rules } ) {
-            my $sp_class_name = $_->{sub}->( $self, $path );
-            if ( !$sp_class_name && $path && $_->{path} && $path eq $_->{path} ){
-                $sp_class_name = $_->{sub}->( $self, $path );
+            my $sp_class_name;
+            if ( ref $_->{class} eq 'CODE' ) {
+                $sp_class_name = $_->{class}->( $self, $path );
             }
-            $self->loaded_class($sp_class_name);
-            if ($sp_class_name) {
-
+            else {
+                $sp_class_name = $_->{class};
+            }
+            my $re_from_path = $_->{path};
+            
+            if ($sp_class_name && $path && $_->{path} && ($path eq $_->{path} || $path=~/$re_from_path/)) {
                 # load class
                 if ( Class::Inspector->loaded($sp_class_name) ) {
                     $self->loaded_class($sp_class_name);

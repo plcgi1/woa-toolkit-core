@@ -96,7 +96,7 @@ sub run {
     $req->content('one=12b&two=3');
     $rest->request($req);
     $res = $rest->process;
-    $tb->like($rest->status, qr/400/,"POST: response ".$rest->status);
+    $tb->like($rest->status, qr/404/,"POST: response ".$rest->status);
     
     $req = WOA::REST::Generic::Request->new ( DELETE => '/delete') ;
     $req->content('what=12');
@@ -220,7 +220,7 @@ sub bad_data {
         $req = WOA::REST::Generic::Request->new ( $method => $_) ;
         $rest->request($req);
         my $res = $rest->process;
-        $self->like($rest->status, qr/400/,"$method: response status: 400");
+        $self->like($rest->status, qr/404/,"$method: response status: 404");
     }
     
     return;
@@ -233,7 +233,7 @@ sub bad_method {
         $req = WOA::REST::Generic::Request->new ( $_ => $uri ) ;
         $rest->request($req);
         my $res = $rest->process;
-        $self->like($rest->status, qr/400/,"Request method: $_: response status: ".$rest->status);
+        $self->like($rest->status, qr/404/,"Request method: $_: response status: ".$rest->status);
     }
 }
 

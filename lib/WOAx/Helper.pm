@@ -2,11 +2,12 @@ package WOAx::Helper;
 use strict;
 use Template;
 use WOA::Loader qw/create_object/;
+use File::Basename;
 use base 'Class::Accessor::Fast';
 
 __PACKAGE__->follow_best_practice();
 __PACKAGE__->mk_accessors(
-    qw/app_full_path app_lib app_namespace config file_name/);
+    qw/app_full_path app_lib app_namespace config file_name app_route_class/);
 
 sub process {
     my ( $self, $param ) = @_;
@@ -27,6 +28,11 @@ sub tpl {
         }
     );
     return $tpl;
+}
+
+sub get_app_route_class {
+    my ( $self, $app_name ) = @_;
+    return ucfirst $app_name.'::RouteMap';
 }
 
 sub mk_dirs {
@@ -52,7 +58,7 @@ sub mk_dirs {
 
 sub get_template_root {
     my ( $self, $conf ) = @_;
-    $conf =~ s/conf/templates/;
+    $conf =~ s/conf/Templates/;
     return $conf;
 }
 
@@ -60,17 +66,17 @@ sub get_config_file {
     my ($self) = @_;
 
     my $conf_file;
-    if ( -f $ENV{PWD} . '/share/conf' ) {
-        $conf_file = $ENV{PWD} . '/share/conf';
+    if ( -f dirname(__FILE__) . '/Helper/conf' ) {
+        $conf_file = dirname(__FILE__) . '/Helper/conf';
     }
-    elsif ( -f $ENV{HOME} . '/.wapp/conf' ) {
-        $conf_file = $ENV{HOME} . '/.wapp/conf';
+    elsif ( -f $ENV{HOME} . '/.woax-toolkit/conf' ) {
+        $conf_file = $ENV{HOME} . '/.woax-toolkit/conf';
     }
-    elsif ( -f '/usr/share/wapp/conf' ) {
-        $conf_file = '/usr/share/wapp/conf';
+    elsif ( -f '/usr/share/woax-toolkit/conf' ) {
+        $conf_file = '/usr/share/woax-toolkit/conf';
     }
-    elsif ( -f '/usr/local/share/wapp/conf' ) {
-        $conf_file = '/usr/local/share/wapp/conf';
+    elsif ( -f '/usr/local/share/woax-toolkit/conf' ) {
+        $conf_file = '/usr/local/woax-toolkit/wapp/conf';
     }
     else {
         die "Cant find config file";
@@ -103,6 +109,21 @@ sub mk_file {
     open F, ">" . $filename;
     print F $content;
     close F;
+}
+
+sub normalize_app_name {
+    my ( $self, $app_name ) = @_;
+    if ( $app_name =~ /(\-)/ ) {
+        my @arr = split $1, $app_name;
+        foreach my $i (@arr) {
+            $i = ucfirst $i;
+        }
+        $app_name = lcfirst( join '', @arr );
+    }
+    else {
+        $app_name = ucfirst $app_name;
+    }
+    return $app_name;
 }
 
 1;

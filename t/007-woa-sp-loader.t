@@ -14,6 +14,8 @@ $l->load('/woax/test/rest/simple');
 ok( $l->loaded_class,'Loaded: '.$l->loaded_class );
 ok( !$l->error,'Loaded: '.$l->loaded_class );
 
+$l->loaded_class(undef);
+
 $l->load('/woatest/rest/simple');
 
 ok( !$l->loaded_class,'Not loaded: '.$l->loaded_class );

@@ -3,10 +3,11 @@ use strict;
 use base 'WOA::REST::Interface::Engine';
 use WOA::Validator;
 use Data::Dumper;
+use Encode qw(from_to decode is_utf8);
 use URI::Escape qw/uri_unescape/;
 
 __PACKAGE__->mk_accessors(
-    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers/
+    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers formatter/
 );
 
 # from parent: accessors (qw/request map backend view content_type output status location error_message current_method/);
@@ -60,7 +61,7 @@ sub process {
     unless ($method) {
 
         #    set_error(http_status,"Method ~p not implemented")
-        return $self->set_error( 400, $error_message_map->{400}, $method_data );
+        return $self->set_error( 404, $error_message_map->{404}, $method_data );
     }
 
     my $res;
@@ -220,16 +221,79 @@ sub get_method {
     return $res;
 }
 
+#sub set_error {
+#    my ( $self, $http_status, $log_msg, $method_data, $is_valid ) = @_;
+#
+#    $self->status($http_status);
+#    $self->output("Error occuried.Mail to admin");
+#    my $content_type = $method_data->{out}->{mime_type} || "text/plain";
+#    $self->content_type($content_type);
+#
+#    $self->error_message($log_msg);
+#
+#    return;
+#}
+
 sub set_error {
-    my ( $self, $http_status, $log_msg, $method_data, $is_valid ) = @_;
-
+    my($self,$http_status,$msg,$message_data,$is_valid)=@_;
+    
     $self->status($http_status);
-    $self->output("Error occuried.Mail to admin");
-    my $content_type = $method_data->{out}->{mime_type} || "text/plain";
-    $self->content_type($content_type);
-
-    $self->error_message($log_msg);
-
+    my $error_obj;
+    
+    my $session = $self->backend->{'session'};
+    my $user = $session->{'user'};
+    if ( ref $message_data eq 'HASH' ) {
+        if( $message_data->{out}->{mime_type} eq 'text/html' && !$message_data->{public} && !$user ){
+            $self->status(303);
+            $self->location($self->backend->{config}->{default}->{location});
+            return;
+        }
+        if( $message_data->{out}->{mime_type} eq 'text/html' && !$message_data->{public} && $user ){
+            $self->status(303);
+            $self->location($self->backend->{config}->{error}->{$http_status});
+            return;
+        }
+    }
+    unless ( $message_data ) {
+        my $out = $self->view->as_json({Mesasge=>$msg,Class=>'error'});
+        $self->output($out);
+    }
+    if ( ref $message_data eq 'WOA::Validator::ErrorCode' ) {
+        $error_obj = $message_data;
+    }
+    elsif ( ref $is_valid eq 'WOA::Validator::ErrorCode' ) {
+        $error_obj = $is_valid;
+    }
+    elsif ( ref $message_data eq 'HASH' ) {
+        $self->error_message(Dumper $message_data);
+        my $out = $self->view->as_json({
+            Message => $msg,
+            Class   => 'error'
+        });
+        $self->output($out);
+    }
+    
+    if ( $error_obj && ref $error_obj eq 'WOA::Validator::ErrorCode' ){
+        my $errFields = $error_obj->errorFields;
+        my @newFields;
+        if ( ref $errFields eq 'ARRAY' ){
+            foreach ( @$errFields ){
+                if ( ref $_ eq 'HASH' && $_->{name} ){
+                    $_->{error} = $self->encode_utf( $_->{error} );
+                    push @newFields,$_;
+                }
+            }
+        }
+        my $out = $self->view->as_json({
+            Message => $error_obj->errorMsg,
+            Fields  => \@newFields
+        },1);
+        $self->output($out);
+        $self->error_message(Dumper $error_obj);
+    }
+        
+    $self->content_type("text/javascript");
+    
     return;
 }
 
@@ -356,6 +420,21 @@ sub get_request_uri {
         }
     }
     return $ru;
+}
+
+sub encode_utf {
+	my ( $self, $string ) = @_;
+
+	my $res;
+	if ( is_utf8($string) ) {
+		$res = $string;
+	}
+	else {
+		from_to( $string, 'utf8', 'utf8' );
+		$res = decode( 'utf8', $string );
+	}
+
+	return $res;
 }
 
 1;

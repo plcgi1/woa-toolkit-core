@@ -1,6 +1,6 @@
 package WOAx::App::Test::REST::Simple::ViewAsXML;
 use strict;
-use base 'Class::Accessor::Fast';
+use base 'WOA::REST::Generic::View';
 
 sub xml {
     my ( $self, $obj ) = @_;

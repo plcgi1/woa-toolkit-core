@@ -1,3 +1,0 @@
-[%- IF name -%]
-<form name="[% name %]" [% onsubmit %][% IF action %] action="[% action %]"[%END%][%IF enctype%] enctype="[% enctype %]"[%END%] method="[% method %]"[%IF class %] class="[% class %]"[%END%][%IF id%] id="[% id %]"[%END%]>
-[%- END -%]

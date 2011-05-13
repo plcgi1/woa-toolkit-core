@@ -9,7 +9,7 @@ sub run {
 
     my $tpl = $self->tpl();
 
-    my $app_namespace = ( split '/', $root )[-1];
+    my $app_namespace      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
 
     my $full_path =
         $root . '/lib/'
@@ -35,7 +35,7 @@ sub run {
           . '::Map', };
 
     my $out;
-    $tpl->process( 'map_pm.tt', $vars, \$out );
+    $tpl->process( 'map_pm.tpl', $vars, \$out );
     $self->mk_file( $page_pm_name, $out, 'Map file' );
 
     return;
@@ -56,7 +56,7 @@ __END__
 
 =head2 SEE ALSO
 
-TODO
+woax-toolkit.pl -h
 
 =head1 AUTHOR
 

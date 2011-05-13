@@ -10,7 +10,7 @@ sub bad_data {
         $req = WOA::REST::Generic::Request->new ( $method => $_) ;
         $rest->request($req);
         my $res = $rest->process;
-        $tb->like($rest->status, qr/400/,"$method: response status: 400");
+        $tb->like($rest->status, qr/404/,"$method: response status: 404");
     }
     
     return;
@@ -23,7 +23,7 @@ sub bad_method {
         $req = WOA::REST::Generic::Request->new ( $_ => $uri ) ;
         $rest->request($req);
         my $res = $rest->process;
-        $tb->like($rest->status, qr/400/,"Request method: $_: response status: ".$rest->status);
+        $tb->like($rest->status, qr/404/,"Request method: $_: response status: ".$rest->status);
     }
     
     return;
