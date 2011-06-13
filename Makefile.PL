@@ -19,6 +19,7 @@ requires 'Template'       => 2.22;
 requires 'Config::General';
 requires 'Config::Any';
 
+requires 'File::Find'; 
 requires 'Class::Accessor::Fast' => 0.31;
 requires 'Class::Singleton';
 requires 'Class::Inspector' => 1.25;

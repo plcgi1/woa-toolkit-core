@@ -17,7 +17,7 @@ extremely flexible yet extremely simple.
 Good organisation of modules structure - is an easy support and development  
 You can use WOA with any frameworks,like L<Catalyst>,L<Plack>,L<Mojo>
 At this moment exists automated creating application with L<Plack>
-Automated creation for WOA services with other frameworks(L<Catalyst>,L<Plack>,L<Mojo>) - TODO
+Automated creation for WOA services with other frameworks(L<Catalyst>,L<Mojo>) - TODO
 
 =head3 MVC
 
@@ -60,8 +60,6 @@ WOA is much more flexible than many other frameworks. Rest assured
 you can use your favorite Perl modules with WOA.
 
 =back
-
-For more testing ideas, see L<Catalyst::Manual::Tutorial::Testing>.
 
 Have fun!
 

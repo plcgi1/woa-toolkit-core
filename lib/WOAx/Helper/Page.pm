@@ -1,6 +1,7 @@
 package WOAx::Helper::Page;
 use strict;
 use File::Copy qw/copy/;
+use File::Find;
 use base 'WOAx::Helper';
 use Data::Dumper;
 
@@ -78,6 +79,34 @@ sub run {
     
     return;
 }
+
+sub get_rules {
+    my($self,$app_root,$app_name) = @_;
+    
+    my $hash = $self->SUPER::get_rules($app_root,$app_name);
+    
+    return $hash;
+}
+
+sub _wanted {
+    if ( -d $File::Find::name ) {
+        return;
+    }
+    #opendir D,$app_root.'/Page';
+    #while ( my $dir = readdir D ){
+    #    next if $dir=~/(\.|\.\.)/;
+    #    my $map_class = $app_name.'::'.$dir;
+    #    WOA::Loader::import_module($map_class);
+    #    my $map = $map_class->get_map();
+    #    foreach my $item ( @$map ) {
+    #        $hash{$item->{regexp}} = $app_name.'::'.$dir;
+    #    }
+    #}
+    print $File::Find::name."\n"  ;
+
+    return;
+}
+
 
 1;
 

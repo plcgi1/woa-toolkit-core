@@ -6,8 +6,8 @@ use strict;
 # !!! DONT EDIT THIS FILE !!! #
 
 my $rules = [
-    [%FOREACH key IN rules.keys%]
-    { path => '[%key%]', class => '[%rules.$key%]' },
+    [%FOREACH item IN rules%]
+    { path => '[%item.path%]', class => '[%item.class%]', app => '[%item.app%]' },
     [%END%]
 ];
 sub get_rules { return $rules; }

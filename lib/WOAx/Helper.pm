@@ -3,6 +3,7 @@ use strict;
 use Template;
 use WOA::Loader qw/create_object/;
 use File::Basename;
+
 use base 'Class::Accessor::Fast';
 
 __PACKAGE__->follow_best_practice();
@@ -66,10 +67,7 @@ sub get_config_file {
     my ($self) = @_;
 
     my $conf_file;
-    if ( -f dirname(__FILE__) . '/Helper/conf' ) {
-        $conf_file = dirname(__FILE__) . '/Helper/conf';
-    }
-    elsif ( -f $ENV{HOME} . '/.woax-toolkit/conf' ) {
+    if ( -f $ENV{HOME} . '/.woax-toolkit/conf' ) {
         $conf_file = $ENV{HOME} . '/.woax-toolkit/conf';
     }
     elsif ( -f '/usr/share/woax-toolkit/conf' ) {
@@ -77,6 +75,9 @@ sub get_config_file {
     }
     elsif ( -f '/usr/local/share/woax-toolkit/conf' ) {
         $conf_file = '/usr/local/woax-toolkit/wapp/conf';
+    }
+    elsif ( -f dirname(__FILE__) . '/Helper/conf' ) {
+        $conf_file = dirname(__FILE__) . '/Helper/conf';
     }
     else {
         die "Cant find config file";
@@ -124,6 +125,25 @@ sub normalize_app_name {
         $app_name = ucfirst $app_name;
     }
     return $app_name;
+}
+
+sub get_rules {
+    my($self,$app_root,$service_prefix,$app_name) = @_;
+    my $rules = [];
+    my @hash;
+    opendir D,$app_root.'/REST';
+    while ( my $dir = readdir D ){
+        next if $dir=~/(\.|\.\.)/;
+        my $map_class = $service_prefix.'::'.$dir.'::Map';
+        WOA::Loader::import_module($map_class);
+        my $map = $map_class->get_map();
+        foreach my $item ( @$map ) {
+            push @hash, { path => $item->{regexp},class => $service_prefix.'::'.$dir.'::SP', app => $app_name };
+        }
+    }
+    closedir D;
+
+    return \@hash;
 }
 
 1;

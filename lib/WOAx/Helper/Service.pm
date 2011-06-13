@@ -56,7 +56,10 @@ sub run {
     
     # recreate urlmapping config
     $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
-    $vars = { app_name => $app_name, rules => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST') };
+    $vars = {
+        app_name    => $app_name,
+        rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
+    };
     
     $out     = undef;
     $tpl->process( 'url_mapper.tpl', $vars, \$out );
@@ -65,24 +68,24 @@ sub run {
     return;
 }
 
-sub get_rules {
-    my($self,$app_root,$app_name) = @_;
-    my $rules = [];
-    my %hash;
-    opendir D,$app_root.'/REST';
-    while ( my $dir = readdir D ){
-        next if $dir=~/(\.|\.\.)/;
-        my $map_class = $app_name.'::'.$dir.'::Map';
-        WOA::Loader::import_module($map_class);
-        my $map = $map_class->get_map();
-        foreach my $item ( @$map ) {
-            #push @$rules,{ path => $item->{regexp}, class => $app_name.'::'.$dir.'::SP' };
-            $hash{$item->{regexp}} = $app_name.'::'.$dir.'::SP';
-        }
-    }
-    closedir D;
-    return \%hash;
-}
+#sub get_rules {
+#    my($self,$app_root,$app_name) = @_;
+#    my $rules = [];
+#    my %hash;
+#    opendir D,$app_root.'/REST';
+#    while ( my $dir = readdir D ){
+#        next if $dir=~/(\.|\.\.)/;
+#        my $map_class = $app_name.'::'.$dir.'::Map';
+#        WOA::Loader::import_module($map_class);
+#        my $map = $map_class->get_map();
+#        foreach my $item ( @$map ) {
+#            #push @$rules,{ path => $item->{regexp}, class => $app_name.'::'.$dir.'::SP' };
+#            $hash{$item->{regexp}} = $app_name.'::'.$dir.'::SP';
+#        }
+#    }
+#    closedir D;
+#    return \%hash;
+#}
 
 1;
 
