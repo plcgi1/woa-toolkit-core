@@ -67,14 +67,14 @@ sub get_config_file {
     my ($self) = @_;
 
     my $conf_file;
-    if ( -f $ENV{HOME} . '/.woax-toolkit/conf' ) {
-        $conf_file = $ENV{HOME} . '/.woax-toolkit/conf';
+    if ( -f $ENV{HOME} . '/.woa-toolkit/conf' ) {
+        $conf_file = $ENV{HOME} . '/.woa-toolkit/conf';
     }
-    elsif ( -f '/usr/share/woax-toolkit/conf' ) {
-        $conf_file = '/usr/share/woax-toolkit/conf';
+    elsif ( -f '/usr/share/woa-toolkit/conf' ) {
+        $conf_file = '/usr/share/woa-toolkit/conf';
     }
-    elsif ( -f '/usr/local/share/woax-toolkit/conf' ) {
-        $conf_file = '/usr/local/woax-toolkit/wapp/conf';
+    elsif ( -f '/usr/local/share/woa-toolkit/conf' ) {
+        $conf_file = '/usr/local/woa-toolkit/wapp/conf';
     }
     elsif ( -f dirname(__FILE__) . '/Helper/conf' ) {
         $conf_file = dirname(__FILE__) . '/Helper/conf';
