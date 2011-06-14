@@ -1,8 +1,9 @@
 package WOA::REST::ServiceProvider::Loader;
 use strict;
-use base 'Class::Accessor::Fast';
+#use WOA::REST::ServiceProvider::AppidRecognizer;
 use Class::Inspector;
 use Data::Dumper;
+use base 'Class::Accessor::Fast';
 
 __PACKAGE__->mk_accessors(qw/error loaded_class rules/);
 
@@ -36,13 +37,17 @@ sub new {
 }
 
 sub load {
-    my ( $self, $path ) = @_;
-
+    my ( $self, $path, $request ) = @_;
+    
+    ## recognize appid
+    #my $ar = WOA::REST::ServiceProvider::AppidRecognizer->new;
+    #my $appid = $self->rules->get_appid();
+    #
     if ( ref $self->rules eq 'ARRAY' ) {
         foreach ( @{ $self->rules } ) {
             my $sp_class_name;
             if ( ref $_->{class} eq 'CODE' ) {
-                $sp_class_name = $_->{class}->( $self, $path );
+                $sp_class_name = $_->{class}->( $self, $path, $request );
             }
             else {
                 $sp_class_name = $_->{class};
@@ -55,8 +60,7 @@ sub load {
                     $self->loaded_class($sp_class_name);
                 }
                 else {
-                    my $sp_file_name =
-                      Class::Inspector->filename($sp_class_name);
+                    my $sp_file_name = Class::Inspector->filename($sp_class_name);
 
                     eval { require $sp_file_name; };
                     if ($@) {
@@ -67,12 +71,12 @@ sub load {
                     }
                 }
                 last;
-            }    # END if ( $sp_class_name )
+            } # END if ( $sp_class_name )
             else {
                 $self->process_error( 'Empty class',
                     'I dont know - what to load' );
             }
-        }    # END foreach ( @{$self->rules} )
+        }# END foreach ( @{$self->rules} )
     }
 
     return;

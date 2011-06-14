@@ -58,6 +58,7 @@ sub run {
     $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
     $vars = {
         app_name    => $app_name,
+        lc_app_name => lc $app_name,
         rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
     };
     
