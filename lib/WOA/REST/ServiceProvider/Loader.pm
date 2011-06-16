@@ -1,11 +1,11 @@
 package WOA::REST::ServiceProvider::Loader;
 use strict;
-#use WOA::REST::ServiceProvider::AppidRecognizer;
+use WOA::Component::AppRegistrator;
 use Class::Inspector;
 use Data::Dumper;
 use base 'Class::Accessor::Fast';
 
-__PACKAGE__->mk_accessors(qw/error loaded_class rules/);
+__PACKAGE__->mk_accessors(qw/error loaded_class rules app_registrator/);
 
 my $DEFAULT_RULES = [
     {
@@ -39,12 +39,10 @@ sub new {
 sub load {
     my ( $self, $path, $request ) = @_;
     
-    ## recognize appid
-    #my $ar = WOA::REST::ServiceProvider::AppidRecognizer->new;
-    #my $appid = $self->rules->get_appid();
-    #
+    my $rules = $self->app_registrator->get_rules($request);
+
     if ( ref $self->rules eq 'ARRAY' ) {
-        foreach ( @{ $self->rules } ) {
+        foreach ( @{ $rules } ) {
             my $sp_class_name;
             if ( ref $_->{class} eq 'CODE' ) {
                 $sp_class_name = $_->{class}->( $self, $path, $request );

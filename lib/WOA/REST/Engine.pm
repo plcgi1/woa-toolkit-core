@@ -7,7 +7,7 @@ use Encode qw(from_to decode is_utf8);
 use URI::Escape qw/uri_unescape/;
 
 __PACKAGE__->mk_accessors(
-    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers formatter/
+    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers formatter app_name/
 );
 
 # from parent: accessors (qw/request map backend view content_type output status location error_message current_method/);
@@ -42,7 +42,10 @@ sub process {
     my $validator = WOA::Validator->new();
 
     $self->cleanup;
-
+    
+    if ( $self->app_name ) {
+        $self->request->headers->header({'X_HTTP_APPNAME' => $self->app_name});
+    }
     # get_item_from_map
     my $method_data = $self->get_from_map($validator);
 
