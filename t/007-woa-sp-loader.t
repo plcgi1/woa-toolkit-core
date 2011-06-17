@@ -5,6 +5,7 @@ use FindBin qw($Bin);
 use lib ($Bin,$Bin.'/../lib');
 use WOA::REST::ServiceProvider::Loader;
 use Data::Dumper;
+use Cache::Memcached;
 
 BEGIN { use_ok('WOA::REST::ServiceProvider::Loader'); }
 

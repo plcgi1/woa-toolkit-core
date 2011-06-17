@@ -37,15 +37,21 @@ sub new {
 }
 
 sub load {
-    my ( $self, $path, $request ) = @_;
+    my ( $self, $path, $app_name ) = @_;
     
-    my $rules = $self->app_registrator->get_rules($request);
-
-    if ( ref $self->rules eq 'ARRAY' ) {
+    my $rules;
+    if( $self->app_registrator ) {
+        $rules = $self->app_registrator->get_rules($app_name);  
+    }
+    else {
+        $rules = $self->rules;
+    }
+    
+    if ( ref $rules eq 'ARRAY' ) {
         foreach ( @{ $rules } ) {
             my $sp_class_name;
             if ( ref $_->{class} eq 'CODE' ) {
-                $sp_class_name = $_->{class}->( $self, $path, $request );
+                $sp_class_name = $_->{class}->( $self, $path, $app_name );
             }
             else {
                 $sp_class_name = $_->{class};

@@ -14,7 +14,7 @@ my $rules = [
 ];
 
 sub get_appid {
-    return [%lc_app_name%];
+    return '[%lc_app_name%]';
 }
 
 sub get_rules { return $rules; }
