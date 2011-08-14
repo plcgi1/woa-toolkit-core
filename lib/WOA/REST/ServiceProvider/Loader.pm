@@ -89,7 +89,7 @@ sub load {
 sub process_error {
     my ( $self, $module, $error ) = @_;
     if ($error) {
-        $self->error("[CANT LOAD MODULE] $module - \"$error\".");
+        $self->error("[CANT LOAD MODULE - NOT FOUND] $module - \"$error\".");
     }
     return;
 }

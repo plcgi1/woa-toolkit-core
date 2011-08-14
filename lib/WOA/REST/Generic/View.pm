@@ -17,6 +17,36 @@ sub dispatch {
 	return $out;
 }
 
+sub as_event {
+	my ($self,$res) = @_;
+	my $content;
+	if ( ref $res eq 'ARRAY' ) {
+        my @arr;
+        foreach ( @$res ) {
+            if ( $_->{event} ) {
+                push @arr,'event:'.$_->{event};
+            }
+            if ( $_->{id} ) {
+                push @arr,'id:'.$_->{id};
+            }
+            if ( ref $_->{data} eq 'ARRAY' ) {
+                foreach my $data ( @{$_->{data}} ) {
+                    push @arr,'data:'.$data;
+                }
+            }
+            else {
+                push @arr,'data:'.$_->{data};
+            }
+        }
+        push @arr,"\n\n";
+        $content = join "\n",@arr;
+    }
+    else {
+        # scalar
+    }
+	return $content;
+}
+
 sub as_is {
 	my ( $self, $obj ) = @_;
 
