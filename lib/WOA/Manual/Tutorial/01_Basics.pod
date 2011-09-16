@@ -71,6 +71,8 @@ access. Specifically, ORM provides an automated and standardized means
 to persist and restore objects to/from a relational database and will
 automatically create our Catalyst model for use with a database.
 
+=back
+
 =head1 CREATE A WOA PROJECT
 
 [TODO]
