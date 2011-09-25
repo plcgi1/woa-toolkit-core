@@ -24,7 +24,7 @@ in whatever capacity they're able to.
 
 The WOA/WOAx git repository can be found at:
 
-    github.com/
+    https://github.com/plcgi1/woa-toolkit-core
 
 =head2 Schedule
 
