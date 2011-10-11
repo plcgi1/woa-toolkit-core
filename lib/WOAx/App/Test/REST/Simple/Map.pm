@@ -3,13 +3,16 @@ use strict;
 
 my $map = [
     {
-        regexp      =>  '/put/(\d\/\d)$',
+        regexp      =>  '/put/(\d+)/blabla/(\d+)$',
 		func_name	=>	'put',
         in          =>  {
-            how => 'from_uri',
-            rule_for_all => 'integer'
+            how => { method => 'from_uri', pattern => '/put/:one/blabla/:two' },
+            param => [
+                { name => 'one', rules => [ {rule => 'integer'} ], required => 1 },
+                { name => 'two', rules => [ {rule => 'integer'} ], required => 1 },
+            ]
         }, 
-		redirect	=>	1,
+		out			=>	{ mime_type => 'application/xml', view_method => 'xml' },
         req_method  => 'PUT'
     },
     {

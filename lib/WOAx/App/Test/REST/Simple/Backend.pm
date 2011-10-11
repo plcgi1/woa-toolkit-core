@@ -5,7 +5,7 @@ use base 'WOA::REST::Generic::Backend';
 
 sub put {
     my ($self,$param)=@_;
-    my $res = '/redirect/location';
+    my $res = { one => $param->{one}, two => $param->{two} };
     return $res;
 }
 

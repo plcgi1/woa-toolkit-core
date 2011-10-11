@@ -2,23 +2,23 @@ package WOAx::App::Test::REST::Simple::Engine;
 use strict;
 use base 'WOA::REST::Engine';
 
-sub from_uri {
-    my ($self,$param) = @_;
-    
-    my $path = $self->request->uri->path;
-    $path=~s/\/put//;
-    my @arr = split '/',$path;
-    my @fields;
-    foreach ( @arr ){
-        next unless $_;
-        push @fields,{
-            name    => $_,
-            value   => $_,
-            rules   => [ {rule => $param->{in}->{rule_for_all}} ]
-        };
-    }
-    return \@fields;
-}
+#sub from_uri {
+#    my ($self,$param) = @_;
+#    
+#    my $path = $self->request->uri->path;
+#    $path=~s/\/put//;
+#    my @arr = split '/',$path;
+#    my @fields;
+#    foreach ( @arr ){
+#        next unless $_;
+#        push @fields,{
+#            name    => $_,
+#            value   => $_,
+#            rules   => [ {rule => $param->{in}->{rule_for_all}} ]
+#        };
+#    }
+#    return \@fields;
+#}
 
 1;
 

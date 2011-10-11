@@ -165,7 +165,7 @@ sub get_from_map {
     my $res;
     my $url_matched;
     my $qs_matched;
-
+    
     my $index = 0;
     foreach ( @{ $self->map } ) {
         my $req_meth = $self->get_req_meth($_);
@@ -176,6 +176,7 @@ sub get_from_map {
 
         if ( $_->{regexp} ) {
             my $re = qr|$_->{regexp}|;
+            
             if ( $path =~ /$re/ ) {
                 $url_matched = 1;
                 unless ( ( $_->{in} )
@@ -188,7 +189,25 @@ sub get_from_map {
             if ( $_->{in} && $url_matched ) {
                 if ( $_->{in}->{param} && ref $_->{in}->{param} eq 'ARRAY' ) {
                     $validator->clear();
-                    $self->_fill_args( $_->{in}->{param} );
+                    if ( ref $_->{in} eq 'HASH' && $_->{in}->{how} ) {
+                        my $method        = $_->{in}->{how};
+                        my $skip_from_uri = $_->{in}->{skip_from_uri};
+                
+                        unless ($skip_from_uri) {
+                            my $rule = ( $method && $self->can($method->{method}) );
+                            if ($rule) {
+                                my $m = $method->{method};
+                                $self->$m($_);
+                            }
+                            else {
+                                die('[BAD DATA FOR DEFINING ARGS]');
+                            }
+                        } # END unless ($skip_from_uri)
+                    } # END if ( ref $_->{in} eq 'HASH' && $_->{in}->{how} )
+                    else {
+                        $self->_fill_args( $_->{in}->{param} );    
+                    }
+                    
                     $validator->fields( $_->{in}->{param} );
                     my $is_valid = $validator->isValid();
                     if ( ref $is_valid eq 'WOA::Validator::ErrorCode' ) {
@@ -311,20 +330,7 @@ sub get_req_meth {
 sub args_for_method {
     my ( $self, $method_data ) = @_;
     my $args;
-    if ( ref $method_data->{in} eq 'HASH' ) {
-        my $method        = $method_data->{in}->{how};
-        my $skip_from_uri = $method_data->{in}->{skip_from_uri};
-
-        unless ($skip_from_uri) {
-            my $rule = ( $method && $self->can($method) );
-            if ($rule) {
-                $args = $self->$method($method_data);
-            }
-            else {
-                die('[BAD DATA FOR DEFINING ARGS]');
-            }
-        }
-    }
+    
     my $rule =
       ( $method_data->{in}->{param}
           && ref $method_data->{in}->{param} eq 'ARRAY' );
@@ -390,6 +396,31 @@ sub log_request {
 sub check_access {
     my ($self) = @_;
     return 1;
+}
+
+sub from_uri {
+    my ( $self, $method_data ) = @_;
+    my @res = ();
+    
+    my $ru = $self->get_request_uri;
+    my ( $path, $query ) = split '\?', $ru;
+    
+    my @arr_from_pattern = split '/',$method_data->{in}->{how}->{pattern};
+    my @arr_from_path = split '/',$path;
+    my %hash;
+    for ( my $i=0;$i<int(@arr_from_pattern);$i++ ) {
+        if ( $arr_from_pattern[$i] =~/^:/ ) {
+            $arr_from_pattern[$i] =~s/^://;
+            $hash{$arr_from_pattern[$i]} = $arr_from_path[$i];
+        }
+    }
+    foreach ( @{$method_data->{in}->{param}} ) {
+        if ( $hash{$_->{name}} ) {
+            $_->{value} = $hash{$_->{name}};
+        }
+    }
+    $self->args_filled(1);
+    return $method_data;
 }
 
 sub _fill_args {

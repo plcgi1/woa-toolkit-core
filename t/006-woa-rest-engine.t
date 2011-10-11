@@ -52,7 +52,7 @@ sub run {
     my $tb = __PACKAGE__->builder;
 
     my $res;
-    my $req = WOA::REST::Generic::Request->new ( PUT => '/put/1/2') ;
+    my $req = WOA::REST::Generic::Request->new ( PUT => '/put/1/blabla/2') ;
     $rest->request($req);
 
     $res = $rest->process;
@@ -63,18 +63,18 @@ sub run {
 	
 	backend_methods($tb,$rest->backend);
 	
-    $tb->like($rest->status, qr/303/,"PUT: response OK");
-    $tb->is_eq($rest->location, '/redirect/location',"PUT: redirect");
+    $tb->like($rest->status, qr/200/,"PUT: response OK");
+	
     bad_data(
         $tb,
         $req,
         'PUT',
-        ['/put/12d/3','/put/12/3d','/put/12/3/']
+        ['/put/12d/blabla/3','/put/12/blabla/3d']
     );
     bad_method(
         $tb,
         $req,
-        '/put/1/2',
+        '/put/1/blabla/2',
         ['GET','POST','DELETE']
     );
     
