@@ -49,9 +49,9 @@ requires 'parent'        => 0.225;
 requires 'Locale::Maketext';
 
 install_script glob('bin/*.pl');
-#install_share glob('share/*.');
+install_share glob('share/*.');
 
-#auto_install;
+auto_install;
 
 WriteAll;
 

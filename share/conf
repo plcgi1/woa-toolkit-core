@@ -1,0 +1,20 @@
+root = /home/harper/www/woa-toolkit/apps
+
+<app>
+    bin = bin
+    etc = etc  
+    lib = lib
+    templates = templates
+    t = t
+    rc.d = rc.d
+    run = run
+    public = public
+    log = log
+    psgi = psgi
+</app>
+
+<apps>
+    <test-woax>
+        lib = lib
+    </test-woax>
+</apps>
