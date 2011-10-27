@@ -131,6 +131,16 @@ TODO
 
 woax-toolkit.pl -h
 
+
+=head1 GIT repository
+
+=begin html
+
+<a href="https://github.com/plcgi1/woa-toolkit-core">https://github.com/plcgi1/woa-toolkit-core</a>
+
+=end html
+
+
 =head1 AUTHOR
 
 plcgi E<lt>plcgi1 at gmail dot com<gt>

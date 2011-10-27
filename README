@@ -7,6 +7,8 @@ INSTALLATION
 
 To install this module type the following:
 
+   get source from github - https://github.com/plcgi1/woa-toolkit-core">https://github.com/plcgi1/woa-toolkit-core
+
    perl Makefile.PL
    make
    make test

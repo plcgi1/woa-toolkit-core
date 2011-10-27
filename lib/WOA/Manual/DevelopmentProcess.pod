@@ -106,6 +106,16 @@ the same order as for CPAN releases applies.
 
 [TODO]
 
+
+=head1 GIT repository
+
+=begin html
+
+<a href="https://github.com/plcgi1/woa-toolkit-core">https://github.com/plcgi1/woa-toolkit-core</a>
+
+=end html
+
+
 =head1 AUTHORS
 
 Nosoff Alex, C<plcgi1@gmail.com>
