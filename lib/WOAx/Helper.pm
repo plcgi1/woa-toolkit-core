@@ -137,8 +137,16 @@ sub get_rules {
         my $map_class = $service_prefix.'::'.$dir.'::Map';
         WOA::Loader::import_module($map_class);
         my $map = $map_class->get_map();
+        my %hash;
         foreach my $item ( @$map ) {
-            push @hash, { path => $item->{regexp},class => $service_prefix.'::'.$dir.'::SP', app => $app_name };
+            $hash{$item->{regexp}} = { class => $service_prefix.'::'.$dir.'::SP' }; 
+        }
+        foreach my $path ( keys %hash ) {
+            push @hash, {
+                path    => $path,
+                class   => $hash{$path}->{class},
+                app     => $app_name
+            };
         }
     }
     closedir D;
