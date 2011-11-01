@@ -67,7 +67,7 @@ my $app = Plack::Middleware::WOAx::App->new({
 });
 
 builder {
-    enable "Plack::Middleware::Static", path => qr{\.(i|js|css|html|png|gif)$}, root => "$app_root/public";
+    enable "Plack::Middleware::Static",  path => qr{\.(i|js|css|html|png|gif|ico|jpg|json|xml|txt)$}, root => "$app_root/public";
     enable "Plack::Middleware::AccessLog", format => "combined";
     enable "Plack::Middleware::ContentMD5";
     enable "Session",   store       => "File";
