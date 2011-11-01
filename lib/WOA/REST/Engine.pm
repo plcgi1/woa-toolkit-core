@@ -403,10 +403,20 @@ sub from_uri {
     my @res = ();
     
     my $ru = $self->get_request_uri;
+    
+    # fill params from query string
+    $self->_fill_args($method_data->{in}->{param});
+    
     my ( $path, $query ) = split '\?', $ru;
     
     my @arr_from_pattern = split '/',$method_data->{in}->{how}->{pattern};
+    
     my @arr_from_path = split '/',$path;
+    if ( $arr_from_path[0]=~/^(http(s)*)/ ) {
+        # shift protocol name(http(s)) and and hostname from path
+        shift @arr_from_path;
+        shift @arr_from_path;
+    }
     my %hash;
     for ( my $i=0;$i<int(@arr_from_pattern);$i++ ) {
         if ( $arr_from_pattern[$i] =~/^:/ ) {
@@ -419,6 +429,8 @@ sub from_uri {
             $_->{value} = $hash{$_->{name}};
         }
     }
+    
+    
     $self->args_filled(1);
     return $method_data;
 }

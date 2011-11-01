@@ -45,6 +45,13 @@ WOA::REST::Demo::Engine - []
 
 []
 
+
+
+=head1 BUGS
+
+Please report any bugs or suggestions at L<https://github.com/plcgi1/woa-toolkit-core>
+
+
 =head1 AUTHOR
 
 WOA.LABS E<lt>woa.develop.labs at gmail dot com<gt>

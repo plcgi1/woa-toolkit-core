@@ -3,8 +3,7 @@ use strict;
 use base 'WOAx::App::Test::I18n';
 
 our %Lexicon = (
-    Version => 'Версия',
-
+    VERSION => 'Версия',
 );
 
 1;

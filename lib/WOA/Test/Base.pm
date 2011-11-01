@@ -60,6 +60,12 @@ TODO
 =end html
 
 
+
+=head1 BUGS
+
+Please report any bugs or suggestions at L<https://github.com/plcgi1/woa-toolkit-core>
+
+
 =head1 AUTHOR
 
 plcgi E<lt>plcgi1 at gmail dot com<gt>

@@ -5,6 +5,7 @@ use base 'WOA::REST::Generic::Backend';
 
 sub put {
     my ($self,$param)=@_;
+
     my $res = { one => $param->{one}, two => $param->{two} };
     return $res;
 }
@@ -65,6 +66,13 @@ WOA::REST::Demo::Backend - []
 =head1 SEE ALSO
 
 []
+
+
+
+=head1 BUGS
+
+Please report any bugs or suggestions at L<https://github.com/plcgi1/woa-toolkit-core>
+
 
 =head1 AUTHOR
 

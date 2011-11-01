@@ -113,6 +113,7 @@ WOA::REST::Generic::Backend - []
 []
 
 
+
 =head1 GIT repository
 
 =begin html
@@ -120,6 +121,12 @@ WOA::REST::Generic::Backend - []
 <a href="https://github.com/plcgi1/woa-toolkit-core">https://github.com/plcgi1/woa-toolkit-core</a>
 
 =end html
+
+
+
+=head1 BUGS
+
+Please report any bugs or suggestions at L<https://github.com/plcgi1/woa-toolkit-core>
 
 
 =head1 AUTHOR
