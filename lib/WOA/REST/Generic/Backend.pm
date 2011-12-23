@@ -4,7 +4,7 @@ use base 'Class::Accessor::Fast';
 use Date::Manip qw(UnixDate);
 
 __PACKAGE__->follow_best_practice;
-__PACKAGE__->mk_accessors(qw/config session model env request formatter fast_storage/);
+__PACKAGE__->mk_accessors(qw/config session model env request formatter fast_storage context/);
 
 my $DEFAULT_LIMIT = 10;
 

@@ -41,7 +41,9 @@ sub service_object {
             view    => $view,
         }
     );
-
+    if ( $backend->can('get_session') && $param->{session} ) {
+        $backend->set_session($param->{session});
+    }
     if ( $param->{post_process} ) {
         $param->{post_process}->();
     }
