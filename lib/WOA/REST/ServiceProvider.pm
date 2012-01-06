@@ -31,6 +31,9 @@ sub service_object {
     my $backend = $self->get_backend();
     unless ( $backend ) {
         $backend = $self;
+        if( $param->{formatter} ){
+            $self->set_formatter($param->{formatter});
+        }
         $self->set_stash({});
     };
 
