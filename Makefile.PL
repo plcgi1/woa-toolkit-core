@@ -47,6 +47,7 @@ requires 'base'          => 2.14;
 requires 'common::sense' => 3.4;
 requires 'parent'        => 0.225;
 requires 'Locale::Maketext';
+requires 'HTTP::Request::AsCGI';
 
 install_script glob('bin/*.pl');
 install_share glob('share/*.');
