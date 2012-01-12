@@ -191,13 +191,15 @@ sub get_from_map {
                     $validator->clear();
                     if ( ref $_->{in} eq 'HASH' && $_->{in}->{how} ) {
                         my $method        = $_->{in}->{how};
+                        if ( ref $method eq 'HASH' ) {
+                            $method = $method->{method}; 
+                        }
                         my $skip_from_uri = $_->{in}->{skip_from_uri};
                 
                         unless ($skip_from_uri) {
-                            my $rule = ( $method && $self->can($method->{method}) );
+                            my $rule = ( $method && $self->can($method) );
                             if ($rule) {
-                                my $m = $method->{method};
-                                $self->$m($_);
+                                $self->$method($_);
                             }
                             else {
                                 die('[BAD DATA FOR DEFINING ARGS]');
