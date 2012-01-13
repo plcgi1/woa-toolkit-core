@@ -16,12 +16,12 @@ sub run {
     
     my $name_as_path = $name;
     $name_as_path =~ s/::/\//g;
-    my $page = ucfirst $app_namespace . '::Page::' . $name;
+    my $page = ucfirst $app_namespace . '::Page::' . ucfirst $name;
     my $full_path =
         $pwd . '/lib/'
       . ucfirst $app_namespace
       . '/Page/'
-      . $name_as_path . '.pm';
+      . ucfirst $name_as_path . '.pm';
     $self->set_app_namespace($pwd);
     $self->set_page_module_name($full_path);
 
@@ -77,16 +77,18 @@ sub run {
     }
     closedir D;
     
+    $self->update_route_map($tpl,$app_namespace);
+    
     return;
 }
 
-sub get_rules {
-    my($self,$app_root,$app_name) = @_;
-    
-    my $hash = $self->SUPER::get_rules($app_root,$app_name);
-    
-    return $hash;
-}
+#sub get_rules {
+#    my($self,$app_root,$app_name) = @_;
+#    
+#    my $hash = $self->SUPER::get_rules($app_root,$app_name);
+#    
+#    return $hash;
+#}
 
 sub _wanted {
     if ( -d $File::Find::name ) {

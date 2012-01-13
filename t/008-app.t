@@ -80,7 +80,7 @@ foreach (qw/page_module_name tpl_name test_name/) {
 #        $obj->run($namespace);
 #    }
 #});
-
+#
 #foreach (qw/page_module_name tpl_name test_name/) {
 #    my $f = 'get_'.$_;
 #    ok(-f $obj->$f,"file exists - ".$obj->$f);    

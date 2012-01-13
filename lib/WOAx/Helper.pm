@@ -3,12 +3,15 @@ use strict;
 use Template;
 use WOA::Loader qw/create_object/;
 use File::Basename;
+use File::Find;
 
 use base 'Class::Accessor::Fast';
 
 __PACKAGE__->follow_best_practice();
 __PACKAGE__->mk_accessors(
     qw/app_full_path app_lib app_namespace config file_name app_route_class/);
+
+my (@rules);
 
 sub process {
     my ( $self, $param ) = @_;
@@ -131,27 +134,72 @@ sub get_rules {
     my($self,$app_root,$service_prefix,$app_name) = @_;
     my $rules = [];
     my @hash;
-    opendir D,$app_root.'/REST';
-    while ( my $dir = readdir D ){
-        next if $dir=~/(\.|\.\.)/;
-        my $map_class = $service_prefix.'::'.$dir.'::Map';
+    push @INC,$ENV{PWD} . '/lib';
+    if ( -d $app_root.'/REST' ){
+        opendir D,$app_root.'/REST';
+        while ( my $dir = readdir D ){
+            next if $dir=~/(\.|\.\.)/;
+            my $map_class = ucfirst $service_prefix.'::'.$dir.'::Map';
+            
+            WOA::Loader::import_module($map_class);
+            my $map = $map_class->get_map();
+            my %hash;
+            foreach my $item ( @$map ) {
+                $hash{$item->{regexp}} = { class => $service_prefix.'::'.$dir.'::SP' }; 
+            }
+            foreach my $path ( keys %hash ) {
+                push @hash, {
+                    path    => $path,
+                    class   => $hash{$path}->{class},
+                    app     => $app_name
+                };
+            }
+        }
+        closedir D;
+    }
+ 	# page map save in global  @rules;
+    find(\&recursive_find,$app_root.'/Page');
+    @hash = (@hash,@rules);
+    return \@hash;
+}
+
+sub update_route_map {
+    my($self,$tpl,$app_name) = @_;
+    my $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
+    my $vars = {
+        app_name    => $app_name,
+        lc_app_name => lc $app_name,
+        rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
+    };
+    my $out;
+    $tpl->process( 'url_mapper.tpl', $vars, \$out );
+    $self->mk_file( $pm_name, $out, 'RouteMap module' );
+    return;
+}
+
+sub recursive_find {
+	if ( (-f $File::Find::name) && $File::Find::name=~/.*(\.pm)$/ ) {
+		my $map_class = $File::Find::name;
+        $map_class =~s/.*\/lib//g;
+        $map_class=~s/\.pm$//;
+        $map_class=~s/^\///;
+        $map_class=~s/\//::/g;
+        $map_class = ucfirst $map_class;
+        #my $map_class = $service_prefix.'::'.$dir.'::Map';
+        
         WOA::Loader::import_module($map_class);
         my $map = $map_class->get_map();
         my %hash;
         foreach my $item ( @$map ) {
-            $hash{$item->{regexp}} = { class => $service_prefix.'::'.$dir.'::SP' }; 
+            $hash{$item->{regexp}} = { class => $map_class }; 
         }
         foreach my $path ( keys %hash ) {
-            push @hash, {
+            push @rules, {
                 path    => $path,
-                class   => $hash{$path}->{class},
-                app     => $app_name
+                class   => $map_class,
             };
         }
-    }
-    closedir D;
-
-    return \@hash;
+	}
 }
 
 1;

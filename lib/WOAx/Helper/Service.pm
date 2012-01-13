@@ -13,7 +13,7 @@ sub run {
 
     my $app_name      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
     
-    my $service_ns    = ucfirst $app_name . '::REST::' . $namespace;
+    my $service_ns    = ucfirst $app_name . '::REST::' . ucfirst $namespace;
     my $map_class     = $service_ns . '::Map';
     my $backend_class = $service_ns . '::Backend';
     my $sp_class      = $service_ns . '::SP';
@@ -55,16 +55,17 @@ sub run {
     $self->mk_file( $pm_name, $out, 'Test file' );
     
     # recreate urlmapping config
-    $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
-    $vars = {
-        app_name    => $app_name,
-        lc_app_name => lc $app_name,
-        rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
-    };
-    
-    $out     = undef;
-    $tpl->process( 'url_mapper.tpl', $vars, \$out );
-    $self->mk_file( $pm_name, $out, 'RouteMap module' );
+    $self->update_route_map($tpl,$app_name);
+    #$pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
+    #$vars = {
+    #    app_name    => $app_name,
+    #    lc_app_name => lc $app_name,
+    #    rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
+    #};
+    #
+    #$out     = undef;
+    #$tpl->process( 'url_mapper.tpl', $vars, \$out );
+    #$self->mk_file( $pm_name, $out, 'RouteMap module' );
 
     return;
 }
