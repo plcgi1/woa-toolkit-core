@@ -63,6 +63,41 @@ sub ip {
 	return $res;
 }
 
+sub real_ip {
+	my $self = shift;
+	my $ip 	= shift;
+	my $res;
+	if ($ip =~/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/) {
+		my $ip_int = _ip_to_int($ip);
+		if( defined $ip && $ip_int > 0 ){
+            my $private_ips = [
+                ['10.0.0.0','10.255.255.255'],
+				['172.16.0.0','172.31.255.255'],
+				['192.168.0.0','192.168.255.255'],
+				['127.0.0.0','127.255.255.255'],
+            ];
+            foreach my $r ( @$private_ips ) {
+                my $min = _ip_to_int ($r->[0]);
+                my $max = _ip_to_int ($r->[1]);
+                
+                my $rule = (
+                    ( $ip_int >= $min )
+                    && ( $ip_int <= $max )
+                );
+                
+                if ( $rule ) {
+                    undef $res;
+                    last;
+                }
+                else {
+                    $res = 1;
+                }
+            } # foreach my $r ( @$private_ips )
+		}
+	}
+	return $res;
+}
+
 sub email {
 	my $this       = shift;
 	my $fieldValue = shift;
@@ -309,6 +344,56 @@ sub one_of_the_fields_reduired {
 		}
 	}
 	return $res;
+}
+
+sub real_ip {
+	my $self = shift;
+	my $ip 	= shift;
+	my $res;
+	if ($ip =~/^(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])\.(\d|[01]?\d\d|2[0-4]\d|25[0-5])$/) {
+		my $ip_int = _ip_to_int($ip);
+		if( defined $ip && $ip_int > 0 ){
+            my $private_ips = [
+                ['0.0.0.0','2.255.255.255'],
+                ['10.0.0.0','10.255.255.255'],
+                ['127.0.0.0','127.255.255.255'],
+                ['169.254.0.0','169.254.255.255'],
+                ['172.16.0.0','172.31.255.255'],
+                ['192.0.2.0','192.0.2.255'],
+                ['192.168.0.0','192.168.255.255'],
+                ['255.255.255.0','255.255.255.255']
+            ];
+            foreach my $r ( @$private_ips ) {
+                my $min = _ip_to_int ($r->[0]);
+                my $max = _ip_to_int ($r->[1]);
+                
+                my $rule = (
+                    ( $ip_int >= $min )
+                    && ( $ip_int <= $max )
+                );
+                
+                if ( $rule ) {
+                    undef $res;
+                    last;
+                }
+                else {
+                    $res = 1;
+                }
+            } # foreach my $r ( @$private_ips )
+		}
+	}
+	return $res;
+}
+
+sub _ip_to_int {
+	my($ip) = @_;
+	my $x3  = 256**3;
+	my $x2  = 256**2;
+	my $x   = 256;
+	my ($a,$b,$c,$d) = split '\.',$ip;
+	# 256³*a+256²*b+256*c+d
+	my $ip_int = int($x3 * $a + $x2 * $b + $x * $c + $d);
+	return $ip_int;
 }
 
 sub _makeRangePattern {
