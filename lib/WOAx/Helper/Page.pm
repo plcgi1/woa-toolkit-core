@@ -11,8 +11,9 @@ sub run {
     my ( $self, $name ) = @_;
     my $pwd = $ENV{PWD};
     my $tpl = $self->tpl();
-
-    my $app_namespace      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
+    
+    my $app_name = $self->app_name;
+    my $app_namespace      = $self->normalize_app_name($app_name);
     
     my $name_as_path = $name;
     $name_as_path =~ s/::/\//g;
@@ -40,7 +41,20 @@ sub run {
     my $out;
     $tpl->process( 'page_pm.tpl', $vars, \$out );
     $self->mk_file( $full_path, $out, 'Page controller' );
-
+    
+    opendir D,$self->get_config->{template_root}.'/lib';
+    while (my $f = readdir D ) {
+        if(-d $self->get_config->{template_root}.'/lib/'.$f) {
+            next;
+        }
+        else {
+            unless( -f $pwd . '/templates/lib/'.$f ) {
+                copy $self->get_config->{template_root}.'/lib/'.$f,$pwd . '/templates/lib/'.$f;
+            }
+        }
+    }
+    closedir D;
+    
     $out = undef;
     $tpl->process( 'page_tpl.tpl', $vars, \$out );
     $out=~s/\[\-/\[%/g;
@@ -64,18 +78,7 @@ sub run {
             . '/css/style.css';
     }
     
-    opendir D,$self->get_config->{template_root}.'/lib';
-    while (my $f = readdir D ) {
-        if(-d $self->get_config->{template_root}.'/lib/'.$f) {
-            next;
-        }
-        else {
-            unless( -f $pwd . '/templates/lib/'.$f ) {
-                copy $self->get_config->{template_root}.'/lib/'.$f,$pwd . '/templates/lib/'.$f;
-            }
-        }
-    }
-    closedir D;
+    
     
     $self->update_route_map($tpl,$app_namespace);
     

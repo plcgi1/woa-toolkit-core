@@ -52,19 +52,20 @@ my $controller_param = {
 #        %$controller_param
 #    });
 
-my $rules = [%app_route_class%]->get_rules;
-<!--my $ar = WOA::Component::AppRegistrator->new({
-    storage     => Cache::Memcached->new($config->{cache}),
-});
-$ar->register($config->{app_name},$rules);-->
-my $app = Plack::Middleware::WOAx::App->new({
-    service_provider =>  WOA::REST::ServiceProvider::Loader->new({
+### Uncomment this - if need
+#my $rules = [%app_route_class%]->get_rules;
+#my $ar = WOA::Component::AppRegistrator->new({
+#    storage     => Cache::Memcached->new($config->{cache}),
+#});
+#$ar->register($config->{app_name},$rules);
+#my $app = Plack::Middleware::WOAx::App->new({
+#    service_provider =>  WOA::REST::ServiceProvider::Loader->new({
             # app_registrator => $ar,
-            rules => $rules
-        }
-    }),
-    %$controller_param
-});
+#            rules => $rules
+#        }
+#    }),
+#    %$controller_param
+#});
 
 builder {
     enable "Plack::Middleware::Static",  path => qr{\.(i|js|css|html|png|gif|ico|jpg|json|xml|txt)$}, root => "$app_root/public";

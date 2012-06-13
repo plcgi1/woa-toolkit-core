@@ -8,8 +8,9 @@ sub run {
     my $root = $ENV{PWD};
 
     my $tpl = $self->tpl();
-
-    my $app_namespace      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
+    
+    my $app_name = $self->app_name;
+    my $app_namespace      = $self->normalize_app_name( $app_name );
 
     my $full_path =
         $root . '/lib/'

@@ -10,8 +10,9 @@ sub run {
     my ( $self, $namespace ) = @_;
 
     my $tpl = $self->tpl();
-
-    my $app_name      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
+    
+    my $app_name = $self->app_name;
+    #my $app_name      = $self->normalize_app_name(( split '/', $ENV{PWD} )[-1]);
     
     my $service_ns    = ucfirst $app_name . '::REST::' . ucfirst $namespace;
     my $map_class     = $service_ns . '::Map';

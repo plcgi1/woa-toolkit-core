@@ -22,6 +22,12 @@ sub process {
     return;
 }
 
+sub app_name {
+	my ( $self ) = @_;
+	my $app_name = lc $self->get_config->{name} || ( split '/', $ENV{PWD} )[-1];
+	return $app_name;
+}
+
 sub tpl {
     my ( $self, $param ) = @_;
     my $tpl = Template->new(
@@ -70,7 +76,10 @@ sub get_config_file {
     my ($self) = @_;
 
     my $conf_file;
-    if ( -f $ENV{HOME} . '/.woa-toolkit/conf' ) {
+	if ( -f $ENV{PWD} . '/.woa-toolkit/conf' ) {
+        $conf_file = $ENV{PWD} . '/.woa-toolkit/conf';
+    }
+    elsif ( -f $ENV{HOME} . '/.woa-toolkit/conf' ) {
         $conf_file = $ENV{HOME} . '/.woa-toolkit/conf';
     }
     elsif ( -f '/usr/share/woa-toolkit/conf' ) {

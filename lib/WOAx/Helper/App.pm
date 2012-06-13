@@ -13,7 +13,8 @@ sub run {
     my $tpl = $self->tpl();
 
     my @a = split '::', $namespace;
-    my $app_name = $self->normalize_app_name(lc $a[0]);
+    my $a = lc $self->get_config->{name} || lc $a[0];
+    my $app_name = $self->normalize_app_name($a);
 
     my $path = join '/', @a;
     my $app_full_path = $self->get_config->{root} . '/' . $app_name;
