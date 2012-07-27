@@ -1,0 +1,1 @@
+<input type="submit" name="[% name  %]" value="[% value  %]" [%IF id%]id="[%id%]"[%END%][%IF class%] class="[% class %]"[%END%][%IF onclick%] onclick="[% onclick %]"[%END%][%IF disabled%] disabled[%END%]>

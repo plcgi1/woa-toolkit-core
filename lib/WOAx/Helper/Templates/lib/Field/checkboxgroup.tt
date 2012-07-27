@@ -1,0 +1,21 @@
+<div id="div_field_[%name%]" style="display:[%display%]">
+[%-IF grouplabel-%]
+<div class="label">
+    <label[%IF id%] for="[%id%]"[%END%]>[% grouplabel %]</label>
+    [%- IF hint && grouplabel-%]<br/>[%-END-%]
+    [%- IF hint -%]<span class="hint">[% hint %]</span>[%-END-%]
+</div>
+[%-END-%]
+[%- IF errmsg -%]
+    [%- IF !hint -%][%-END-%]
+    <span id="[% name %]-error" class="err" [% IF style %] style="[% style %]"[% END %]>[% errmsg %]</span>
+[%- END -%]
+
+[%- FOREACH box IN boxes -%]
+<div class="gr-field [%IF box.class%] [%box.class%][%END%]" [%IF box.id%] id="[%box.id%]"[%END%]>
+   	[% box.indent %]<input type="checkbox" id="[%box.id%]" name="[% name %]" value="[% box.value %]" [%IF class%] class="[% class %]"[%END%][% IF box.checked %] checked[%END%] [%IF disabled%] disabled[%END%]>
+    [%-IF box.label-%]<label[%IF box.id && box.label%] for="[%box.id%]"[%END%]>[%box.label%]</label>[%-END-%]
+    </span>
+</div>
+[%-END-%]
+</div>

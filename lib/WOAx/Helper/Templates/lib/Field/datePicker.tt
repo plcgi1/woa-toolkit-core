@@ -1,0 +1,15 @@
+<script>
+$(function(){
+	$('.date-pick').datePicker({startDate: '01-01-1970'});
+});</script>
+<div>
+<div class="dateFields">
+<span class="label" style="display:[%display%]" id="div_label_[% name %]">
+    <label[% IF id %] for="[% id %]"[% END %]>[% label %]</label>
+	
+</span>
+[%- IF hint -%]<br/><div class="hint">[% hint %]</div>[%- END -%]
+<input[% IF id %] id="[% id %]"[% END %] name="[% name %]" type="text" value="[% value %]" class="date-pick" size="6" [%- IF onchange -%] onchange="[% onchange %]"[%- END -%][%IF disabled%] disabled[%END%]>
+</div>
+</div>
+<br/>

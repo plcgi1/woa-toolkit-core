@@ -1,0 +1,203 @@
+BODY {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font: 85% "Lucida Grande", Arial, Arial, sans-serif;
+	background: #fff ;
+	color: #3F3F3F;
+}
+table tr th,td {
+   	font: 95% "Lucida Grande", Arial, Arial, sans-serif;
+    padding: 3px 5px 1px 5px;
+}
+table {
+    margin: 5px 0px 5px 0px;
+}
+a {color: #0095c1;}
+a:hover {color: #00607b;}
+img {  border: 0;}
+h1 {  font-size: 160%;color: #9e0f0f;}
+h2 { font-size: 130%; color: #9e0f0f; margin-top: 20px; margin-bottom: 0; }
+h3 { font-size: 115%; font-weight: bold; color: #9e0f0f; }
+UL {
+	padding-left: 15px;
+	margin-left: 0px;
+}
+UL LI {
+	padding-top: 2px;
+	padding-bottom: 3px;
+}
+.clear {
+    clear: both;
+}
+form {
+  padding: 0;
+  margin: 0;
+}
+/* fields */
+.label {
+	margin: 12px 0 0 0;
+	padding: 0;
+}
+label {
+  font-weight: bold;
+  font-size: 100%;
+}
+.field {
+	padding: 0;
+	margin: 0px 0 12px 0;
+}
+.hint {
+    font-size: 95%;
+    color: #999;
+    font-weight: normal;
+}
+input[type=text],input[type=password], select, textarea {
+    border: 1px solid #83ABC0;
+    border-bottom: 1px solid #CBDFE9;
+    border-right: 1px solid #CBDFE9;
+    padding: 2px;
+}
+input.error, select.error, textarea.error {
+  border: 1px solid #83ABC0;
+  border-bottom: 1px solid #CBDFE9;
+  border-right: 1px solid #CBDFE9;
+  padding: 2px; 
+  background-color: #ffe1e1;
+}
+.err {
+    background-color: #9e0f0f;
+    font-size: 95%;
+    color: #fff;
+    width: auto;
+    font-weight: normal;
+    padding: 0 5px;
+    display:none;
+}
+textarea {
+	width: 100%;
+}
+input[type=checkbox] {
+    margin-right: 5px;
+}
+.disabledText, .disabledTextArea {
+	background: silver;
+	border: 1px solid #83ABC0;
+	border-bottom: 1px solid #CBDFE9;
+	border-right: 1px solid #CBDFE9;
+  	padding: 2px; 
+  	
+}
+.ok {
+    background: #7DED9A;
+    margin-top: 10px;
+    padding: 2px 2px 2px 2px;
+    width: auto;
+}
+#container {
+	padding: 0 40px;
+	clear: both;
+}
+#mainWide {
+	margin-left: 20px;
+    margin-right: 20px;
+    background-color: #fff;
+    border-left: 1px solid #D9D9D9;
+    border-right: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
+}
+#sbar {
+    float: left;
+	width:30%;
+    background: #e0ebf1;
+}
+#bottom {
+    margin: 0px;
+    padding: 20px 60px;
+	clear: both;
+}
+#top {
+    background-color: #0082b8;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+}
+    #top #header {
+        padding-left: 40px;
+        padding-top: 12px;
+        padding-bottom: 0px;
+        margin: 0 0 1px 0;
+    }
+    #subnav {
+        margin: 0 0 0 0;
+        background-color: #8A75F4;
+        float: right;
+        padding:3px 8px 2px 8px;
+        color: #fff;
+        text-align: right;
+        font-size: 95%;
+        font-weight: bold;
+    }
+        #subnav ul li{
+            text-decoration: none;
+        }
+        #subnav a:hover {
+            background-color: #003246;
+            padding:3px 8px 3px 8px;
+        }
+#tabs {
+    margin: 0 0 0 0;
+    padding:4px 0px 3px 0;
+    font-size: 90%;
+	padding: 2px;
+	border-bottom: 1px solid #3c964b; 
+	border-left: 1px solid #3c964b; 
+	text-align: left;
+	font-weight: normal;
+    overflow: hidden;
+	white-space: nowrap;
+    
+	height : 18px;
+}
+#childTabs {
+    margin: 0 0 0 0;
+    background-color: gray;
+    padding:4px 0px 4px 0;
+}
+#tabs ul, #childTabs ul{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0 0px 0;
+}
+#tabs ul li, #childTabs ul li, ul li, #childTabs ul li {
+    font-weight: bold;
+    font-size: 90%;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    display: inline;
+    list-style: none;
+    border: none;
+}
+#tabs ul li a {
+    color: #fff;
+    background-color: #0082b8;
+    padding:4px 25px 3px 25px;
+    border: none;
+    text-decoration: none;
+}
+#childTabs ul li a {
+    color: #fff;
+    padding:4px 25px 3px 25px;
+    border: none;
+    text-decoration: none;
+    font-size: 85%;
+}
+#tabs ul li a.active,  #tabs ul li a:hover, #childTabs ul li a:hover,#childTabs ul li a.active{
+    color: #fff;
+    background-color: #003246;
+    padding:4px 25px 3px 25px;
+    border: none;
+    text-decoration: none;
+}
+.message-wrapper {
+    margin-left: 15px;
+    margin-right: 15px;
+}

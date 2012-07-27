@@ -1,0 +1,3 @@
+[%- IF name -%]
+<input type="hidden" name="[% name  %]" value="[% value  %]"[%IF id %] id="[% id %]"[%END%]>
+[%- END -%]

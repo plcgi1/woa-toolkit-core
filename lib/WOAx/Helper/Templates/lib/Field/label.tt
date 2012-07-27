@@ -1,0 +1,1 @@
+<div[%IF id%] id="[% id %]"[%END%] [%IF class%] class="[% class %]"[%END%]>[% value %]</div>

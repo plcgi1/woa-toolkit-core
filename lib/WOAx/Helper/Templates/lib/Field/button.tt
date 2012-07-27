@@ -1,0 +1,1 @@
+<input type="button" name="[% name  %]"[%- IF id -%] id="[% id %]"[%- END -%][% IF value %] value="[% value  %]"[%END%][%IF class %] class="[% class %]" [%END%][%IF onclick%] onclick="[% onclick %]"[%END%][%IF disabled%] disabled[%END%]>

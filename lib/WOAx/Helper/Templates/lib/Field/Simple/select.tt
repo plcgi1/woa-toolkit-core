@@ -1,0 +1,9 @@
+<select name="[% name %]"[%IF id%] id="[%id%]"[%END%][%IF disabled%] disabled[%END%] [%IF onchange%] onchange="[%onchange%]"[%END%]>
+   [%- FOREACH item IN options -%]
+   [%- IF item.selected -%]
+	  <option value="[% item.value %]" selected>[% item.label %]</option>
+   	[%- ELSE -%]
+   	   <option value="[% item.value %]">[% item.label %]</option>
+   	[%- END -%]
+   [%- END -%] 
+</select>
