@@ -24,7 +24,7 @@ sub run {
     $map_file =~s/::/\//g;
     $map_file = $ENV{PWD}.'/lib/'.$map_file.'.pm';
     unless ( -f $map_file ) {
-        die "[ERROR TO CREATE SERVICE] '$map_file'.You should run 'woax-toolkit -a map -n MapName'";
+        die "[ERROR TO CREATE SERVICE] '$map_file'.You should create map file at first and run 'woax-toolkit -a map -n YouServiceName'";
     }
     # load Map module
     use lib ( $ENV{PWD} . '/lib' );
