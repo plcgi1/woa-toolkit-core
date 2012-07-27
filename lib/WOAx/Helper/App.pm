@@ -20,7 +20,7 @@ sub run {
     my $app_full_path = $self->get_config->{root} . '/' . $app_name;
     $self->mk_dir($app_full_path);
     $self->set_app_full_path($app_full_path);
-
+    
     foreach ( keys %{ $self->get_config->{app} } ) {
         my $path = $app_full_path . '/' . $self->get_config->{app}->{$_};
         $self->mk_dir($path);
@@ -50,10 +50,13 @@ sub run {
         }
         $app_name = join '',@a;
     }
-        
+            
     my $filename = $app_full_path . '/lib/' . ucfirst $app_name . '.pm';
     $self->mk_file( $filename, $out, 'Main app module' );
-
+    
+    $self->mk_dir($app_full_path.'/lib/'.$app_name);
+    $self->mk_dir($app_full_path.'/lib/'.$app_name.'/REST');
+    
     $filename =
         $app_full_path . '/'
       . $self->get_config->{app}->{bin} . '/'
@@ -91,6 +94,40 @@ sub run {
     $self->mk_file( $filename, $out, 'App psgi file' );
 
     $self->set_app_psgi($filename);
+    
+    $out = undef;
+    $tpl->process( 'base_backend_pm.tpl',
+        { service_name => $app_name }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{lib} . '/'
+      . $app_name . '/REST/Backend.pm';
+    $self->mk_file( $filename, $out, 'Backend base class' );
+    
+    $out = undef;
+    $tpl->process( 'base_engine_pm.tpl',
+        { service_name => $app_name }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{lib} . '/'
+      . $app_name . '/REST/Engine.pm';
+    $self->mk_file( $filename, $out, 'Engine base class' );
+    
+    $out = undef;
+    $tpl->process( 'base_view_pm.tpl',
+        { service_name => $app_name }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{lib} . '/'
+      . $app_name . '/REST/View.pm';
+    $self->mk_file( $filename, $out, 'View base class' );
+    
     return;
 }
 

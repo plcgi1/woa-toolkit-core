@@ -20,6 +20,12 @@ sub run {
     my $sp_class      = $service_ns . '::SP';
     print "$map_class\n";
 
+    my $map_file = $map_class;
+    $map_file =~s/::/\//g;
+    $map_file = $ENV{PWD}.'/lib/'.$map_file.'.pm';
+    unless ( -f $map_file ) {
+        die "[ERROR TO CREATE SERVICE] '$map_file'.You should run 'woax-toolkit -a map -n MapName'";
+    }
     # load Map module
     use lib ( $ENV{PWD} . '/lib' );
     WOA::Loader::import_module($map_class);
@@ -29,7 +35,7 @@ sub run {
 
     # create SP module
     $self->mk_dirs($sp_class);
-    my $vars = { service_name => $service_ns };
+    my $vars = { service_name => $service_ns, app_name => $app_name };
     my $out;
     my $pm_name = $sp_class;
     $pm_name =~ s/::/\//g;
