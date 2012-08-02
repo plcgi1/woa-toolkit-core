@@ -11,6 +11,16 @@ sub new {
 	return $this;
 }
 
+sub float {
+	my $this       = shift;
+	my $fieldValue = shift;
+	my $res;
+	if ($fieldValue) {
+		$res = ( $fieldValue =~ /^(\d+)\.(\d+)$/ );
+	}
+	return $res;
+}
+
 sub integer {
 	my $this       = shift;
 	my $fieldValue = shift;
