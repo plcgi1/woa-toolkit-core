@@ -34,14 +34,11 @@ sub run {
     unless ( scalar @$map > 0 ) {
         die "[ERROR TO CREATE JAVASCRIPT RULES FROM MAP] '$map_file'.You should fill map file at first";
     }
-    my @rules;
+    my %rules;
     foreach ( @$map ) {
-        push @rules,{
-            name    => $_->{name},
-            fields  => $_->{in}->{param}
-        };
+        $rules{$_->{name}} = $_->{in}->{param};
     }
-    my $json = encode_json(\@rules);
+    my $json = encode_json(\%rules);
     $json = 'var '.$namespace.'='.$json.';';
     my $file_name = $self->get_config->{app}->{javascript}->{validator_path}.'/'.$namespace.'.js';
     $self->mk_file( $file_name, $json, 'JSON VALIDATOR rules file' );
