@@ -21,23 +21,27 @@ sub run {
 
     my $map_file = $map_class;
     $map_file =~s/::/\//g;
-    $map_file = $ENV{PWD}.'/lib/'.$map_file.'.pm';
+    $map_file = $self->get_config->{root}.'/'.$self->get_config->{app}->{lib}.'/'.$map_file.'.pm';
     unless ( -f $map_file ) {
         die "[ERROR TO CREATE JAVASCRIPT RULES FROM MAP] '$map_file'.You should create map file at first with run 'woax-toolkit -a map -n YouServiceName' and fill it";
     }
 
     # load Map module
-    use lib ( $ENV{PWD}.'/lib' );
-    WOA::Loader::import_module($map_class);
+    require $map_file;
 
     # get map from Map
     my $map = $map_class->get_map();
     unless ( scalar @$map > 0 ) {
         die "[ERROR TO CREATE JAVASCRIPT RULES FROM MAP] '$map_file'.You should fill map file at first";
     }
-    my $rules = {};
-    
-    my $json = encode_json($map);
+    my @rules;
+    foreach ( @$map ) {
+        push @rules,{
+            name    => $_->{name},
+            fields  => $_->{in}->{param}
+        };
+    }
+    my $json = encode_json(\@rules);
     $json = 'var '.$namespace.'='.$json.';';
     my $file_name = $self->get_config->{app}->{javascript}->{validator_path}.'/'.$namespace.'.js';
     $self->mk_file( $file_name, $json, 'JSON VALIDATOR rules file' );
