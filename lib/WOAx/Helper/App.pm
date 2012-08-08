@@ -26,12 +26,13 @@ sub run {
         $self->mk_dir($path);
     }
     foreach (qw/css i js/) {
-        my $path =
-          $app_full_path . '/' . $self->get_config->{app}->{public} . '/' . $_;
+        my $path = $app_full_path . '/' . $self->get_config->{app}->{public} . '/' . $_;
         $self->mk_dir($path);
     }
-      
-    foreach (qw/dev min/) {
+    $path = $app_full_path . '/' . $self->get_config->{app}->{public} . '/js/validator';
+    $self->mk_dir($path);
+    
+    foreach (qw/libs/) {
         my $path =
             $app_full_path . '/'
           . $self->get_config->{app}->{public} . '/js/'

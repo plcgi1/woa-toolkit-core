@@ -51,7 +51,7 @@ woax-toolkit.pl [options]
  
  Options:
    -? -help         help for usage
-   -a -action       page|service|map|app
+   -a -action       page|service|map|app|genjsrules
    -n -ns           application namespace
    
 =head1 DESCRIPTION

@@ -2,89 +2,7 @@ package [%service_name %];
 use strict;
 
 my $map = [
-    {
-        regexp    => '/path/to/service',
-        func_name => 'handler_name_for_method',
-        in        => {
-            how          => 'from_uri',
-            rule_for_all => 'integer'
-        },
-        redirect => 1,
-
-        # maybe POST GET PUT DELETE
-        req_method => 'PUT'
-    },
-    {
-        regexp    => '/path/to/service',
-        func_name => 'handler_name_for_method2',
-        in        => {
-            skip_from_uri => 1,
-            param         => [
-                # some patterns to define field names and validation rules
-                # all rule names - in WOA::Validator::Rules::Base
-                #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
-                #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
-                #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
-                #{ name => 'email',      rules => [ {rule => 'email'} ], error => "Some error message" },
-                #{ name => 'time_from',  rules => [ {rule => 'soft_iso8601'} ], error => "Some error message" },
-            ]
-        },
-        # redirect   => 1,
-        out			=>	{ mime_type => 'text/javascript', view_method => 'as_json' },
-        req_method => 'POST'
-    },
-    {
-        regexp    => '/path/to/service',
-        func_name => 'handler_name_for_method3',
-        in        => {
-            skip_from_uri => 1,
-            param         => [
-                # some patterns to define field names and validation rules
-                # all rule names - in WOA::Validator::Rules::Base
-                #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
-                #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
-                #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
-                #{ name => 'email',      rules => [ {rule => 'email'} ], error => "Some error message" },
-                #{ name => 'time_from',  rules => [ {rule => 'soft_iso8601'} ], error => "Some error message" },
-            ]
-        },
-        # redirect   => 1,
-        out			=>	{ mime_type => 'text/javascript', view_method => 'as_json' },
-        req_method => 'PUT'
-    },
-    {
-        regexp    => '/path/to/service',
-        func_name => 'handler_name_for_method4',
-        in        => {
-            skip_from_uri => 1,
-            param         => [
-                # some patterns to define field names and validation rules
-                # all rule names - in WOA::Validator::Rules::Base
-                #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
-                #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
-                #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
-                #{ name => 'email',      rules => [ {rule => 'email'} ], error => "Some error message" },
-            ]
-        },
-        # redirect   => 1,
-        out			=>	{ mime_type => 'text/javascript', view_method => 'as_json' },
-        req_method => 'GET'
-    },
-    {
-        regexp    => '/path/to/service',
-        func_name => 'handler_name_for_method5',
-        in        => {
-            skip_from_uri => 1,
-            param         => [
-                # some patterns to define field names and validation rules
-                # all rule names - in WOA::Validator::Rules::Base
-                #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
-            ]
-        },
-        # redirect   => 1,
-        out			=>	{ mime_type => 'text/javascript', view_method => 'as_json' },
-        req_method => 'DELETE'
-    },
+    # fill values for your real service here
 ];
 
 sub get_map { return $map; }
@@ -106,8 +24,44 @@ __END__
 
 =head2 EXAMPLES
 
-[TODO]
-
+Possible values for items in @$map ( you can copy paste them for your real service)
+    {
+        # regexp or absolute value for url to service
+        regexp    => '*',
+        # func name in Backend module
+        func_name => 'handler_name_for_method',
+        # unique name for service - used in javascript validator rules
+        name      => 'UNIQ_NAME_FOR_SERVICE',
+        # the way to check input params
+        in        => {
+            how          => 'from_uri',
+            rule_for_all => 'integer'
+        },
+        # or
+        in        => {
+            skip_from_uri => 1,
+            param         => [
+                # some patterns to define field names and validation rules
+                # all rule names - in WOA::Validator::Rules::Base
+                #{ name => 'id',         rules => [ {rule => 'integer' } ], required => 1,error => "Some error message" },
+                #{ name => 'id',         rules => [ {rule => 'float' } ], required => 1,error => "Some error message" },
+                #{ name => 'title',      rules => [ {rule => 'anyText'} ], error => "Some error message" },
+                #{ name => 'sord',       rules => [ {rule => 'pattern',param => '^(asc|desc)$'} ], error => "Some error message" },
+                #{ name => 'email',      rules => [ {rule => 'email'} ], error => "Some error message" },
+                #{ name => 'time_from',  rules => [ {rule => 'soft_iso8601'} ], error => "Some error message" },
+            ]
+        },
+        # service output description
+        out			=>	{
+            mime_type => 'text/javascript',
+            # methods from View - you can implement your own
+            view_method => 'as_json'
+        },
+        
+        # maybe POST GET PUT DELETE
+        req_method => 'POST|GET|PUT|DELETE'
+    }
+    
 =head2 EXPORT
 
 [TODO]

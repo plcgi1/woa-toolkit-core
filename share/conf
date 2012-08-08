@@ -11,6 +11,9 @@ root = /home/harper/www/woa-toolkit/apps
     public = public
     log = log
     psgi = psgi
+    <javascript>
+        validator_path = $public/js/validator
+    </javascript>
 </app>
 
 <apps>
