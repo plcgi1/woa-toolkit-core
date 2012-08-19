@@ -5,6 +5,7 @@ use WOA::Loader qw/import_module/;
 use Data::Dumper;
 use FindBin qw/$Bin/;
 use JSON::XS qw/encode_json/;
+use Encode qw(from_to decode is_utf8);
 use base 'WOAx::Helper';
 
 sub run {
@@ -39,7 +40,10 @@ sub run {
         $rules{$_->{name}} = $_->{in}->{param};
     }
     my $json = encode_json(\%rules);
-    $json = 'var '.$namespace.'='.$json.';';
+    $json = 'validator.'.$namespace.'='.$json.';';
+    from_to( $json, 'utf8', 'utf8' );
+    $json = decode( 'utf8', $json );
+    
     my $file_name = $self->get_config->{app}->{javascript}->{validator_path}.'/'.$namespace.'.js';
     $self->mk_file( $file_name, $json, 'JSON VALIDATOR rules file' );
     

@@ -22,6 +22,9 @@ sub run {
     $self->set_app_full_path($app_full_path);
     
     foreach ( keys %{ $self->get_config->{app} } ) {
+        if ( $_ eq 'javascript' ) {
+            next;
+        }
         my $path = $app_full_path . '/' . $self->get_config->{app}->{$_};
         $self->mk_dir($path);
     }
