@@ -35,8 +35,9 @@ sub run {
     $self->mk_dirs($pwd . '/templates/lib/fake');
     
     my $vars = {
-        page    => $page,
-        tt_name => $path_to_tpl
+        page        => $page,
+        app_name    => $app_name,
+        tt_name     => $path_to_tpl
     };
     my $out;
     $tpl->process( 'page_pm.tpl', $vars, \$out );

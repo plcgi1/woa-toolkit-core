@@ -132,6 +132,16 @@ sub run {
       . $app_name . '/REST/View.pm';
     $self->mk_file( $filename, $out, 'View base class' );
     
+    $out = undef;
+    $tpl->process( 'base_page.tpl',
+        { service_name => $app_name }, \$out )
+      || die $tpl->error;
+
+    $filename =
+        $app_full_path . '/'
+      . $self->get_config->{app}->{lib} . '/'
+      . $app_name . '/Page.pm';
+    $self->mk_file( $filename, $out, 'Page base class' );
     return;
 }
 
