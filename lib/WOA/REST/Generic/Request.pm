@@ -3,6 +3,24 @@ use strict;
 use base qw/HTTP::Request HTTP::Request::AsCGI/;
 use URI::Escape qw/uri_unescape uri_escape/;
 
+sub env {
+	my($self,$env)=@_;
+	if ( $env ) {
+		unless ( $self->{env} ) {
+			$self->{env} = {};
+		}
+		foreach ( keys %$env ) {
+			$self->{env}->{$_} = $env->{$_};
+		}
+	}
+	return $self->{env};
+}
+
+sub request_uri {
+	my($self)=@_;
+	return $self->{_uri}->path;
+}
+
 sub to_qs {
 	my($self,$data)=@_;
 	my @arr;
