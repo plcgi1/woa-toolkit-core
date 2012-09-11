@@ -2,8 +2,8 @@ package [%service_name%]::SP;
 use strict;
 use [%service_name%]::Backend;
 use [%service_name%]::Map;
-use WOA::REST::Engine;
-use WOA::REST::Generic::View;
+use [%app_name%]::REST::Engine;
+use [%app_name%]::REST::View;
 
 use base 'WOA::REST::ServiceProvider';
 
@@ -18,7 +18,7 @@ sub init {
 sub service_object {
     my ( $self, $env ) = @_;
 
-    my $view    = WOA::REST::Generic::View->new();
+    my $view    = [%app_name%]::REST::View->new();
     my $backend = [%service_name%]::Backend->new(
         {
             model     => $env->{model},
@@ -29,7 +29,7 @@ sub service_object {
         }
     );
 
-    my $rest = WOA::REST::Engine->new(
+    my $rest = [%app_name%]::REST::Engine->new(
         {
             map       => [%service_name%]::Map->get_map,
             backend   => $backend,

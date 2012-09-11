@@ -1,6 +1,6 @@
 package [%service_name%]::Backend;
 use common::sense;
-use base 'WOA::REST::Generic::Backend';
+use base '[%app_name%]::REST::Generic::Backend';
 use Data::Dumper;
 
 [%FOREACH item IN methods %]

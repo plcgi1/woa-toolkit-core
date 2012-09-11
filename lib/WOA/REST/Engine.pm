@@ -7,7 +7,7 @@ use Encode qw(from_to decode is_utf8);
 use URI::Escape qw/uri_unescape/;
 
 __PACKAGE__->mk_accessors(
-    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers formatter app_name/
+    qw/args_filled req_method_matched ok_status_map error_message_map env logger cookies headers formatter app_name res/
 );
 
 # from parent: accessors (qw/request map backend view content_type output status location error_message current_method/);
@@ -112,7 +112,8 @@ sub process {
     my $adopted_args = $self->adopt_args( $method_data, $args );
 
     $res = $self->backend->$method($adopted_args);
-
+    
+    $self->res($res);
     # if_errors
     unless ($res) {
         return $self->set_error( 404,
@@ -441,6 +442,9 @@ sub _fill_args {
     my ( $self, $data ) = @_;
     foreach ( @{$data} ) {
         my @v = $self->request->param( $_->{name} );
+        if ( $self->request->can('uploads') && $self->request->uploads->{$_->{name}} ) {
+            push @v,$self->request->uploads->{$_->{name}};
+        }
         if ( @v > 1 ) {
             $_->{value} = \@v;
         }

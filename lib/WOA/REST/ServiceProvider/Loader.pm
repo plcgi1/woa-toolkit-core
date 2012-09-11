@@ -5,7 +5,7 @@ use Class::Inspector;
 use Data::Dumper;
 use base 'Class::Accessor::Fast';
 
-__PACKAGE__->mk_accessors(qw/error loaded_class rules app_registrator/);
+__PACKAGE__->mk_accessors(qw/error loaded_class rules app_registrator error_handler/);
 
 my $DEFAULT_RULES = [
     {
@@ -56,7 +56,8 @@ sub load {
             else {
                 $sp_class_name = $_->{class};
             }
-            my $re_from_path = $_->{path};
+            my $p = $_->{path};
+            my $re_from_path = qr|$p|;
             
             if ($sp_class_name && $path && $_->{path} && ($path eq $_->{path} || $path=~/$re_from_path/)) {
                 # load class
@@ -69,6 +70,7 @@ sub load {
                     eval { require $sp_file_name; };
                     if ($@) {
                         $self->process_error( $sp_file_name, $@ );
+                        $self->loaded_class(undef);
                     }
                     else {
                         $self->loaded_class($sp_class_name);
@@ -77,6 +79,7 @@ sub load {
                 last;
             } # END if ( $sp_class_name )
             else {
+                $self->loaded_class(undef);
                 $self->process_error( 'Empty class',
                     'I dont know - what to load' );
             }
