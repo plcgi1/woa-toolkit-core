@@ -280,7 +280,7 @@ sub set_error {
         }
     }
     unless ( $message_data ) {
-        my $out = $self->view->as_json({Mesasge=>$msg,Class=>'error'});
+        my $out = $self->view->as_json({Message=>$msg,Class=>'error'});
         $self->output($out);
     }
     if ( ref $message_data eq 'WOA::Validator::ErrorCode' ) {
