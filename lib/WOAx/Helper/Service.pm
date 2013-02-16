@@ -62,7 +62,7 @@ sub run {
     $self->mk_file( $pm_name, $out, 'Test file' );
     
     # recreate urlmapping config
-    $self->update_route_map($tpl,$app_name);
+    $self->update_route_map($tpl,$app_name,$service_ns);
     #$pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
     #$vars = {
     #    app_name    => $app_name,

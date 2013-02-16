@@ -11,7 +11,9 @@ sub run {
     
     my $app_name = $self->app_name;
     my $app_namespace      = $self->normalize_app_name( $app_name );
-
+    if( $service_name =~/::/ ) {
+        $service_name=~s/::/\//g;   
+    }
     my $full_path =
         $root . '/lib/'
       . ucfirst $app_namespace
@@ -29,6 +31,7 @@ sub run {
     my $page_pm_name = $full_path . '/Map.pm';
     $self->mk_dirs($page_pm_name);
     $self->set_file_name($page_pm_name);
+    $service_name=~s/\//::/;
     my $vars =
       {     service_name => ucfirst $app_namespace
           . '::REST::'

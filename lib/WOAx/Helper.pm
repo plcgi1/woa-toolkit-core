@@ -140,7 +140,7 @@ sub normalize_app_name {
 }
 
 sub get_rules {
-    my($self,$app_root,$service_prefix,$app_name) = @_;
+    my($self,$app_root,$service_prefix,$app_name,$service_ns) = @_;
     my $rules = [];
     my @hash;
     push @INC,$ENV{PWD} . '/lib';
@@ -148,13 +148,13 @@ sub get_rules {
         opendir D,$app_root.'/REST';
         while ( my $dir = readdir D ){
             next if $dir=~/(\.|\.\.)/;
-            my $map_class = ucfirst $service_prefix.'::'.$dir.'::Map';
+            my $map_class = $service_ns.'::Map';
             
             WOA::Loader::import_module($map_class);
             my $map = $map_class->get_map();
             my %hash;
             foreach my $item ( @$map ) {
-                $hash{$item->{regexp}} = { class => $service_prefix.'::'.$dir.'::SP' }; 
+                $hash{$item->{regexp}} = { class => $service_ns.'::SP' }; 
             }
             foreach my $path ( keys %hash ) {
                 push @hash, {
@@ -173,12 +173,12 @@ sub get_rules {
 }
 
 sub update_route_map {
-    my($self,$tpl,$app_name) = @_;
+    my($self,$tpl,$app_name,$service_ns) = @_;
     my $pm_name = $ENV{PWD} . '/lib/'.ucfirst $app_name.'/RouteMap.pm';
     my $vars = {
         app_name    => $app_name,
         lc_app_name => lc $app_name,
-        rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name)
+        rules       => $self->get_rules($ENV{PWD} . '/lib/'.ucfirst $app_name,ucfirst $app_name . '::REST',$app_name,$service_ns)
     };
     my $out;
     $tpl->process( 'url_mapper.tpl', $vars, \$out );
