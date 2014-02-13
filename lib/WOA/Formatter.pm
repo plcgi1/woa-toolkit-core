@@ -10,6 +10,17 @@ sub _new_instance {
 	return bless {}, $c;
 }
 
+sub woa_strftime {
+	my $self = shift;
+	return strftime( @_ );
+}
+
+sub format_ts_to_yyyy_mm_dd {
+	my ( $self, $ts ) = @_;
+	my $res = strftime( "%Y-%m-%d", localtime($ts) );
+	return $res;
+}
+
 sub format_ts {
 	my ( $self, $ts ) = @_;
 	my $res = strftime( "%d-%m-%Y %H:%M", localtime($ts) );

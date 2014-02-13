@@ -102,7 +102,7 @@ sub isValid {
 			#}    # END foreach my $r ( keys %$rules )
 		}	
 		if ( !$this->{errFields} ) {
-			unless ( $rules->[0]->{rule} =~ /allSymbols|path/ ){
+			unless ( $rules->[0]->{rule} =~ /allSymbols|path|url/ ){
 				$f->{value} = _filter($f->{value});
 			}
 		}

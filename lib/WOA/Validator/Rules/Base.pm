@@ -16,7 +16,7 @@ sub float {
 	my $fieldValue = shift;
 	my $res;
 	if ($fieldValue) {
-		$res = ( $fieldValue =~ /^(\d+)\.(\d+)$/ );
+		$res = ( $fieldValue =~ /^(-){0,1}(\d+)\.(\d+)$/ );
 	}
 	return $res;
 }
@@ -184,7 +184,7 @@ sub iso8601 {
 	my $this       = shift;
 	my $fieldValue = shift;
 	my $res =
-	  $this->pattern( $fieldValue, '\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d' );
+	  $this->pattern( $fieldValue, '\d\d\d\d-\d\d-\d\d(T)*(\d\d:\d\d:\d\d)*(\.\d\d\dZ)*' );
 	return $res;
 }
 
@@ -201,6 +201,14 @@ sub date_dd_mm_yyyy {
 	my $fieldValue = shift;
 	my $res        = $this->pattern( $fieldValue,
 		'^(\d\d-\d\d-\d\d\d\d(T){0,1}(\d\d:\d\d:\d\d){0,8})$' );
+	return $res;
+}
+
+sub date_yyyy_mm_dd {
+	my $this       = shift;
+	my $fieldValue = shift;
+	my $res        = $this->pattern( $fieldValue,
+		'^(\d\d\d\d-\d\d-\d\d)$' );
 	return $res;
 }
 

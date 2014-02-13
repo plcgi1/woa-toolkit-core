@@ -40,6 +40,15 @@ sub tpl {
     return $tpl;
 }
 
+sub create_app_namespace {
+	my ( $self, $namespace ) = @_;
+	unless ( $namespace ) {
+		$namespace = (split '/',$ENV{PWD})[-1];
+		
+	}
+    return ucfirst $namespace;
+}
+
 sub get_app_route_class {
     my ( $self, $app_name ) = @_;
     return ucfirst $app_name.'::RouteMap';
@@ -143,16 +152,19 @@ sub get_rules {
     my($self,$app_root,$service_prefix,$app_name,$service_ns) = @_;
     my $rules = [];
     my @hash;
+	
     push @INC,$ENV{PWD} . '/lib';
     if ( -d $app_root.'/REST' ){
         opendir D,$app_root.'/REST';
         while ( my $dir = readdir D ){
             next if $dir=~/(\.|\.\.)/;
+			$service_ns = $app_name.'::REST::'.$dir;
             my $map_class = $service_ns.'::Map';
             
             WOA::Loader::import_module($map_class);
             my $map = $map_class->get_map();
             my %hash;
+			
             foreach my $item ( @$map ) {
                 $hash{$item->{regexp}} = { class => $service_ns.'::SP' }; 
             }
