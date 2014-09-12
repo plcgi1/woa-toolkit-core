@@ -7,22 +7,31 @@ INSTALLATION
 
 To install this module type the following:
 
-   get source from github - https://github.com/plcgi1/woa-toolkit-core">https://github.com/plcgi1/woa-toolkit-core
+   get source from github - https://github.com/plcgi1/woa-toolkit-core
 
    perl Makefile.PL
+   
    make
+   
    make test
+   
    make install
+
 
 DEPENDENCIES
 
-This module requires these other modules and libraries: see Makefile.PL,requires section
+This module requires these other modules and libraries: see Makefile.PL and requires section
+
+
 
 COPYRIGHT AND LICENCE
 
+
 Alex Nosoff <plcgi1@gmail.com>
 
+
 Copyright 2011 plcgi1@gmail.com
+
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
